@@ -10,7 +10,7 @@
 // used to throw it away the moment the narration was assembled. Nothing here
 // mutates mechanical state; a detection at most costs one corrective model call.
 
-import { LEVELED_SPELL_NAMES } from "./leveled-spells";
+import { LEVELED_SPELL_NAMES } from "./leveled-spells.ts";
 
 // ---------------------------------------------------------------------------
 // Part 1: the contract block
