@@ -2,330 +2,15 @@
 
 Audit of every subclass shipped in the app (117) against the published 5e rules: which features, levels, numbers and spell lists are right, which are wrong, and which are missing.
 
-> **Second review.** An independent second pass (see 'Second review' below) re-verified every finding, removed 3, corrected 22, added 25 and fixed errors in the cross-cutting notes and Appendix C. The numbers in that section are the second review's own.
->
-> **Third review.** A third independent pass (see 'Third review' below) re-judged every second-review change, resolved its three disputed items, used sources the earlier passes did not (the SRD 5.1 PDF, Wizards of the Coast errata, D&D Beyond), corrected 14 rows and added 15. All counts in this file are after the third review.
->
-> **How this was checked.** The first draft of this audit came from my own memory of the books. Every finding was then checked against the dnd5e community wiki (dnd5e.wikidot.com, which reproduces the 2014 rules and the later 5e books), subclass by subclass. A finding marked **Verified (wiki)** was confirmed against that page. Most entries in this file were confirmed this way. A few were marked Low because the wiki summary was ambiguous; none remain after the second review. Entries named 'All levels (SRD)' only restate that the SRD names and levels are right. The wiki is a community transcription, not the book, so a disputed row is still worth one look at the printed text. Of the twelve SRD subclasses (names only in the data), Life, Land, Thief, Devotion and Fiend were read on the wiki; Berserker, Lore, Open Hand, Champion, Hunter, Draconic Bloodline and Evocation were checked for name and level only. Nothing was run in the app; this audits the data files plus a name search of the engine code.
-
-**Corrections made in the verification pass.** Four items in the first draft were wrong and were removed or changed: (1) Zealot's Zealous Presence has no spell-slot recharge, so that finding was dropped; (2) Circle of the Moon's 13 + Wisdom AC in beast form is a 2024 rule, not the 2014 text, so that finding was dropped; (3) Way of Mercy's Flurry of Healing and Harm has no Wisdom-modifier use limit, so that finding was dropped and Mercy now has no findings; (4) the Land druid chooses a terrain at 3rd level with Circle Spells, not at 2nd. Several other rows were corrected or expanded with the exact numbers: Hexblade's Accursed Specter (it adds Charisma to attack rolls, not damage), Undead's Necrotic Husk (2d10 + warlock level, not 2 + level), Armorer's Perfected Armor, and the Giant barbarian's feature table.
-
-## Second review
-
-A second reviewer with no access to the first check re-derived the rules for all 117 subclasses and compared them with the two data files and with every row of this report. The first check's "Verified (wiki)" label turned out to be unreliable in places (see the removed and corrected rows), so each row was re-read against the source text rather than the earlier summary.
-
-**Sources and method.**
-
-- The dnd5e wiki page for every subclass was downloaded (116 pages found by slug plus the Path of Wild Magic page), and its text was compared automatically with the 5e.tools class data (`5etools-src`, `data/class/class-*.json`) for dice, distances, durations, level ordinals, damage types, rest types and action types. The two sources agree on these tokens in every subclass except Grave Domain (Keeper of Souls); the other differences the comparison printed came from stat blocks and spell tables that the wiki pages include and 5e.tools stores elsewhere. Two feature-name differences are listed under "Where the sources disagree". Both are transcriptions of the books and are not fully independent of each other in origin, but they are separate transcriptions, so a row that both support is marked `Verified (2 sources)`.
-- Feature names and levels were compared programmatically with 5e.tools' top-level feature lists for every subclass (this is how the Giant levels, the Storm Guide level, the Lunar Sorcery levels, Universal Speech and Lunar Empowerment were cross-checked). Subclass spell lists in `subclasses.json` and `class-features.json` were compared programmatically with 5e.tools' `additionalSpells`; the only differences are the ones in this report (Wildfire, Monster Slayer, Fathomless, Genie, Undead, Lunar Sorcery, and the Fiend and Land lists that are absent from the data).
-- Stat blocks (Dancing Item, Steel Defender, Drake Companion) were read from the 5e.tools bestiary data.
-- D&D Beyond and Roll20 were tried as further sources. They only show SRD text, so for non-SRD content the sources are the wiki, 5e.tools, a D&D Beyond forum quotation of the Grave Domain text, and search results quoting the books. This is a limit of the review, not a third confirmation.
-- The baseline is the 2014 rules. No 2024 rule is reported as an error; the 2024 names and text are mentioned only to explain a source disagreement.
-
-**Result in numbers.**
-
-| | Findings |
-|---|---|
-| In the report before the second review | 137 (61 wrong, 11 missing, 65 imprecise) |
-| Confirmed, row kept as written (only the confidence label changed to `Verified (2 sources)`) | 112 |
-| Corrected (numbers, wording, severity or source changed; 7 of them changed severity) | 22 |
-| Removed (wrong) | 3 |
-| Added (missed by the first check) | 25 |
-| In the report after the second review | 159 (69 wrong, 8 missing, 82 imprecise) |
-| Subclasses with no finding | 35 of 117 (was 45) |
-
-Severity changes were made to follow the legend: a feature that exists but whose number or use limit is left out is Imprecise, not Missing (Battle Smith row 1, Arcana Domain row 1, Arcane Archer row 1), and a rule the app states the wrong way round is Wrong (Cavalier Unwavering Mark, Oathbreaker Control Undead). The others are explained in the corrected rows below.
-
-**Removed findings.**
-
-| Class | Subclass | Where | What changed and why |
-|---|---|---|---|
-| Barbarian | Path of the Zealot | L3 Warrior of the Gods | Not a discrepancy: the app matches the 2014 Xanathar text. The 2024 difference is already covered in Cross-cutting finding 4. |
-| Paladin | Oath of the Crown | L15 name | The report said the 15th-level feature is named Unyielding Saint. 5e.tools (Sword Coast Adventurer's Guide data) and several other copies of the text print Unyielding Spirit, which is the app's name; only the dnd5e wiki heading says Unyielding Saint (the wiki body text is identical). The sources disagree and the majority, including the app, use Unyielding Spirit, so the name finding is dropped. |
-| Sorcerer | Divine Soul | L14 name | The report said the 14th-level feature is named Angelic Form. 5e.tools prints it as Otherworldly Wings in Xanathar's Guide (the app name); Angelic Form is the 2024 Player's Handbook name. The dnd5e wiki prints Angelic Form, so the sources disagree, but the Xanathar's errata list does not rename the feature, so the app name is kept as correct for the 2014 baseline. |
-
-**Corrected findings.** Rows kept but changed. Each row in the subclass sections shows the corrected wording.
-
-| Class | Subclass | Where | What changed and why |
-|---|---|---|---|
-| Artificer | Alchemist | L9 Restorative Reagents | Row duplicated the temporary hit points claim of row 2; it now covers only the use limit. |
-| Artificer | Alchemist | L5 Alchemical Savant | Last sentence of the rules text was garbled. |
-| Artificer | Battle Smith | L9 Arcane Jolt (use limit) | A missing use limit is a missing number, not a missing feature: reclassified from Missing to Imprecise per the legend. |
-| Artificer | Battle Smith | L3 Steel Defender | Added that the app calls the defender attack a bite; the stat block names it Force-Empowered Rend (a melee spell attack, not a bite). |
-| Barbarian | Path of the Totem Warrior | L3 / L6 / L14 totem options | Elk Totem Spirit applies when not wearing heavy armor, not "unarmored". |
-| Barbarian | Path of the Ancestral Guardian | L3 Ancestral Protectors | Reworded: resistance applies to the creature the target hits, so it is not equivalent to halving. |
-| Barbarian | Path of the Storm Herald | L3 Storm Aura | Reworded the activation sentence: the effect triggers when you enter your rage and can be activated again each turn as a bonus action. |
-| Barbarian | Path of the Beast | L14 Call the Hunt | The report said the temporary hit points go to the creatures who accept. They go to the barbarian ("You gain 5 temporary hit points for each creature that accepts"), which is what the app says. Only the number of creatures was wrong. |
-| Barbarian | Path of the Giant | Feature levels | Giant Power is at the right level (3rd); the report said every feature was early. The other four are one tier early and Elemental Fury is invented. |
-| Bard | College of Eloquence | L6 Universal Speech | Universal Speech is reusable by spending a spell slot, not a Bardic Inspiration die. |
-| Cleric | Grave Domain | L17 Keeper of Souls | The report said the range is 30 ft, not 60. The sources disagree. The dnd5e wiki prints 30 ft and "one ally"; 5e.tools and a D&D Beyond forum quotation of the book print 60 ft and "one creature of your choice". The app's 60 ft therefore matches one printing, so this is no longer a Wrong finding. What remains is the target and limits the app leaves out. |
-| Cleric | Arcana Domain | L2 Channel Divinity: Arcane Abjuration (Arcane Banishment rider) | Arcane Banishment is not a separate 5th-level feature. In the book (SCAG) and on the wiki it is a paragraph inside Channel Divinity: Arcane Abjuration, so the app folding it in is structurally right. Only the thresholds are missing, so this is Imprecise, not Missing. |
-| Druid | Circle of the Shepherd | L14 Faithful Summons | Added the trigger the report omitted: the summons happens when you are reduced to 0 hit points or incapacitated against your will, and the beasts are chosen, not fixed. |
-| Fighter | Arcane Archer | L18 Arcane Shot (damage increase) | A missing damage increase is a missing number, not a missing feature: reclassified from Missing to Imprecise per the legend. |
-| Fighter | Arcane Archer | L3 Arcane Shot (timing) | The report said the option is chosen before you know whether the arrow hits. The book says you decide when the arrow hits a creature (unless the option needs no attack roll), so the app wording "on an arrow hit" is right. Rewrote the row around what the app does omit. |
-| Fighter | Cavalier | L10 Hold the Line | Removed "even if they Disengage": the book text does not say that; it only says creatures provoke an opportunity attack when they move 5 ft or more within your reach. |
-| Fighter | Cavalier | L3 Unwavering Mark | Added what the report missed: the app invents "gives it disadvantage on its next attack" and leaves out that the special attack has advantage. Reclassified Imprecise to Wrong. |
-| Fighter | Echo Knight | L3 Manifest Echo | Added that moving the echo needs no action and that swapping places is a bonus action costing 15 ft of movement; both differ from the app text. |
-| Monk | Way of the Ascendant Dragon | L3 Breath of the Dragon (scaling) | The report could not confirm the dice. Both 5e.tools and the wiki give two rolls of the martial arts die at 3rd level, so the app is right; what it omits is the increase to three rolls at 11th level. Raised from Low to a confirmed Imprecise finding. |
-| Paladin | Oathbreaker | L3 Control Undead | Added the save the report missed: Control Undead uses a Wisdom save, but the app says Charisma. Reclassified from Imprecise to Wrong. |
-| Warlock | The Fathomless | L6 Oceanic Soul | The report said Oceanic Soul gives telepathy with any creature in the water within 120 ft. That is not in the text: when you are fully submerged, any other fully submerged creature can understand your speech and you theirs. The resistance-not-immunity finding stands. |
-| Wizard | Order of Scribes | L6 Manifest Mind | The report said the app's "free once per long rest, otherwise a slot" is wrong. That part is right: once you conjure the mind you cannot do so again until a long rest unless you spend a spell slot of any level. What the app gets wrong is the reach (the mind appears within 60 ft, moves 30 ft per bonus action and ends beyond 300 ft) and it omits the proficiency-bonus limit on casting through the mind. Reclassified from Wrong to Imprecise. |
-
-**Added findings** (all new in this review, each confirmed on both sources).
-
-| Class | Subclass | Where | Severity | Why it was missed or what is wrong |
-|---|---|---|---|---|
-| Barbarian | Path of the Storm Herald | L14 Raging Storm: Desert | 🟡 Imprecise | Desert Raging Storm rider is wrongly described. |
-| Bard | College of Creation | L14 Creative Crescendo | 🔴 Wrong | Creative Crescendo removes the gp limit for every item, and the number of items is given by Charisma. |
-| Bard | College of Creation | L6 Animating Performance | 🔴 Wrong | the Dancing Item attack is force damage using the spell attack modifier. |
-| Cleric | Peace Domain | L1 Emboldening Bond | 🟡 Imprecise | Emboldening Bond has a use limit and ranges the app text omits. |
-| Druid | Circle of Dreams | L14 Walker in Dreams | 🔴 Wrong | Walker in Dreams teleportation circle goes to the last long-rest location and the feature recharges only on a long rest. |
-| Druid | Circle of Dreams | L6 Hearth of Moonlight and Shadow | 🟡 Imprecise | Hearth of Moonlight and Shadow has no silence and no concealment. |
-| Druid | Circle of Dreams | L10 Hidden Paths | 🟡 Imprecise | Hidden Paths second option costs an action, not a bonus action. |
-| Druid | Circle of Wildfire | L10 Cauterizing Flames | 🟡 Imprecise | Cauterizing Flames omits its use limit and trigger conditions. |
-| Fighter | Cavalier | L15 Ferocious Charger | 🟡 Imprecise | Ferocious Charger has no size limit. |
-| Fighter | Psi Warrior | L3 Psionic Power | 🟡 Imprecise | Psionic Power die recovery is a bonus action, not an automatic short-rest die. |
-| Monk | Way of the Long Death | L3 Touch of Death | 🟡 Imprecise | Touch of Death only triggers when you reduce a creature to 0. |
-| Paladin | Oath of Vengeance | L20 Avenging Angel | 🟡 Imprecise | Avenging Angel advantage is for all attackers, and the fear aura has a trigger. |
-| Paladin | Oath of the Watchers | L15 Vigilant Rebuke | 🟡 Imprecise | Vigilant Rebuke also covers allies within 30 feet. |
-| Ranger | Beast Master | L3 Ranger's Companion | 🟡 Imprecise | the companion's hit points are not 'your hit points formula'. |
-| Ranger | Gloom Stalker | L15 Shadowy Dodge | 🔴 Wrong | Shadowy Dodge is used before the roll and only when the attacker has no advantage. |
-| Ranger | Fey Wanderer | L11 Fey Reinforcements | 🔴 Wrong | Fey Reinforcements has no invisibility; it removes the material component and can drop concentration. |
-| Ranger | Drakewarden | L3 Drake Companion | 🔴 Wrong | the 3rd-level drake does not have a breath weapon. |
-| Rogue | Arcane Trickster | L17 Spell Thief | 🔴 Wrong | Spell Thief lets you cast the stolen spell for 8 hours, not once. |
-| Rogue | Inquisitive | L3 Ear for Deceit | 🟡 Imprecise | Ear for Deceit applies only to checks to tell whether a creature is lying. |
-| Rogue | Soulknife | L3 Psionic Power (Soulknife) | 🟡 Imprecise | Psionic Energy die recovery is a bonus action once per short or long rest. |
-| Sorcerer | Aberrant Mind | L14 Revelation in Flesh | 🔴 Wrong | Revelation in Flesh lasts 10 minutes. |
-| Warlock | The Celestial | L6 Radiant Soul | 🟡 Imprecise | Radiant Soul bonus applies once per spell, not once per turn. |
-| Wizard | School of Transmutation | L10 Shapechanger | 🟡 Imprecise | Shapechanger adds polymorph to the spellbook; it is not always prepared. |
-| Wizard | War Magic | L6 Power Surge | 🟡 Imprecise | Power Surge omits how surges are gained and that the damage is force. |
-| Wizard | Order of Scribes | L14 One with the Word | 🟡 Imprecise | One with the Word is not a once-per-long-rest death save in the rules. |
-
-**Claims about the repository, checked.**
-
-| Claim | Result |
-|---|---|
-| Warlock patron spells are granted free through `subclassSpellsFor` in `src/lib/srd/features.ts` (Cross-cutting 2) | True. The function returns every spell in the subclass `spells` table up to the character's level, its comment says they are free and never count against the known/prepared ceiling, and `submit.ts` and `useBuilderDerived.ts` use it for warlocks unchanged. Warlock expanded lists are pool additions in the rules, so this is more generous than the rules. |
-| The Fiend has no spell list in the data | True. In `class-features.json` only Life Domain and Oath of Devotion carry a `spells` table; The Fiend and Circle of the Land (the other SRD subclasses whose rules give spell lists) have none, and neither does Lunar Sorcery in `subclasses.json`. |
-| Fiend engine claims (Dark One's Blessing implemented; Fiendish Resilience read from the feature name with no weapon exception) | True. `feature-hooks.ts` implements Dark One's Blessing (Charisma modifier + warlock level, minimum 1). `chosenResistances` in `trait-rules.ts` reads the type from a feature named `Fiendish Resilience (type)` and `pc-defenses.ts` applies it with only a magical/spell test, no silvered/magical weapon exception. |
-| Hexblade's Curse has guidance text only | True. It is a `guidance` string in `authored-resources.json` (`sub_hexblades_curse`); no code applies the bonus damage or the 19-20 crit range. |
-| Appendix B (151 of 590 features without an engine reference) | Reproduced exactly (151 of 590, same names). |
-| Appendix A (warlock table) | Matches the Player's Handbook table in every row. |
-| Cross-cutting 3 (Mercy's Flurry of Healing and Harm lacks a use limit) | False: the rules give it no limit. Fixed. |
-| Cross-cutting 6 (subclass choice levels) | True for all 13 classes. |
-| Appendix C (subclasses not in the app) | Three wrong sources and one omission. Fixed. |
-
-**Where the sources disagree.**
-
-- Grave Domain, Keeper of Souls: the dnd5e wiki prints 30 feet and "one ally of your choice"; 5e.tools and a D&D Beyond forum quotation of the book print 60 feet and "one creature of your choice". The app (60 feet) matches the second reading. The Xanathar's errata list does not mention this feature. Not resolved; the row is Medium confidence.
-- Divine Soul, 14th-level feature: the wiki heading is Angelic Form; 5e.tools prints Otherworldly Wings (the app's name), and Angelic Form is the 2024 name. The finding was removed.
-- Oath of the Crown, 15th-level feature: the wiki heading is Unyielding Saint; 5e.tools and other copies print Unyielding Spirit (the app's name). The finding was removed.
-
-**Not verified.**
-
-- No printed book was consulted. Every confirmation is a transcription, not the page itself.
-- Fine detail inside the one-line app texts that the report never covered (individual Arcane Shot options, Maneuvers, Elemental Disciplines, Runes, Metamagic, invocations, Wild Magic tables) was not audited beyond what the report already listed.
-- Edition differences between reprints were not mapped exhaustively. Known cases: Bladesinging (the app follows the Tasha's version; the Sword Coast original differs), Ancestral Guardian (Xanathar's has an errata entry), and the Cleric Blessed Strikes optional feature in Tasha's, which is absent from the app and was not treated as a finding.
-- Nothing was run in the app. The engine claims above come from reading the code.
-- The report's statement that a feature "is not applied by the server" is a name-search heuristic, not a test.
-
-## Third review
-
-A third reviewer with no access to the earlier checks re-read all 117 subclasses against the two data files, then re-judged every row the second review corrected, removed or added. The second review's edits were treated as claims to test, not as results. Baseline: the 2014 rules and later 2014-era books. 2024 differences are marked and are not counted as errors.
-
-**Sources and method.**
-
-- **Full re-read.** Each subclass was read side by side with the 5e.tools class data (GitHub mirror of `5etools-src`, `data/class/*.json`, tag markup resolved). This is the transcription the second review used, so on its own it is not a new confirmation; it is what made a complete re-read possible.
-- **Checks over all 590 features:** names and levels, subclass spell lists, "uses equal to ability X" wording, action types, and every dice expression, distance, saving throw, duration and level ordinal in the app text against the book text. Apart from the rows added below, they only re-found items the report already listed.
-- **Publisher sources the earlier passes did not use.** The SRD 5.1 PDF (media.wizards.com) for the 12 SRD subclasses. Wizards of the Coast errata PDFs on media.wizards.com for Xanathar's (v1.0, 2020), Tasha's (2021), Sword Coast Adventurer's Guide (v2.2, 2021), Player's Handbook (v3.0, 2021), Dungeon Master's Guide and Volo's. The D&D Beyond "Sage Advice & Errata" pages: Eberron: Rising from the Last War (reprints the Steel Defender stat block), Dragonlance: Shadow of the Dragon Queen (corrects Lunar Boons), and the Sage Advice Compendium. The D&D Beyond public search index, which shows the feature tables (names and levels) of the Xanathar's subclasses and the compendium text of Tasha's (The Fathomless) and the Sword Coast Adventurer's Guide (Oath of the Crown, Purple Dragon Knight). A D&D Beyond forum post of March 2019 that quotes the Xanathar's text of Keeper of Souls.
-- **Other transcriptions:** the dnd5e wiki again (fetched for the rows added here) and the 5e.tools bestiary files for the Dancing Item, Drake Companion and Wildfire Spirit stat blocks.
-- **Not usable:** the 5e.tools site (blocked), D&D Beyond book chapters (paywalled), Roll20 (SRD only), AideDD (class introductions only), Fandom (blocked). No printed book was available. `Verified (printed text)` is therefore used only where the SRD, an official errata document or a D&D Beyond reprint of the text covers the whole row.
-- **Repository:** `subclasses.json`, `class-features.json`, `options.json`, `authored-resources.json`, `help/srd-features.json` and the code that reads them. Nothing was run.
-
-**Result in numbers.**
-
-| | Findings |
-|---|---|
-| In the report before the third review | 159 (69 wrong, 8 missing, 82 imprecise) |
-| Confirmed, row kept as written | 132 |
-| Confirmed, only the confidence label changed to `Verified (printed text)` | 13 |
-| Corrected (text, severity or source changed; 4 of them changed severity) | 14 |
-| Removed | 0 |
-| Added | 15 (1 wrong, 1 missing, 13 imprecise) |
-| In the report after the third review | 174 (74 wrong, 9 missing, 91 imprecise) |
-| Subclasses with no finding | 29 of 117 (was 35) |
-| Confidence labels | 153 `Verified (2 sources)`, 21 `Verified (printed text)`, none `Medium` |
-
-**The second review, row by row.** Every decision stands except three points: the Hold the Line correction misquoted the app (amended), the Keeper of Souls row is now resolved, and the reason given for removing the Divine Soul finding was wrong although the removal is right. "Upheld" means the 5e.tools text matches the row; a source in the note means a second source also does.
-
-| Action | Subclass and row | Verdict | Note |
-|---|---|---|---|
-| Corrected | Alchemist, L9 Restorative Reagents | Upheld | 5e.tools has two separate bullets: temporary hit points and the free lesser restoration. |
-| Corrected | Alchemist, L5 Alchemical Savant | Upheld | Only healing or acid, fire, necrotic or poison damage. |
-| Corrected | Battle Smith, L9 Arcane Jolt | Upheld, extended | Imprecise is right under the legend. Added that the healing target is within 30 ft of the creature hit. |
-| Corrected | Battle Smith, L3 Steel Defender | Upheld | The official Eberron errata reprints the stat block (Force-Empowered Rend, AC 15, hit points 2 + Int + 5 x level, Deflect Attack). Now `Verified (printed text)`. |
-| Corrected | Totem Warrior, Elk | Upheld | "Aren't wearing heavy armor". |
-| Corrected | Ancestral Guardian, Ancestral Protectors | Upheld | Resistance, not halving. The Xanathar's errata only changes the features table (see the errata map). |
-| Corrected | Storm Herald, Storm Aura | Upheld | |
-| Corrected | Path of the Beast, Call the Hunt | Upheld | |
-| Corrected | Path of the Giant, feature levels | Upheld | The wiki page `barbarian:giant` agrees on the levels. |
-| Corrected | College of Eloquence, Universal Speech | Upheld | A spell slot of any level recharges it. |
-| Corrected | Grave Domain, Keeper of Souls | Upheld, reasoning amended | See "Disputed items". |
-| Corrected | Arcana Domain, Arcane Banishment | Upheld | A paragraph inside Arcane Abjuration. |
-| Corrected | Circle of the Shepherd, Faithful Summons | Upheld | |
-| Corrected | Arcane Archer, 18th-level increase | Upheld | Severity change per legend is right. |
-| Corrected | Arcane Archer, timing | Upheld | The Xanathar's errata changed "magic arrow" to "arrow"; the app follows the errata. |
-| Corrected | Cavalier, Hold the Line | Amended | The corrected row said the app lacks the movement trigger. It does not: the app says "moves 5 feet or more while in your reach". Row rewritten. |
-| Corrected | Cavalier, Unwavering Mark | Upheld | Advantage on the special attack; no disadvantage on the next attack. |
-| Corrected | Echo Knight, Manifest Echo | Upheld | AC 14 + proficiency bonus; no action to move it; swapping costs 15 ft of movement. |
-| Corrected | Ascendant Dragon, Breath scaling | Upheld | Two rolls, three from 11th level. |
-| Corrected | Oathbreaker, Control Undead | Upheld | Wisdom save; CR strictly below your level. |
-| Corrected | The Fathomless, Oceanic Soul | Upheld | The D&D Beyond copy of Tasha's reproduces the submerged-speech sentence. |
-| Corrected | Order of Scribes, Manifest Mind | Upheld | |
-| Removed | Path of the Zealot, Warrior of the Gods | Upheld | The app matches the 2014 Xanathar's text. In the 2024 Player's Handbook it is a pool of four d12s, which is a 2024 difference. |
-| Removed | Oath of the Crown, 15th-level name | Upheld | See "Disputed items". |
-| Removed | Divine Soul, 14th-level name | Upheld, reason wrong | The 2024 Player's Handbook has no Divine Soul, so "Angelic Form is the 2024 name" is false. The name is Otherworldly Wings in Xanathar's. See "Disputed items". |
-| Added | Storm Herald, Raging Storm: Desert | Upheld | Reaction, Dexterity save, half barbarian level. |
-| Added | College of Creation, Creative Crescendo | Upheld | |
-| Added | College of Creation, Animating Performance | Upheld | 5e.tools bestiary: Force-Empowered Slam, 1d10 + proficiency bonus force. The Tasha's errata reprints the first sentence. |
-| Added | Peace Domain, Emboldening Bond | Upheld | |
-| Added | Circle of Dreams, Walker in Dreams | Upheld | |
-| Added | Circle of Dreams, Hearth of Moonlight and Shadow | Upheld | |
-| Added | Circle of Dreams, Hidden Paths | Upheld | |
-| Added | Circle of Wildfire, Cauterizing Flames | Upheld | |
-| Added | Cavalier, Ferocious Charger | Upheld | No size limit in the 5e.tools text. |
-| Added | Psi Warrior, Psionic Power | Upheld | |
-| Added | Way of the Long Death, Touch of Death | Upheld | |
-| Added | Oath of Vengeance, Avenging Angel | Upheld | |
-| Added | Oath of the Watchers, Vigilant Rebuke | Upheld | |
-| Added | Beast Master, Ranger's Companion | Upheld | The Player's Handbook errata v3.0 amends the paragraph (the beast can spend Hit Dice; Dodge only when you give no command). |
-| Added | Gloom Stalker, Shadowy Dodge | Upheld | |
-| Added | Fey Wanderer, Fey Reinforcements | Upheld | |
-| Added | Drakewarden, Drake Companion | Upheld | 5e.tools bestiary: Bite, Draconic Essence, Infused Strikes; no breath weapon. |
-| Added | Arcane Trickster, Spell Thief | Upheld | |
-| Added | Inquisitive, Ear for Deceit | Upheld | |
-| Added | Soulknife, Psionic Power | Upheld | |
-| Added | Aberrant Mind, Revelation in Flesh | Upheld | |
-| Added | The Celestial, Radiant Soul | Upheld | |
-| Added | School of Transmutation, Shapechanger | Upheld | |
-| Added | War Magic, Power Surge | Upheld | |
-| Added | Order of Scribes, One with the Word | Upheld | |
-
-**Disputed items, resolved.**
-
-- **Keeper of Souls (Grave Domain, 17th).** The range is 60 feet and the recipient is "you or one creature of your choice within 60 feet". Evidence: 5e.tools; the March 2019 D&D Beyond forum post, which quotes "the text from Xanathar's Guide" with 60 feet and "one creature of your choice"; and the official Xanathar's errata (v1.0, 2020), which lists no change to this feature, so no change between printings is recorded. The dnd5e wiki's "30 feet" and "one ally of your choice" is the outlier. The app's 60 ft is correct. The row stays Imprecise (the app says "an ally" and omits the incapacitated restriction and the once-per-round wording) and is now `Verified (2 sources)`, not `Medium`.
-- **Divine Soul, 14th level.** The feature is Otherworldly Wings. The D&D Beyond feature table for Divine Soul (Xanathar's) reads "6th Empowered Healing, 14th Otherworldly Wings, 18th Unearthly Recovery", and 5e.tools agrees. "Angelic Form" appears only on the dnd5e wiki; it is not a 2024 name either, because the 2024 Player's Handbook has no Divine Soul. The app is right.
-- **Oath of the Crown, 15th level.** The feature is Unyielding Spirit. The D&D Beyond copy of the Sword Coast Adventurer's Guide shows a heading ending in "Spirit" followed by "Starting at 15th level, you have advantage on saving throws to avoid becoming paralyzed or stunned", a D&D Beyond search for "unyielding saint" returns no results, and 5e.tools agrees. The app is right.
-- **What this says about the wiki.** In all three the dnd5e wiki differs from both 5e.tools and the D&D Beyond material. The wiki is therefore not a safe tie-breaker; where it disagrees with 5e.tools, another source was sought. Why the wiki differs was not determined.
-
-**Changes made in this review.**
-
-*Removed:* none. The 11 SRD "names only" rows (Berserker, Lore, Life, Champion, Open Hand, Devotion, Hunter, Thief, Draconic Bloodline, Fiend, Evocation) are not rules errors; they record only that the data file carries feature names without text. They are kept because the earlier passes counted them, and the Summary now says so. The text of those features is shown from `help/srd-features.json` and the effect guidance, which this review audited.
-
-*Corrected (14 rows):*
-
-| Class | Subclass | Where | What changed and why |
-|---|---|---|---|
-| Artificer | Battle Smith | L9 Arcane Jolt (use limit) | Added where the healing goes (a creature or object within 30 ft of the target hit). |
-| Artificer | Battle Smith | L3 Steel Defender | Dropped the mending and smith's tools clause; the row now rests on the official Eberron errata reprint. `Verified (printed text)`. |
-| Ranger | Beast Master | L7 Exceptional Training | Source upgraded: the official Player's Handbook errata deleted "Dodge," and added the magical attacks sentence. The app follows the pre-errata printing. |
-| Cleric | Grave Domain | L17 Keeper of Souls | Resolved (above); `Medium` removed. |
-| Fighter | Cavalier | L10 Hold the Line | Row misquoted the app; rewritten around what the app does omit (the creature is stopped only if you hit, and only until the end of its turn). |
-| Druid | Circle of the Land | Circle Spells (terrain lists) | The SRD and 5e.tools list the feature at 2nd level, with the first spells at 3rd (the earlier text said the land is chosen at 3rd); the SRD lists seven lands and the Player's Handbook adds Underdark. |
-| Druid | Circle of the Land | Circle Spells level (SRD) | The SRD gives the circle features at 2nd, 6th, 10th and 14th level, so Circle Spells is a 2nd-level feature (its spells arrive at 3rd). The data lists 3rd. The second review's statement that all levels match, and its claim that the terrain is chosen at 3rd, are withdrawn. |
-| Wizard | School of Illusion | L6 name and wording | Besides the name, the app says the illusion is one "you are concentrating on"; the rule needs no concentration. |
-| Warlock | The Fathomless | L1 Tentacle of the Deep | Added that the feature is named Tentacle of the Deeps (D&D Beyond copy of Tasha's). |
-| Paladin | Oath of Glory | L20 Living Legend | Imprecise to Wrong: a miss becomes a hit and a failed save is rerolled; the app has them swapped. |
-| Rogue | Phantom | L17 Death's Friend | Imprecise to Wrong: it does not trigger on every sneak attack. |
-| Warlock | The Undying | L10 Undying Nature | Imprecise to Wrong: you age one year in ten, you do not stop aging. |
-| Warlock | The Archfey | L14 Dark Delirium | Imprecise to Wrong: nothing is removed to the Feywild; the creature only believes it is in an illusory realm. |
-| Sorcerer | Lunar Sorcery | Whole subclass | Lunar Embodiment teaches all fifteen spells; the phase only decides which 1st-level spell is free. Lunar Boons school pairs added from the Dragonlance errata (Full Moon abjuration and divination, New Moon enchantment and necromancy, Crescent Moon illusion and transmutation). |
-
-*Confidence label only (13 rows):* the 11 SRD "names only" rows, the Fiend expanded-list row and the Fiendish Resilience row now read `Verified (printed text)`: the SRD 5.1 PDF reproduces the names, levels, the Fiend expanded list ("added to the warlock spell list for you") and the Fiendish Resilience wording (magical and silvered weapons ignore it).
-
-*Added (15 rows):*
-
-| Class | Subclass | Where | Severity | Reason |
-|---|---|---|---|---|
-| Barbarian | Path of the Zealot | L14 Rage Beyond Death | 🟡 Imprecise | The app drops the death saving throws and makes the end of the rage the only way to die. |
-| Bard | College of Glamour | L6 Mantle of Majesty | 🟡 Imprecise | "Listeners charmed against retaliating" garbles "a creature charmed by you automatically fails its save against the command". |
-| Cleric | Knowledge Domain | L17 Visions of the Past | 🟡 Imprecise | No duration, no reach back in time, no short or long rest limit. |
-| Cleric | War Domain | L2 Guided Strike | 🟡 Imprecise | "Before or after seeing the result"; the rule is after the roll. The Oath of Conquest copy is right. |
-| Druid | Circle of Dreams | L2 Balm of the Summer Court | 🟡 Imprecise | At most half your druid level in dice per use; 1 temporary hit point per die. |
-| Druid | Circle of the Land | L6 Land's Stride (help text) | 🟡 Imprecise | `help/srd-features.json` narrows it to plant terrain and replaces the advantage on saves with "without a save". |
-| Monk | Way of the Four Elements | Elemental Attunement (`options.json`) | 🟡 Imprecise | "A Medium mass" of earth, fire, water or mist; the rule is a 1-foot cube. |
-| Paladin | Oath of Redemption | L20 Emissary of Redemption | 🟡 Imprecise | The loss is per creature and lasts until a long rest, not "until you attack or harm someone". |
-| Paladin | Oath of Devotion | L20 Holy Nimbus (help text) | 🟡 Imprecise | "You resist their spells" is advantage on saves against spells of fiends and undead; the 10 radiant damage is left out. |
-| Ranger | Hunter | L15 Superior Hunter's Defense (help text) | 🔴 Wrong | Describes dodge, resist one damage type and retaliate when an ally is hit; the options are Evasion, Stand Against the Tide and Uncanny Dodge. |
-| Ranger | Hunter | L7 Defensive Tactics (help text) | 🟡 Imprecise | Steel Will covers being frightened by anything, not only beasts. |
-| Sorcerer | Shadow Magic | L1 Strength of the Grave | 🟡 Imprecise | Does not work against radiant damage or a critical hit. |
-| Sorcerer | Aberrant Mind | L18 Warping Implosion | 🟡 Imprecise | Omits the Strength save, the 30-ft radius and the 5-sorcery-point recharge. |
-| Sorcerer | Divine Soul | L1 Divine Magic (affinity spells) | 🟠 Missing | The five affinities and their spells (cure wounds, inflict wounds, bless, bane, protection from evil and good) are not in the data. This matches how the report treats the Land, Fiend and Genie lists. |
-| Wizard | School of Evocation | L10 Empowered Evocation (help text) | 🟡 Imprecise | One damage roll, not every roll (SRD and Player's Handbook errata). |
-
-**Edition and errata map.** Which printing the app text matches. Items marked 2024 are differences, not errors.
-
-| Feature | Printing history | App text |
-|---|---|---|
-| Ancestral Guardian features table | Xanathar's errata (4th printing on): the three "d8" in the table became "d6", matching the text | Uses 2d6, 3d6, 4d6: matches the corrected book |
-| Arcane Shot | Xanathar's errata: "fire a magic arrow" became "fire an arrow" | "On an arrow hit": matches the errata |
-| Armorer, Perfected Armor (Guardian) | Tasha's errata: pulled up to 25 ft to an unoccupied space | The report row uses 25 ft; the app text is wrong anyway (row 2) |
-| Animating Performance, Gathered Swarm, Warping Implosion | Tasha's errata (first sentence; "While you're alive"; "against your spell save DC") | Animating Performance and Gathered Swarm consistent; Warping Implosion omits the save (new row) |
-| Bladesong, Extra Attack (Bladesinging) | Sword Coast errata v2.2: proficiency-bonus uses per long rest; a cantrip may replace one attack | Subclass text matches; `authored-resources.json` line 1067 says short rest (wrong) |
-| Radiant Sun Bolt, Rakish Audacity, Inspiring Surge (Banneret) | Sword Coast errata: features reprinted; Inspiring Surge's second tier moved from 17th to 18th level | Subclass text matches (Inspiring Surge says "two allies from 18th level") |
-| Ranger's Companion, Exceptional Training | Player's Handbook errata v3.0: "Dodge," deleted; magical attacks added | Exceptional Training follows the pre-errata printing (flagged) |
-| Eternal Mountain Defense | Player's Handbook errata: 11th level became 17th | `options.json` says 17th: matches |
-| Wild Magic Surge, Overchannel, Empowered Evocation, Minor Conjuration | Player's Handbook errata: once per turn; 1st to 5th level; "one damage roll"; "takes or deals any damage" | Subclass text consistent; the Empowered Evocation help text is not (new row) |
-| Lunar Boons | Dragonlance errata: New Moon "Evocation" became "Enchantment", Crescent Moon "Divination" became "Illusion" | Not stated in the app; 5e.tools already has the corrected pairs |
-| Steel Defender | Eberron errata replaced the stat block (AC 15, Force-Empowered Rend) | Report row matches the corrected block |
-| Divine Soul 14th, Oath of the Crown 15th | No rename in any errata; 2024 Player's Handbook has neither subclass | Names Otherworldly Wings and Unyielding Spirit are the printed ones |
-| Zealot (2024 differences) | 2024: Warrior of the Gods is a pool of d12s, Fanatical Focus adds the rage damage bonus, Rage of the Gods replaces Rage Beyond Death | App follows Xanathar's (2014); not errors |
-| Glamour, Mantle of Inspiration (2024 difference) | 2014: 5, 8, 11, 14 temporary hit points; 2024: twice the Bardic Inspiration die | App gives no number |
-| Circle of the Moon (2024 difference) | 2024: 13 + Wisdom AC in beast form | App follows 2014 |
-| Tasha's optional features | Primal Companion (Beast Master) is counted as Missing; Blessed Strikes (a Cleric replacement for Divine Strike or Potent Spellcasting) is not | Treated differently in the earlier passes; left as found |
-
-**Areas the second review did not audit.**
-
-| Area | Where it lives | Result |
-|---|---|---|
-| Battle Master maneuvers (23) | `options.json` | All 23 names right (16 from the Player's Handbook, 7 from Tasha's); effects right. Only trims: Commander's Strike omits that it uses a bonus action, Sweeping Attack omits "if the attack roll would hit". No finding. |
-| Arcane Shot options (8) | Names only in `subclasses.json` and `authored-resources.json` | Names right; the save DC (8 + proficiency + Intelligence) in `authored-resources.json` is right. Option text is not in the data. |
-| Elemental disciplines (17) | `options.json` | Names, ki costs and prerequisites right. One imprecise text: Elemental Attunement (new row). |
-| Rune Knight runes (6) | `options.json` | Names, effects and the 7th-level prerequisite of the Hill and Storm runes right. No finding. |
-| Hunter's choices (11) | `options.json`, `help/srd-features.json` | `options.json` right. The help text for Superior Hunter's Defense is wrong and for Defensive Tactics imprecise (new rows). |
-| Totem options | `authored-effects-data.ts` (Bear, Eagle, Wolf), `subclasses.json` | Elk and Tiger absent: already a finding. |
-| Wild magic tables | Not in the data (Barbarian d8, Sorcerer d100) | The Barbarian d8 summary in the Wild Surge row was re-read against the Tasha's text and is right. The Sorcerer table is not in the app or the report. |
-| Metamagic (10) | `options.json` | All 10 right. No finding. |
-| Invocations and Pact boons | `options.json` | Audited only where a subclass depends on them: Hex Warrior with Pact of the Blade (already a finding). The 48 invocations were not audited. |
-
-**Repository claims, rechecked.**
-
-| Claim | Result |
-|---|---|
-| `subclassSpellsFor` grants warlock patron spells for free (Cross-cutting 2) | True. The rule side is now also confirmed by the publisher: the Sage Advice Compendium (2014) says expanded-list spells "aren't automatically known" and are added to the warlock list, and the SRD says the same for the Fiend. |
-| Fiend has no spell list; Fiend engine claims; Hexblade's Curse is guidance only | True. |
-| Appendix B (151 of 590) | The 590 features reproduce exactly. A search over `src/lib/dm`, `srd`, `battlemap` and `classes` finds 147 without a reference, not 151. The four extra hits (Silver Tongue, Divine Magic, Thought Shield, Use Magic Device) are in files outside the directory list the appendix states, so the appendix is consistent with its own method. |
-| Appendix A (warlock table) | True: every cell matches the Player's Handbook table. |
-| Cross-cutting 3 and 6 | True. |
-| Cross-cutting 7 (`authored-resources.json` repeats the wrong facts) | True, with line numbers and further errors in the new table under Cross-cutting findings. One detail corrected: Call the Hunt's temporary hit points per ally are right; only "up to five allies" is wrong. |
-| Cross-cutting 1 (SRD text lives in `help/srd-features.json`) | The help file was audited: five of its lines are inaccurate (new rows). |
-| Appendix C | No error found. |
-
-**Not verified or unresolved.**
-
-- No printed book was consulted. Rows marked `Verified (2 sources)` rest on 5e.tools and the dnd5e wiki; rows marked `Verified (printed text)` rest on the SRD or official errata as stated.
-- Bigby Presents (Path of the Giant), Explorer's Guide to Wildemount, Mythic Odysseys of Theros, Van Richten's and Fizban's: no publisher text or errata was found, so those rows rest on 5e.tools and the wiki. The wiki and 5e.tools differ on the name Giant Power versus Giant's Power; the app's Giant's Power is not flagged.
-- Why the dnd5e wiki differs from the book in three places was not determined.
-- Appendix B was not re-run with the report's exact directory list.
-- Nothing was run in the app; engine statements come from reading the code.
-- The 48 invocations and the Arcane Shot option text were not audited.
-
 ## Contents
 
-- Second review
-- Third review
-- Scope and method
+- Scope, sources and method
 - Legend
+- Where the sources disagree
+- Edition and errata map
+- Class options that subclass features depend on
+- Claims about the repository
+- Limits of this audit
 - Summary
 - Cross-cutting findings
 - Artificer
@@ -345,14 +30,17 @@ A third reviewer with no access to the earlier checks re-read all 117 subclasses
 - Appendix B: Engine wiring hints
 - Appendix C: Official subclasses not in the app
 
-## Scope and method
+## Scope, sources and method
 
-- **Data audited.** `src/lib/srd/subclasses.json` (105 subclasses) and the SRD subclass in `src/lib/srd/class-features.json` for each class (12; Artificer has none there). The SRD subclasses in `class-features.json` carry feature names and levels only, with no description text.
-- **Checked for each subclass:** the level each feature arrives at, whether any feature is missing, the numbers and conditions in each feature's text, and the subclass spell list (always-prepared, expanded or fixed).
-- **Not checked:** the item, spell and monster stat blocks the features refer to, the subclass's class-level interactions in the builder (for example how many invocations or maneuvers get picked), and 2024 Player's Handbook revisions. Where the app text follows an older printing I note it.
-- **Second review.** A second, independent pass re-checked every row below against the dnd5e wiki and the 5e.tools class data. See 'Second review' for what changed. Every table in this file already reflects those changes.
-- **Third review.** A third pass re-read all 117 subclasses and re-judged the second review's changes, adding publisher sources (SRD 5.1, official errata, D&D Beyond). See 'Third review'. Every table in this file already reflects its changes.
-- **Engine hints.** Appendix B lists features whose exact name appears nowhere in the engine code (`src/lib/dm`, resource, effect and trait tables). A missing name means the feature is probably only shown on the sheet and not applied by the server. It is a heuristic only: a passive feature can legitimately need no code, and a feature can be applied under another name.
+- **Baseline.** The 2014 rules: the SRD 5.1 and the later 2014-era books (Player's Handbook, Dungeon Master's Guide, Xanathar's, Tasha's, Sword Coast Adventurer's Guide, Explorer's Guide to Wildemount, Van Richten's, Mythic Odysseys of Theros, Guildmasters' Guide to Ravnica, Fizban's, Bigby Presents: Glory of the Giants, Dragonlance: Shadow of the Dragon Queen), with their official errata. 2024 differences are noted in the edition map and are never counted as app errors.
+- **Data audited.** `src/lib/srd/subclasses.json` (105 subclasses) and the SRD subclass in `src/lib/srd/class-features.json` for each class (12; Artificer has none there). The SRD subclasses in `class-features.json` carry feature names and levels only; their text is shown from `help/srd-features.json` and the effect guidance in `authored-resources.json`, which were also checked.
+- **Checked for each subclass:** the level each feature arrives at, whether any feature is missing or invented, the numbers and conditions in each feature's text (dice, saves, DCs, ranges, durations, use limits, action types), the feature names, and the subclass spell list (always prepared, expanded or fixed). Every subclass was read side by side with the class data on 5e.tools, and its feature names, levels and spell lists were compared programmatically.
+- **Sources.**
+  - Publisher text: the SRD 5.1 PDF for the 12 SRD subclasses; Wizards of the Coast errata PDFs for the Player's Handbook (v3.0, 2021), Xanathar's (v1.0, 2020), Tasha's (2021), Sword Coast Adventurer's Guide (v2.2, 2021), the Dungeon Master's Guide and Volo's; the D&D Beyond Sage Advice and errata pages (Eberron: Rising from the Last War, Dragonlance: Shadow of the Dragon Queen) and the Sage Advice Compendium; the D&D Beyond compendium text of Tasha's (The Fathomless) and the Sword Coast Adventurer's Guide (Oath of the Crown, Purple Dragon Knight); and a D&D Beyond forum post quoting the Xanathar's text of Keeper of Souls.
+  - Transcriptions: the dnd5e wiki (one page per subclass) and the 5e.tools class data (`5etools-src`, `data/class/*.json`) and bestiary (Dancing Item, Steel Defender, Drake Companion, Wildfire Spirit).
+  - Repository: `subclasses.json`, `class-features.json`, `options.json`, `authored-resources.json`, `help/srd-features.json` and the code that reads them. Nothing was run.
+- **Not checked:** the item, spell and monster stat blocks the features refer to (except the four above), the subclass's class-level interactions in the builder (for example how many invocations or maneuvers get picked), and 2024 revisions.
+- **Engine hints.** Appendix B lists features whose exact name appears nowhere in the engine code. A missing name means the feature is probably only shown on the sheet and not applied by the server. It is a heuristic only: a passive feature can legitimately need no code, and a feature can be applied under another name.
 
 ## Legend
 
@@ -361,11 +49,76 @@ A third reviewer with no access to the earlier checks re-read all 117 subclasses
 | 🔴 Wrong | The app text or data contradicts the rules. |
 | 🟠 Missing | A feature, option or spell that the rules give is absent. |
 | 🟡 Imprecise | Roughly right, but a number, limit, prerequisite or choice is left out or loosely worded. |
-| Verified (wiki) | Confirmed against the dnd5e wiki page for the subclass (first check only; no row in this file still carries this value after the second review). |
-| Verified (2 sources) | Confirmed in the second review against both the dnd5e wiki and the 5e.tools data (`5etools-src`, `data/class/*.json`), which transcribe the books independently. |
-| Verified (printed text) | Confirmed against a source that reproduces the printed text: the SRD 5.1 PDF, an official Wizards of the Coast errata document, or the D&D Beyond reprint of such a document. Used only where the source covers the whole row. Added in the third review. |
-| Medium (sources disagree) | The two sources print different text; the row says which one the app matches. No row carries it after the third review (the one that did, Keeper of Souls, is resolved). |
-| High / Medium / Low | Not confirmed on a source page; confidence from memory of the book. Used by the first check only. |
+| Verified (2 sources) | Confirmed against both the dnd5e wiki and the 5e.tools data, which are separate transcriptions of the books. |
+| Verified (printed text) | Confirmed against a source that reproduces the printed text: the SRD 5.1 PDF, an official Wizards of the Coast errata document, or the D&D Beyond reprint of such a document. Used only where the source covers the whole row. |
+
+## Where the sources disagree
+
+In three places the dnd5e wiki differs from both 5e.tools and the D&D Beyond material. The wiki is therefore not used as a tie-breaker; where it disagrees with the other sources, the other sources are followed.
+
+- **Keeper of Souls (Grave Domain, 17th).** The range is 60 feet and the recipient is "you or one creature of your choice within 60 feet". Evidence: 5e.tools; a March 2019 D&D Beyond forum post quoting "the text from Xanathar's Guide" with 60 feet and "one creature of your choice"; and the official Xanathar's errata (v1.0, 2020), which lists no change to this feature. The wiki's "30 feet" and "one ally of your choice" is the outlier. The app's 60 ft is correct; the remaining finding is that the app says "an ally" and omits the incapacitated restriction and the once-per-round wording.
+- **Divine Soul, 14th level.** The feature is Otherworldly Wings. The D&D Beyond feature table for Divine Soul (Xanathar's) reads "6th Empowered Healing, 14th Otherworldly Wings, 18th Unearthly Recovery", and 5e.tools agrees. "Angelic Form" appears only on the dnd5e wiki; it is not a 2024 name either, because the 2024 Player's Handbook has no Divine Soul. The app is right.
+- **Oath of the Crown, 15th level.** The feature is Unyielding Spirit. The D&D Beyond copy of the Sword Coast Adventurer's Guide shows a heading ending in "Spirit" followed by "Starting at 15th level, you have advantage on saving throws to avoid becoming paralyzed or stunned", a D&D Beyond search for "unyielding saint" returns nothing, and 5e.tools agrees. The app is right.
+
+## Edition and errata map
+
+Which printing the app text matches. Items marked 2024 are differences, not errors.
+
+| Feature | Printing history | App text |
+|---|---|---|
+| Ancestral Guardian features table | Xanathar's errata (4th printing on): the three "d8" in the table became "d6", matching the text | Uses 2d6, 3d6, 4d6: matches the corrected book |
+| Arcane Shot | Xanathar's errata: "fire a magic arrow" became "fire an arrow" | "On an arrow hit": matches the errata |
+| Armorer, Perfected Armor (Guardian) | Tasha's errata: pulled up to 25 ft to an unoccupied space | The finding uses 25 ft; the app text is wrong regardless |
+| Animating Performance, Gathered Swarm, Warping Implosion | Tasha's errata (first sentence; "While you're alive"; "against your spell save DC") | Animating Performance and Gathered Swarm consistent; Warping Implosion omits the save (see its finding) |
+| Bladesong, Extra Attack (Bladesinging) | Sword Coast errata v2.2: proficiency-bonus uses per long rest; a cantrip may replace one attack | Subclass text matches; `authored-resources.json` line 1067 says short rest (wrong) |
+| Radiant Sun Bolt, Rakish Audacity, Inspiring Surge (Banneret) | Sword Coast errata: features reprinted; Inspiring Surge's second tier moved from 17th to 18th level | Subclass text matches (Inspiring Surge says "two allies from 18th level") |
+| Ranger's Companion, Exceptional Training | Player's Handbook errata v3.0: "Dodge," deleted; magical attacks added | Exceptional Training follows the pre-errata printing (flagged) |
+| Eternal Mountain Defense | Player's Handbook errata: 11th level became 17th | `options.json` says 17th: matches |
+| Wild Magic Surge, Overchannel, Empowered Evocation, Minor Conjuration | Player's Handbook errata: once per turn; 1st to 5th level; "one damage roll"; "takes or deals any damage" | Subclass text consistent; the Empowered Evocation help text is not (see its finding) |
+| Lunar Boons | Dragonlance errata: New Moon "Evocation" became "Enchantment", Crescent Moon "Divination" became "Illusion" | Not stated in the app; 5e.tools already has the corrected pairs |
+| Steel Defender | Eberron errata replaced the stat block (AC 15, Force-Empowered Rend) | The finding matches the corrected block |
+| Divine Soul 14th, Oath of the Crown 15th | No rename in any errata; the 2024 Player's Handbook has neither subclass | Otherworldly Wings and Unyielding Spirit are the printed names |
+| Zealot (2024 differences) | 2024: Warrior of the Gods is a pool of d12s, Fanatical Focus adds the rage damage bonus, Rage of the Gods replaces Rage Beyond Death | App follows Xanathar's (2014); not errors |
+| Glamour, Mantle of Inspiration (2024 difference) | 2014: 5, 8, 11, 14 temporary hit points; 2024: twice the Bardic Inspiration die | App gives no number |
+| Circle of the Moon (2024 difference) | 2024: 13 + Wisdom AC in beast form | App follows 2014 |
+| Tasha's optional features | Primal Companion (Beast Master) is listed as Missing; Blessed Strikes (a Cleric replacement for Divine Strike or Potent Spellcasting) is not listed | Neither optional feature is offered |
+
+## Class options that subclass features depend on
+
+| Area | Where it lives | Result |
+|---|---|---|
+| Battle Master maneuvers (23) | `options.json` | All 23 names right (16 from the Player's Handbook, 7 from Tasha's); effects right. Only trims: Commander's Strike omits that it uses a bonus action, Sweeping Attack omits "if the attack roll would hit". No finding. |
+| Arcane Shot options (8) | Names only in `subclasses.json` and `authored-resources.json` | Names right; the save DC (8 + proficiency + Intelligence) in `authored-resources.json` is right. Option text is not in the data. |
+| Elemental disciplines (17) | `options.json` | Names, ki costs and prerequisites right. One imprecise text: Elemental Attunement (see Way of the Four Elements). |
+| Rune Knight runes (6) | `options.json` | Names, effects and the 7th-level prerequisite of the Hill and Storm runes right. No finding. |
+| Hunter's choices (11) | `options.json`, `help/srd-features.json` | `options.json` right. The help text for Superior Hunter's Defense is wrong and for Defensive Tactics imprecise (see Hunter). |
+| Totem options | `authored-effects-data.ts` (Bear, Eagle, Wolf), `subclasses.json` | Elk and Tiger absent: a finding under Path of the Totem Warrior. |
+| Wild magic tables | Not in the data (Barbarian d8, Sorcerer d100) | The Barbarian d8 summary in the Wild Surge finding matches the Tasha's text. The Sorcerer table is not in the app. |
+| Metamagic (10) | `options.json` | All 10 right. No finding. |
+| Invocations and Pact boons | `options.json` | Checked only where a subclass depends on them (Hex Warrior with Pact of the Blade; a finding). The 48 invocations themselves are outside this audit. |
+
+## Claims about the repository
+
+| Claim | Result |
+|---|---|
+| `subclassSpellsFor` in `src/lib/srd/features.ts` grants warlock patron spells for free (Cross-cutting 2) | True. The function returns every spell in the subclass `spells` table up to the character's level, its comment says they are free and never count against the known/prepared ceiling, and `submit.ts` and `useBuilderDerived.ts` use it for warlocks unchanged. The rules side is confirmed by the publisher: the Sage Advice Compendium (2014) says expanded-list spells "aren't automatically known" and are added to the warlock list, and the SRD says the same for the Fiend. |
+| The Fiend has no spell list in the data | True. In `class-features.json` only Life Domain and Oath of Devotion carry a `spells` table; The Fiend and Circle of the Land have none, and neither does Lunar Sorcery in `subclasses.json`. |
+| Dark One's Blessing is implemented; Fiendish Resilience is read from the feature name with no weapon exception | True. `feature-hooks.ts` implements Dark One's Blessing (Charisma modifier + warlock level, minimum 1). `chosenResistances` in `trait-rules.ts` reads the type from a feature named `Fiendish Resilience (type)` and `pc-defenses.ts` applies it with only a magical/spell test, no silvered/magical weapon exception. |
+| Hexblade's Curse has guidance text only | True. It is a `guidance` string in `authored-resources.json` (`sub_hexblades_curse`); no code applies the bonus damage or the 19-20 crit range. |
+| Appendix B (151 of 590 features without an engine reference) | The 590 features reproduce exactly. A search over `src/lib/dm`, `srd`, `battlemap` and `classes` finds 147 without a reference, not 151; the four extra (Silver Tongue, Divine Magic, Thought Shield, Use Magic Device) are in files outside the directories Appendix B states, so the appendix is consistent with its own method. |
+| Appendix A (warlock table) | Every cell matches the Player's Handbook table. |
+| `authored-resources.json` repeats the wrong facts of `subclasses.json` (Cross-cutting 7) | True; the entries with line numbers are in that finding. One detail: Call the Hunt's temporary hit points per ally are right; only "up to five allies" is wrong. |
+| SRD text lives in `help/srd-features.json` (Cross-cutting 1) | The help file was checked: five of its lines are inaccurate (see the Hunter, Land, Devotion and Evocation findings). |
+| Subclass choice levels (Cross-cutting 6) | True for all 13 classes. |
+
+## Limits of this audit
+
+- No printed book was consulted. Rows marked `Verified (2 sources)` rest on 5e.tools and the dnd5e wiki; rows marked `Verified (printed text)` rest on the SRD or official errata as stated.
+- Bigby Presents (Path of the Giant), Explorer's Guide to Wildemount, Mythic Odysseys of Theros, Van Richten's and Fizban's have no publisher text or errata available, so their rows rest on 5e.tools and the wiki. The two differ on the name Giant Power versus Giant's Power; the app's Giant's Power is not flagged.
+- Why the dnd5e wiki differs from the book in three places was not determined.
+- The 48 invocations and the text of the Arcane Shot options are not in scope.
+- Nothing was run in the app; statements about the engine come from reading the code. "Is not applied by the server" is a name-search heuristic, not a test.
+- The 11 SRD "names only" rows (Berserker, Lore, Life, Champion, Open Hand, Devotion, Hunter, Thief, Draconic Bloodline, Fiend, Evocation) are not rules errors; they record that the data file carries feature names without text.
 
 ## Summary
 
@@ -594,13 +347,13 @@ Eleven of the imprecise rows only record that an SRD subclass ships feature name
 
 ## Cross-cutting findings
 
-1. **SRD subclasses carry names only.** The twelve SRD subclasses (Berserker, Lore, Life, Land, Champion, Open Hand, Devotion, Hunter, Thief, Draconic Bloodline, Fiend, Evocation) have feature names and levels but no description or numbers in `class-features.json`. Their text lives elsewhere (`help/srd-features.json`, the rulebook), so the same audit of numbers was not possible from the subclass files. The third review audited the help text for these features against the SRD 5.1: five lines are inaccurate (rows added under Circle of the Land, Oath of Devotion, Hunter and School of Evocation) and the rest read correctly or only abbreviate.
+1. **SRD subclasses carry names only.** The twelve SRD subclasses (Berserker, Lore, Life, Land, Champion, Open Hand, Devotion, Hunter, Thief, Draconic Bloodline, Fiend, Evocation) have feature names and levels but no description or numbers in `class-features.json`. Their text lives elsewhere (`help/srd-features.json`, the rulebook), so the same audit of numbers was not possible from the subclass files. The help text for these features was checked against the SRD 5.1: five lines are inaccurate (rows added under Circle of the Land, Oath of Devotion, Hunter and School of Evocation) and the rest read correctly or only abbreviate.
 2. **Warlock patron spells are granted for free.** Cleric domain, paladin oath, druid circle and ranger/sorcerer/artificer subclass spells are always-prepared or always-known and do not count against the limit, which matches the rules. The warlock patron lists are different: they are an *expanded spell list*. The rules add them to the pool the warlock picks from; they are not granted. `subclassSpellsFor` in `src/lib/srd/features.ts` treats all of them as free, so an Archfey, Great Old One, Celestial, Hexblade, Fathomless, Genie, Undead or Undying warlock receives ten spells they should have to learn with their limited spells known. This is more generous than the rules, and the publisher confirms the rule: the Sage Advice Compendium (2014) says expanded-list spells are not automatically known, and the SRD says the Fiend's list is 'added to the warlock spell list for you'. The Fiend has no list at all, so it is the only patron that does not receive the free spells, and is the one that is missing a list.
-3. **Several 'use' limits are wrong in the same way.** Where a feature's uses depend on an ability modifier, the data often says 'proficiency bonus' (Glamour's Enthralling Performance, Alchemist's Restorative Reagents, Chronurgy's Momentary Stasis, Graviturgy's Violent Attraction), gives a fixed count (Beast's Call the Hunt: 'five' instead of the Constitution modifier) or leaves the limit out (Battle Smith's Arcane Jolt, Peace's Emboldening Bond, Wildfire's Cauterizing Flames, Order of Scribes' Manifest Mind). The first draft also listed Mercy's Flurry of Healing and Harm here; that was wrong, it has no use limit in the rules. These need a pass for every 'a proficiency-bonus number of times per long rest' string in the subclass file.
+3. **Several 'use' limits are wrong in the same way.** Where a feature's uses depend on an ability modifier, the data often says 'proficiency bonus' (Glamour's Enthralling Performance, Alchemist's Restorative Reagents, Chronurgy's Momentary Stasis, Graviturgy's Violent Attraction), gives a fixed count (Beast's Call the Hunt: 'five' instead of the Constitution modifier) or leaves the limit out (Battle Smith's Arcane Jolt, Peace's Emboldening Bond, Wildfire's Cauterizing Flames, Order of Scribes' Manifest Mind). These need a pass for every 'a proficiency-bonus number of times per long rest' string in the subclass file.
 4. **Edition mix.** The data mostly follows the 2014 books. Zealot's Warrior of the Gods follows Xanathar's; the 2024 Player's Handbook version is different. A statement of which edition the app follows would settle several of the 'imprecise' items.
 5. **Feature descriptions are single sentences.** Many of the 'imprecise' findings are only omitted numbers (damage dice, temporary hit point amounts, scaling by level, save types). If the descriptions are shown to players as the rules text, these are the gaps they will notice first.
-6. **Subclass choice level is correct for every class.** Artificer, Barbarian, Bard, Fighter, Monk, Paladin, Ranger and Rogue pick at 3, Cleric, Sorcerer and Warlock at 1, Druid and Wizard at 2. No finding. Re-checked against `class-features.json` (`subclassLevel`) in the second review.
-7. **The same wrong facts are repeated in `authored-resources.json`, and it has errors of its own.** Its `guidance` strings, which the DM prompt uses for resource-backed features, and its numeric fields restate the errors found here and add others. The table below lists every entry found, with line numbers (verified in the third review; the file has 141 entries: 126 subclass features, 8 race features and 7 artificer features). Fixing `subclasses.json` alone will not fix what the DM is told. Entries that are right where `subclasses.json` is wrong or incomplete: Unwavering Mark (line 1783), Strength before Death (line 154), Cauterizing Flames (line 1772) and One with the Word (line 1185). The same wrong facts also appear in code: `src/lib/srd/condition-effects.ts` line 650 (Tentacle of the Deep halves speed) and `src/lib/srd/authored-conditions.ts` lines 220-233 (Dread Lord: 4d10 psychic to all enemies and a 4d10 psychic strike).
+6. **Subclass choice level is correct for every class.** Artificer, Barbarian, Bard, Fighter, Monk, Paladin, Ranger and Rogue pick at 3, Cleric, Sorcerer and Warlock at 1, Druid and Wizard at 2. No finding. Checked against `class-features.json` (`subclassLevel`).
+7. **The same wrong facts are repeated in `authored-resources.json`, and it has errors of its own.** Its `guidance` strings, which the DM prompt uses for resource-backed features, and its numeric fields restate the errors found here and add others. The table below lists every entry found, with line numbers (the file has 141 entries: 126 subclass features, 8 race features and 7 artificer features). Fixing `subclasses.json` alone will not fix what the DM is told. Entries that are right where `subclasses.json` is wrong or incomplete: Unwavering Mark (line 1783), Strength before Death (line 154), Cauterizing Flames (line 1772) and One with the Word (line 1185). The same wrong facts also appear in code: `src/lib/srd/condition-effects.ts` line 650 (Tentacle of the Deep halves speed) and `src/lib/srd/authored-conditions.ts` lines 220-233 (Dread Lord: 4d10 psychic to all enemies and a 4d10 psychic strike).
 
 **Cross-cutting 7 in detail: `src/lib/srd/authored-resources.json`.** Lines are for the field named. Not counted in the Summary.
 
@@ -1563,7 +1316,7 @@ Subclass chosen at level 2.
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
 | 1 | 🟠 Missing | Circle Spells (terrain lists) | Feature name only (listed at 3rd level); no spell list in the data. | When you join the circle you choose a land (Arctic, Coast, Desert, Forest, Grassland, Mountain and Swamp in the SRD; Underdark in the Player's Handbook), each with its own always-prepared spells at druid levels 3, 5, 7 and 9 (for example Forest: barkskin, spider climb; call lightning, plant growth; divination, freedom of movement; commune with nature, tree stride). No terrain choice or terrain lists were found in the subclass data (builder not checked). The SRD and 5e.tools list the feature at 2nd level; only the spells begin at 3rd. | Verified (2 sources) |
-| 2 | 🟡 Imprecise | Circle Spells level (SRD) | Names only: Bonus Cantrip, Natural Recovery, Circle Spells, Land's Stride, Nature's Ward, Nature's Sanctuary. Circle Spells is listed at 3rd level. | The names match the SRD 5.1, and so do the levels except Circle Spells. The SRD says the circle grants features at 2nd, 6th, 10th and 14th level; Circle Spells is a 2nd-level feature whose spells arrive at 3rd, 5th, 7th and 9th. The data lists it at 3rd. (The second review said all levels match, and removed a first-draft finding that the terrain is chosen at 2nd; both statements are withdrawn.) | Verified (printed text) |
+| 2 | 🟡 Imprecise | Circle Spells level (SRD) | Names only: Bonus Cantrip, Natural Recovery, Circle Spells, Land's Stride, Nature's Ward, Nature's Sanctuary. Circle Spells is listed at 3rd level. | The names match the SRD 5.1, and so do the levels except Circle Spells. The SRD says the circle grants features at 2nd, 6th, 10th and 14th level; Circle Spells is a 2nd-level feature whose spells arrive at 3rd, 5th, 7th and 9th. The data lists it at 3rd.  | Verified (printed text) |
 | 3 | 🟡 Imprecise | L6 Land's Stride (help text, src/lib/help/srd-features.json line 80) | Difficult terrain from plants costs you no extra movement, and magical plants cannot slow or hurt you without a save. | Moving through nonmagical difficult terrain of any kind costs no extra movement; you also pass through nonmagical plants without being slowed or damaged; and you have advantage on saving throws against plants magically created or manipulated to impede movement. The help text narrows the first part to plant terrain and replaces the advantage with 'without a save'. | Verified (printed text) |
 
 **Engine hint:** no engine reference found for: Bonus Cantrip, Circle Spells.
@@ -1842,7 +1595,7 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | L10 Hold the Line | A reaction makes an opportunity attack against a creature that moves 5 feet or more while in your reach, stopping it dead. | Creatures provoke an opportunity attack from you when they move 5 ft or more while within your reach, and if you hit a creature with an opportunity attack its speed becomes 0 until the end of the current turn. The app already has the movement trigger (the second review said it did not); what it leaves out is that the creature is stopped only if the attack hits, and only until the end of the turn. | Verified (2 sources) |
+| 1 | 🟡 Imprecise | L10 Hold the Line | A reaction makes an opportunity attack against a creature that moves 5 feet or more while in your reach, stopping it dead. | Creatures provoke an opportunity attack from you when they move 5 ft or more while within your reach, and if you hit a creature with an opportunity attack its speed becomes 0 until the end of the current turn. The app already has the movement trigger; what it leaves out is that the creature is stopped only if the attack hits, and only until the end of the turn. | Verified (2 sources) |
 | 2 | 🔴 Wrong | L3 Unwavering Mark | A creature you hit in melee is marked until your next turn: it has disadvantage attacking anyone else, and on your next turn you can make a bonus attack against it that deals extra damage on a hit and gives it disadvantage on its next attack. | The mark lasts until the end of your next turn. While it is within 5 ft of you, the marked creature has disadvantage on attack rolls that do not target you. If it deals damage to anyone other than you, you can make a special melee weapon attack against it as a bonus action on your next turn with advantage on the attack roll; on a hit it takes extra damage equal to half your fighter level. There is no disadvantage on its next attack. Uses: Strength modifier (minimum once) per long rest (the app has this right). | Verified (2 sources) |
 | 3 | 🟡 Imprecise | L15 Ferocious Charger | Once per turn, a hit after moving 10 feet in a straight line knocks a Large or smaller creature prone on a failed Strength save. | If you move at least 10 ft in a straight line right before attacking a creature and hit it, the target must succeed on a Strength saving throw (8 + proficiency bonus + Strength modifier) or be knocked prone. Once on each of your turns. There is no size restriction in the text. | Verified (2 sources) |
 
@@ -3707,7 +3460,7 @@ Checked against the Player's Handbook warlock table. Slots, slot level, cantrips
 | 19 | Ability Score Improvement | 4 | 15 | 4 | 5 | 8 |
 | 20 | Eldritch Master | 4 | 15 | 4 | 5 | 8 |
 
-Second review: every cell of this table was re-checked against the Player's Handbook warlock table and `class-features.json`; no change. Patron features arrive at 1, 6, 10 and 14 for every warlock patron. Note the level 6, 10 and 14 patron features have no row in `class-features.json`'s base warlock table; they come from the subclass file.
+Every cell of this table matches the Player's Handbook warlock table and `class-features.json`. Patron features arrive at 1, 6, 10 and 14 for every warlock patron. Note the level 6, 10 and 14 patron features have no row in `class-features.json`'s base warlock table; they come from the subclass file.
 
 ## Appendix B: Engine wiring hints
 
@@ -3867,11 +3620,11 @@ Features whose exact name does not appear in the engine code (`src/lib/dm`, `cla
 | Wizard | Graviturgy Magic | 6 | Gravity Well |
 | Wizard | Order of Scribes | 2 | Awakened Spellbook |
 
-151 of 590 features have no engine reference by name. Second review: re-running the same name search over those directories reproduced exactly this list (151 of 590), so the list stands as written. It remains a heuristic: a missing name does not prove the feature is unimplemented.
+151 of 590 features have no engine reference by name. The list is reproducible from the search described above. It remains a heuristic: a missing name does not prove the feature is unimplemented.
 
 ## Appendix C: Official subclasses not in the app
 
-Second review: this appendix had three errors, now fixed. Way of the Cobalt Soul is Critical Role's *Tal'Dorei Campaign Setting Reborn* (partnered content, not a Wizards of the Coast book), not *Explorer's Guide to Wildemount*. Giant Soul is a 2018 Unearthed Arcana playtest, not part of *Bigby Presents: Glory of the Giants* (that book's only subclass is the Path of the Giant barbarian, which the app has). The Ambition, Solidarity, Strength and Zeal domains are in *Plane Shift: Amonkhet*, not *Mythic Odysseys of Theros*. The Battlerager was missing. This is still not an exhaustive survey.
+Notes on sources: Way of the Cobalt Soul is Critical Role's *Tal'Dorei Campaign Setting Reborn* (partnered content, not a Wizards of the Coast book). Giant Soul is a 2018 Unearthed Arcana playtest, not part of *Bigby Presents: Glory of the Giants* (that book's only subclass is the Path of the Giant barbarian, which the app has). The Ambition, Solidarity, Strength and Zeal domains are in *Plane Shift: Amonkhet*. This is still not an exhaustive survey.
 
 | Class | Subclass | Source |
 |---|---|---|
