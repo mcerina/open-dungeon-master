@@ -2,12 +2,134 @@
 
 Audit of every subclass shipped in the app (117) against the published 5e rules: which features, levels, numbers and spell lists are right, which are wrong, and which are missing.
 
-> **How this was checked.** The first draft of this audit came from my own memory of the books. Every finding was then checked against the dnd5e community wiki (dnd5e.wikidot.com, which reproduces the 2014 rules and the later 5e books), subclass by subclass. A finding marked **Verified (wiki)** was confirmed against that page. Most entries in this file were confirmed this way. A few are marked Low because the wiki summary was ambiguous. Entries named 'All levels (SRD)' only restate that the SRD names and levels are right. The wiki is a community transcription, not the book, so a disputed row is still worth one look at the printed text. Of the twelve SRD subclasses (names only in the data), Life, Land, Thief, Devotion and Fiend were read on the wiki; Berserker, Lore, Open Hand, Champion, Hunter, Draconic Bloodline and Evocation were checked for name and level only. Nothing was run in the app; this audits the data files plus a name search of the engine code.
+> **Second review.** An independent second pass (see 'Second review' below) re-verified every finding, removed 3, corrected 22, added 25 and fixed errors in the cross-cutting notes and Appendix C. All counts in this file are after that review.
+>
+> **How this was checked.** The first draft of this audit came from my own memory of the books. Every finding was then checked against the dnd5e community wiki (dnd5e.wikidot.com, which reproduces the 2014 rules and the later 5e books), subclass by subclass. A finding marked **Verified (wiki)** was confirmed against that page. Most entries in this file were confirmed this way. A few were marked Low because the wiki summary was ambiguous; none remain after the second review. Entries named 'All levels (SRD)' only restate that the SRD names and levels are right. The wiki is a community transcription, not the book, so a disputed row is still worth one look at the printed text. Of the twelve SRD subclasses (names only in the data), Life, Land, Thief, Devotion and Fiend were read on the wiki; Berserker, Lore, Open Hand, Champion, Hunter, Draconic Bloodline and Evocation were checked for name and level only. Nothing was run in the app; this audits the data files plus a name search of the engine code.
 
 **Corrections made in the verification pass.** Four items in the first draft were wrong and were removed or changed: (1) Zealot's Zealous Presence has no spell-slot recharge, so that finding was dropped; (2) Circle of the Moon's 13 + Wisdom AC in beast form is a 2024 rule, not the 2014 text, so that finding was dropped; (3) Way of Mercy's Flurry of Healing and Harm has no Wisdom-modifier use limit, so that finding was dropped and Mercy now has no findings; (4) the Land druid chooses a terrain at 3rd level with Circle Spells, not at 2nd. Several other rows were corrected or expanded with the exact numbers: Hexblade's Accursed Specter (it adds Charisma to attack rolls, not damage), Undead's Necrotic Husk (2d10 + warlock level, not 2 + level), Armorer's Perfected Armor, and the Giant barbarian's feature table.
 
+## Second review
+
+A second reviewer with no access to the first check re-derived the rules for all 117 subclasses and compared them with the two data files and with every row of this report. The first check's "Verified (wiki)" label turned out to be unreliable in places (see the removed and corrected rows), so each row was re-read against the source text rather than the earlier summary.
+
+**Sources and method.**
+
+- The dnd5e wiki page for every subclass was downloaded (116 pages found by slug plus the Path of Wild Magic page), and its text was compared automatically with the 5e.tools class data (`5etools-src`, `data/class/class-*.json`) for dice, distances, durations, level ordinals, damage types, rest types and action types. The two sources agree on these tokens in every subclass except Grave Domain (Keeper of Souls); the other differences the comparison printed came from stat blocks and spell tables that the wiki pages include and 5e.tools stores elsewhere. Two feature-name differences are listed under "Where the sources disagree". Both are transcriptions of the books and are not fully independent of each other in origin, but they are separate transcriptions, so a row that both support is marked `Verified (2 sources)`.
+- Feature names and levels were compared programmatically with 5e.tools' top-level feature lists for every subclass (this is how the Giant levels, the Storm Guide level, the Lunar Sorcery levels, Universal Speech and Lunar Empowerment were cross-checked). Subclass spell lists in `subclasses.json` and `class-features.json` were compared programmatically with 5e.tools' `additionalSpells`; the only differences are the ones in this report (Wildfire, Monster Slayer, Fathomless, Genie, Undead, Lunar Sorcery, and the Fiend and Land lists that are absent from the data).
+- Stat blocks (Dancing Item, Steel Defender, Drake Companion) were read from the 5e.tools bestiary data.
+- D&D Beyond and Roll20 were tried as further sources. They only show SRD text, so for non-SRD content the sources are the wiki, 5e.tools, a D&D Beyond forum quotation of the Grave Domain text, and search results quoting the books. This is a limit of the review, not a third confirmation.
+- The baseline is the 2014 rules. No 2024 rule is reported as an error; the 2024 names and text are mentioned only to explain a source disagreement.
+
+**Result in numbers.**
+
+| | Findings |
+|---|---|
+| In the report before the second review | 137 (61 wrong, 11 missing, 65 imprecise) |
+| Confirmed, row kept as written (only the confidence label changed to `Verified (2 sources)`) | 112 |
+| Corrected (numbers, wording, severity or source changed; 7 of them changed severity) | 22 |
+| Removed (wrong) | 3 |
+| Added (missed by the first check) | 25 |
+| In the report after the second review | 159 (69 wrong, 8 missing, 82 imprecise) |
+| Subclasses with no finding | 35 of 117 (was 45) |
+
+Severity changes were made to follow the legend: a feature that exists but whose number or use limit is left out is Imprecise, not Missing (Battle Smith row 1, Arcana Domain row 1, Arcane Archer row 1), and a rule the app states the wrong way round is Wrong (Cavalier Unwavering Mark, Oathbreaker Control Undead). The others are explained in the corrected rows below.
+
+**Removed findings.**
+
+| Class | Subclass | Where | What changed and why |
+|---|---|---|---|
+| Barbarian | Path of the Zealot | L3 Warrior of the Gods | Not a discrepancy: the app matches the 2014 Xanathar text. The 2024 difference is already covered in Cross-cutting finding 4. |
+| Paladin | Oath of the Crown | L15 name | The report said the 15th-level feature is named Unyielding Saint. 5e.tools (Sword Coast Adventurer's Guide data) and several other copies of the text print Unyielding Spirit, which is the app's name; only the dnd5e wiki heading says Unyielding Saint (the wiki body text is identical). The sources disagree and the majority, including the app, use Unyielding Spirit, so the name finding is dropped. |
+| Sorcerer | Divine Soul | L14 name | The report said the 14th-level feature is named Angelic Form. 5e.tools prints it as Otherworldly Wings in Xanathar's Guide (the app name); Angelic Form is the 2024 Player's Handbook name. The dnd5e wiki prints Angelic Form, so the sources disagree, but the Xanathar's errata list does not rename the feature, so the app name is kept as correct for the 2014 baseline. |
+
+**Corrected findings.** Rows kept but changed. Each row in the subclass sections shows the corrected wording.
+
+| Class | Subclass | Where | What changed and why |
+|---|---|---|---|
+| Artificer | Alchemist | L9 Restorative Reagents | Row duplicated the temporary hit points claim of row 2; it now covers only the use limit. |
+| Artificer | Alchemist | L5 Alchemical Savant | Last sentence of the rules text was garbled. |
+| Artificer | Battle Smith | L9 Arcane Jolt (use limit) | A missing use limit is a missing number, not a missing feature: reclassified from Missing to Imprecise per the legend. |
+| Artificer | Battle Smith | L3 Steel Defender | Added that the app calls the defender attack a bite; the stat block names it Force-Empowered Rend (a melee spell attack, not a bite). |
+| Barbarian | Path of the Totem Warrior | L3 / L6 / L14 totem options | Elk Totem Spirit applies when not wearing heavy armor, not "unarmored". |
+| Barbarian | Path of the Ancestral Guardian | L3 Ancestral Protectors | Reworded: resistance applies to the creature the target hits, so it is not equivalent to halving. |
+| Barbarian | Path of the Storm Herald | L3 Storm Aura | Reworded the activation sentence: the effect triggers when you enter your rage and can be activated again each turn as a bonus action. |
+| Barbarian | Path of the Beast | L14 Call the Hunt | The report said the temporary hit points go to the creatures who accept. They go to the barbarian ("You gain 5 temporary hit points for each creature that accepts"), which is what the app says. Only the number of creatures was wrong. |
+| Barbarian | Path of the Giant | Feature levels | Giant Power is at the right level (3rd); the report said every feature was early. The other four are one tier early and Elemental Fury is invented. |
+| Bard | College of Eloquence | L6 Universal Speech | Universal Speech is reusable by spending a spell slot, not a Bardic Inspiration die. |
+| Cleric | Grave Domain | L17 Keeper of Souls | The report said the range is 30 ft, not 60. The sources disagree. The dnd5e wiki prints 30 ft and "one ally"; 5e.tools and a D&D Beyond forum quotation of the book print 60 ft and "one creature of your choice". The app's 60 ft therefore matches one printing, so this is no longer a Wrong finding. What remains is the target and limits the app leaves out. |
+| Cleric | Arcana Domain | L2 Channel Divinity: Arcane Abjuration (Arcane Banishment rider) | Arcane Banishment is not a separate 5th-level feature. In the book (SCAG) and on the wiki it is a paragraph inside Channel Divinity: Arcane Abjuration, so the app folding it in is structurally right. Only the thresholds are missing, so this is Imprecise, not Missing. |
+| Druid | Circle of the Shepherd | L14 Faithful Summons | Added the trigger the report omitted: the summons happens when you are reduced to 0 hit points or incapacitated against your will, and the beasts are chosen, not fixed. |
+| Fighter | Arcane Archer | L18 Arcane Shot (damage increase) | A missing damage increase is a missing number, not a missing feature: reclassified from Missing to Imprecise per the legend. |
+| Fighter | Arcane Archer | L3 Arcane Shot (timing) | The report said the option is chosen before you know whether the arrow hits. The book says you decide when the arrow hits a creature (unless the option needs no attack roll), so the app wording "on an arrow hit" is right. Rewrote the row around what the app does omit. |
+| Fighter | Cavalier | L10 Hold the Line | Removed "even if they Disengage": the book text does not say that; it only says creatures provoke an opportunity attack when they move 5 ft or more within your reach. |
+| Fighter | Cavalier | L3 Unwavering Mark | Added what the report missed: the app invents "gives it disadvantage on its next attack" and leaves out that the special attack has advantage. Reclassified Imprecise to Wrong. |
+| Fighter | Echo Knight | L3 Manifest Echo | Added that moving the echo needs no action and that swapping places is a bonus action costing 15 ft of movement; both differ from the app text. |
+| Monk | Way of the Ascendant Dragon | L3 Breath of the Dragon (scaling) | The report could not confirm the dice. Both 5e.tools and the wiki give two rolls of the martial arts die at 3rd level, so the app is right; what it omits is the increase to three rolls at 11th level. Raised from Low to a confirmed Imprecise finding. |
+| Paladin | Oathbreaker | L3 Control Undead | Added the save the report missed: Control Undead uses a Wisdom save, but the app says Charisma. Reclassified from Imprecise to Wrong. |
+| Warlock | The Fathomless | L6 Oceanic Soul | The report said Oceanic Soul gives telepathy with any creature in the water within 120 ft. That is not in the text: when you are fully submerged, any other fully submerged creature can understand your speech and you theirs. The resistance-not-immunity finding stands. |
+| Wizard | Order of Scribes | L6 Manifest Mind | The report said the app's "free once per long rest, otherwise a slot" is wrong. That part is right: once you conjure the mind you cannot do so again until a long rest unless you spend a spell slot of any level. What the app gets wrong is the reach (the mind appears within 60 ft, moves 30 ft per bonus action and ends beyond 300 ft) and it omits the proficiency-bonus limit on casting through the mind. Reclassified from Wrong to Imprecise. |
+
+**Added findings** (all new in this review, each confirmed on both sources).
+
+| Class | Subclass | Where | Severity | Why it was missed or what is wrong |
+|---|---|---|---|---|
+| Barbarian | Path of the Storm Herald | L14 Raging Storm: Desert | 🟡 Imprecise | Desert Raging Storm rider is wrongly described. |
+| Bard | College of Creation | L14 Creative Crescendo | 🔴 Wrong | Creative Crescendo removes the gp limit for every item, and the number of items is given by Charisma. |
+| Bard | College of Creation | L6 Animating Performance | 🔴 Wrong | the Dancing Item attack is force damage using the spell attack modifier. |
+| Cleric | Peace Domain | L1 Emboldening Bond | 🟡 Imprecise | Emboldening Bond has a use limit and ranges the app text omits. |
+| Druid | Circle of Dreams | L14 Walker in Dreams | 🔴 Wrong | Walker in Dreams teleportation circle goes to the last long-rest location and the feature recharges only on a long rest. |
+| Druid | Circle of Dreams | L6 Hearth of Moonlight and Shadow | 🟡 Imprecise | Hearth of Moonlight and Shadow has no silence and no concealment. |
+| Druid | Circle of Dreams | L10 Hidden Paths | 🟡 Imprecise | Hidden Paths second option costs an action, not a bonus action. |
+| Druid | Circle of Wildfire | L10 Cauterizing Flames | 🟡 Imprecise | Cauterizing Flames omits its use limit and trigger conditions. |
+| Fighter | Cavalier | L15 Ferocious Charger | 🟡 Imprecise | Ferocious Charger has no size limit. |
+| Fighter | Psi Warrior | L3 Psionic Power | 🟡 Imprecise | Psionic Power die recovery is a bonus action, not an automatic short-rest die. |
+| Monk | Way of the Long Death | L3 Touch of Death | 🟡 Imprecise | Touch of Death only triggers when you reduce a creature to 0. |
+| Paladin | Oath of Vengeance | L20 Avenging Angel | 🟡 Imprecise | Avenging Angel advantage is for all attackers, and the fear aura has a trigger. |
+| Paladin | Oath of the Watchers | L15 Vigilant Rebuke | 🟡 Imprecise | Vigilant Rebuke also covers allies within 30 feet. |
+| Ranger | Beast Master | L3 Ranger's Companion | 🟡 Imprecise | the companion's hit points are not 'your hit points formula'. |
+| Ranger | Gloom Stalker | L15 Shadowy Dodge | 🔴 Wrong | Shadowy Dodge is used before the roll and only when the attacker has no advantage. |
+| Ranger | Fey Wanderer | L11 Fey Reinforcements | 🔴 Wrong | Fey Reinforcements has no invisibility; it removes the material component and can drop concentration. |
+| Ranger | Drakewarden | L3 Drake Companion | 🔴 Wrong | the 3rd-level drake does not have a breath weapon. |
+| Rogue | Arcane Trickster | L17 Spell Thief | 🔴 Wrong | Spell Thief lets you cast the stolen spell for 8 hours, not once. |
+| Rogue | Inquisitive | L3 Ear for Deceit | 🟡 Imprecise | Ear for Deceit applies only to checks to tell whether a creature is lying. |
+| Rogue | Soulknife | L3 Psionic Power (Soulknife) | 🟡 Imprecise | Psionic Energy die recovery is a bonus action once per short or long rest. |
+| Sorcerer | Aberrant Mind | L14 Revelation in Flesh | 🔴 Wrong | Revelation in Flesh lasts 10 minutes. |
+| Warlock | The Celestial | L6 Radiant Soul | 🟡 Imprecise | Radiant Soul bonus applies once per spell, not once per turn. |
+| Wizard | School of Transmutation | L10 Shapechanger | 🟡 Imprecise | Shapechanger adds polymorph to the spellbook; it is not always prepared. |
+| Wizard | War Magic | L6 Power Surge | 🟡 Imprecise | Power Surge omits how surges are gained and that the damage is force. |
+| Wizard | Order of Scribes | L14 One with the Word | 🟡 Imprecise | One with the Word is not a once-per-long-rest death save in the rules. |
+
+**Claims about the repository, checked.**
+
+| Claim | Result |
+|---|---|
+| Warlock patron spells are granted free through `subclassSpellsFor` in `src/lib/srd/features.ts` (Cross-cutting 2) | True. The function returns every spell in the subclass `spells` table up to the character's level, its comment says they are free and never count against the known/prepared ceiling, and `submit.ts` and `useBuilderDerived.ts` use it for warlocks unchanged. Warlock expanded lists are pool additions in the rules, so this is more generous than the rules. |
+| The Fiend has no spell list in the data | True. In `class-features.json` only Life Domain and Oath of Devotion carry a `spells` table; The Fiend and Circle of the Land (the other SRD subclasses whose rules give spell lists) have none, and neither does Lunar Sorcery in `subclasses.json`. |
+| Fiend engine claims (Dark One's Blessing implemented; Fiendish Resilience read from the feature name with no weapon exception) | True. `feature-hooks.ts` implements Dark One's Blessing (Charisma modifier + warlock level, minimum 1). `chosenResistances` in `trait-rules.ts` reads the type from a feature named `Fiendish Resilience (type)` and `pc-defenses.ts` applies it with only a magical/spell test, no silvered/magical weapon exception. |
+| Hexblade's Curse has guidance text only | True. It is a `guidance` string in `authored-resources.json` (`sub_hexblades_curse`); no code applies the bonus damage or the 19-20 crit range. |
+| Appendix B (151 of 590 features without an engine reference) | Reproduced exactly (151 of 590, same names). |
+| Appendix A (warlock table) | Matches the Player's Handbook table in every row. |
+| Cross-cutting 3 (Mercy's Flurry of Healing and Harm lacks a use limit) | False: the rules give it no limit. Fixed. |
+| Cross-cutting 6 (subclass choice levels) | True for all 13 classes. |
+| Appendix C (subclasses not in the app) | Three wrong sources and one omission. Fixed. |
+
+**Where the sources disagree.**
+
+- Grave Domain, Keeper of Souls: the dnd5e wiki prints 30 feet and "one ally of your choice"; 5e.tools and a D&D Beyond forum quotation of the book print 60 feet and "one creature of your choice". The app (60 feet) matches the second reading. The Xanathar's errata list does not mention this feature. Not resolved; the row is Medium confidence.
+- Divine Soul, 14th-level feature: the wiki heading is Angelic Form; 5e.tools prints Otherworldly Wings (the app's name), and Angelic Form is the 2024 name. The finding was removed.
+- Oath of the Crown, 15th-level feature: the wiki heading is Unyielding Saint; 5e.tools and other copies print Unyielding Spirit (the app's name). The finding was removed.
+
+**Not verified.**
+
+- No printed book was consulted. Every confirmation is a transcription, not the page itself.
+- Fine detail inside the one-line app texts that the report never covered (individual Arcane Shot options, Maneuvers, Elemental Disciplines, Runes, Metamagic, invocations, Wild Magic tables) was not audited beyond what the report already listed.
+- Edition differences between reprints were not mapped exhaustively. Known cases: Bladesinging (the app follows the Tasha's version; the Sword Coast original differs), Ancestral Guardian (Xanathar's has an errata entry), and the Cleric Blessed Strikes optional feature in Tasha's, which is absent from the app and was not treated as a finding.
+- Nothing was run in the app. The engine claims above come from reading the code.
+- The report's statement that a feature "is not applied by the server" is a name-search heuristic, not a test.
+
 ## Contents
 
+- Second review
 - Scope and method
 - Legend
 - Summary
@@ -34,6 +156,7 @@ Audit of every subclass shipped in the app (117) against the published 5e rules:
 - **Data audited.** `src/lib/srd/subclasses.json` (105 subclasses) and the SRD subclass in `src/lib/srd/class-features.json` for each class (12; Artificer has none there). The SRD subclasses in `class-features.json` carry feature names and levels only, with no description text.
 - **Checked for each subclass:** the level each feature arrives at, whether any feature is missing, the numbers and conditions in each feature's text, and the subclass spell list (always-prepared, expanded or fixed).
 - **Not checked:** the item, spell and monster stat blocks the features refer to, the subclass's class-level interactions in the builder (for example how many invocations or maneuvers get picked), and 2024 Player's Handbook revisions. Where the app text follows an older printing I note it.
+- **Second review.** A second, independent pass re-checked every row below against the dnd5e wiki and the 5e.tools class data. See 'Second review' for what changed. Every table in this file already reflects those changes.
 - **Engine hints.** Appendix B lists features whose exact name appears nowhere in the engine code (`src/lib/dm`, resource, effect and trait tables). A missing name means the feature is probably only shown on the sheet and not applied by the server. It is a heuristic only: a passive feature can legitimately need no code, and a feature can be applied under another name.
 
 ## Legend
@@ -43,30 +166,32 @@ Audit of every subclass shipped in the app (117) against the published 5e rules:
 | 🔴 Wrong | The app text or data contradicts the rules. |
 | 🟠 Missing | A feature, option or spell that the rules give is absent. |
 | 🟡 Imprecise | Roughly right, but a number, limit, prerequisite or choice is left out or loosely worded. |
-| Verified (wiki) | Confirmed against the dnd5e wiki page for the subclass. |
-| High / Medium / Low | Not confirmed on the wiki; my confidence from memory of the book. |
+| Verified (wiki) | Confirmed against the dnd5e wiki page for the subclass (first check only; no row in this file still carries this value after the second review). |
+| Verified (2 sources) | Confirmed in the second review against both the dnd5e wiki and the 5e.tools data (`5etools-src`, `data/class/*.json`), which transcribe the books independently. |
+| Medium (sources disagree) | The two sources print different text; the row says which one the app matches. |
+| High / Medium / Low | Not confirmed on a source page; confidence from memory of the book. Used by the first check only. |
 
 ## Summary
 
-**117 subclasses audited. 137 findings: 61 wrong, 11 missing, 65 imprecise.**
+**117 subclasses audited. 159 findings: 69 wrong, 8 missing, 82 imprecise.**
 
-45 subclasses had no discrepancy that I could find; the other 72 have at least one finding.
+35 subclasses had no discrepancy that I could find; the other 82 have at least one finding.
 
 | Class | Subclasses | 🔴 Wrong | 🟠 Missing | 🟡 Imprecise | Subclasses with no finding |
 |---|---|---|---|---|---|
-| Artificer | 4 | 2 | 1 | 7 | 0 |
-| Barbarian | 8 | 9 | 2 | 7 | 0 |
-| Bard | 8 | 4 | 1 | 2 | 3 |
-| Cleric | 14 | 4 | 1 | 3 | 8 |
-| Druid | 7 | 4 | 1 | 3 | 3 |
-| Fighter | 10 | 4 | 1 | 5 | 3 |
-| Monk | 10 | 6 | 1 | 4 | 6 |
-| Paladin | 9 | 1 | 0 | 4 | 5 |
-| Ranger | 8 | 3 | 1 | 4 | 3 |
-| Rogue | 9 | 1 | 0 | 3 | 6 |
-| Sorcerer | 8 | 3 | 0 | 2 | 3 |
-| Warlock | 9 | 12 | 2 | 16 | 0 |
-| Wizard | 13 | 8 | 0 | 5 | 5 |
+| Artificer | 4 | 2 | 0 | 8 | 0 |
+| Barbarian | 8 | 9 | 2 | 7 | 1 |
+| Bard | 8 | 6 | 1 | 2 | 3 |
+| Cleric | 14 | 3 | 0 | 6 | 7 |
+| Druid | 7 | 5 | 1 | 6 | 2 |
+| Fighter | 10 | 5 | 0 | 7 | 2 |
+| Monk | 10 | 6 | 1 | 5 | 5 |
+| Paladin | 9 | 2 | 0 | 4 | 4 |
+| Ranger | 8 | 6 | 1 | 5 | 1 |
+| Rogue | 9 | 2 | 0 | 5 | 4 |
+| Sorcerer | 8 | 4 | 0 | 1 | 3 |
+| Warlock | 9 | 12 | 2 | 17 | 0 |
+| Wizard | 13 | 7 | 0 | 9 | 3 |
 
 ### Verdict by subclass
 
@@ -75,12 +200,12 @@ Audit of every subclass shipped in the app (117) against the published 5e rules:
 | Artificer | [Alchemist](#artificer-alchemist) | Tasha's Cauldron of Everything | 🔴 1 🟡 3 |
 | Artificer | [Armorer](#artificer-armorer) | Tasha's Cauldron of Everything | 🔴 1 🟡 2 |
 | Artificer | [Artillerist](#artificer-artillerist) | Tasha's Cauldron of Everything | 🟡 1 |
-| Artificer | [Battle Smith](#artificer-battle-smith) | Tasha's Cauldron of Everything | 🟠 1 🟡 1 |
+| Artificer | [Battle Smith](#artificer-battle-smith) | Tasha's Cauldron of Everything | 🟡 2 |
 | Barbarian | [Path of the Berserker](#barbarian-path-of-the-berserker) | SRD 5.1 / PHB | 🟡 1 |
 | Barbarian | [Path of the Totem Warrior](#barbarian-path-of-the-totem-warrior) | PHB (Elk and Tiger options: Xanathar's) | 🔴 1 🟠 1 |
 | Barbarian | [Path of the Ancestral Guardian](#barbarian-path-of-the-ancestral-guardian) | Xanathar's Guide to Everything | 🟡 1 |
-| Barbarian | [Path of the Storm Herald](#barbarian-path-of-the-storm-herald) | PHB | 🔴 1 🟡 1 |
-| Barbarian | [Path of the Zealot](#barbarian-path-of-the-zealot) | Xanathar's Guide to Everything | 🟡 1 |
+| Barbarian | [Path of the Storm Herald](#barbarian-path-of-the-storm-herald) | PHB | 🔴 1 🟡 2 |
+| Barbarian | [Path of the Zealot](#barbarian-path-of-the-zealot) | Xanathar's Guide to Everything | No discrepancy found |
 | Barbarian | [Path of the Beast](#barbarian-path-of-the-beast) | Tasha's Cauldron of Everything | 🔴 1 🟡 1 |
 | Barbarian | [Path of Wild Magic](#barbarian-path-of-wild-magic) | Tasha's Cauldron of Everything | 🟡 2 |
 | Barbarian | [Path of the Giant](#barbarian-path-of-the-giant) | Bigby Presents: Glory of the Giants | 🔴 6 🟠 1 |
@@ -90,7 +215,7 @@ Audit of every subclass shipped in the app (117) against the published 5e rules:
 | Bard | [College of Swords](#bard-college-of-swords) | Xanathar's Guide to Everything | No discrepancy found |
 | Bard | [College of Whispers](#bard-college-of-whispers) | Xanathar's Guide to Everything | No discrepancy found |
 | Bard | [College of Eloquence](#bard-college-of-eloquence) | Mythic Odysseys of Theros / Tasha's | 🟠 1 |
-| Bard | [College of Creation](#bard-college-of-creation) | Tasha's Cauldron of Everything | 🔴 1 |
+| Bard | [College of Creation](#bard-college-of-creation) | Tasha's Cauldron of Everything | 🔴 3 |
 | Bard | [College of Spirits](#bard-college-of-spirits) | Van Richten's Guide to Ravenloft | 🔴 2 |
 | Cleric | [Life Domain](#cleric-life-domain) | SRD 5.1 / PHB | 🟡 1 |
 | Cleric | [Knowledge Domain](#cleric-knowledge-domain) | PHB | No discrepancy found |
@@ -101,26 +226,26 @@ Audit of every subclass shipped in the app (117) against the published 5e rules:
 | Cleric | [War Domain](#cleric-war-domain) | PHB | No discrepancy found |
 | Cleric | [Death Domain](#cleric-death-domain) | Dungeon Master's Guide | 🔴 1 |
 | Cleric | [Forge Domain](#cleric-forge-domain) | Xanathar's Guide to Everything | No discrepancy found |
-| Cleric | [Grave Domain](#cleric-grave-domain) | Xanathar's Guide to Everything | 🔴 2 |
+| Cleric | [Grave Domain](#cleric-grave-domain) | Xanathar's Guide to Everything | 🔴 1 🟡 1 |
 | Cleric | [Order Domain](#cleric-order-domain) | Tasha's Cauldron of Everything | 🔴 1 |
-| Cleric | [Peace Domain](#cleric-peace-domain) | Tasha's Cauldron of Everything | No discrepancy found |
+| Cleric | [Peace Domain](#cleric-peace-domain) | Tasha's Cauldron of Everything | 🟡 1 |
 | Cleric | [Twilight Domain](#cleric-twilight-domain) | Tasha's Cauldron of Everything | No discrepancy found |
-| Cleric | [Arcana Domain](#cleric-arcana-domain) | Sword Coast Adventurer's Guide | 🟠 1 🟡 1 |
+| Cleric | [Arcana Domain](#cleric-arcana-domain) | Sword Coast Adventurer's Guide | 🟡 2 |
 | Druid | [Circle of the Land](#druid-circle-of-the-land) | SRD 5.1 / PHB | 🟠 1 🟡 1 |
 | Druid | [Circle of the Moon](#druid-circle-of-the-moon) | PHB | No discrepancy found |
-| Druid | [Circle of Dreams](#druid-circle-of-dreams) | Xanathar's Guide to Everything | No discrepancy found |
+| Druid | [Circle of Dreams](#druid-circle-of-dreams) | Xanathar's Guide to Everything | 🔴 1 🟡 2 |
 | Druid | [Circle of the Shepherd](#druid-circle-of-the-shepherd) | Xanathar's Guide to Everything | 🔴 2 |
 | Druid | [Circle of Spores](#druid-circle-of-spores) | Guildmasters' Guide to Ravnica | 🟡 2 |
 | Druid | [Circle of Stars](#druid-circle-of-stars) | Tasha's Cauldron of Everything | No discrepancy found |
-| Druid | [Circle of Wildfire](#druid-circle-of-wildfire) | Tasha's Cauldron of Everything | 🔴 2 |
+| Druid | [Circle of Wildfire](#druid-circle-of-wildfire) | Tasha's Cauldron of Everything | 🔴 2 🟡 1 |
 | Fighter | [Champion](#fighter-champion) | SRD 5.1 / PHB | 🟡 1 |
 | Fighter | [Battle Master](#fighter-battle-master) | PHB | 🟡 1 |
 | Fighter | [Eldritch Knight](#fighter-eldritch-knight) | PHB | No discrepancy found |
-| Fighter | [Arcane Archer](#fighter-arcane-archer) | Xanathar's Guide to Everything | 🟠 1 🟡 1 |
-| Fighter | [Cavalier](#fighter-cavalier) | Xanathar's Guide to Everything | 🟡 2 |
+| Fighter | [Arcane Archer](#fighter-arcane-archer) | Xanathar's Guide to Everything | 🟡 2 |
+| Fighter | [Cavalier](#fighter-cavalier) | Xanathar's Guide to Everything | 🔴 1 🟡 2 |
 | Fighter | [Samurai](#fighter-samurai) | Xanathar's Guide to Everything | 🔴 1 |
 | Fighter | [Echo Knight](#fighter-echo-knight) | Explorer's Guide to Wildemount | 🔴 1 |
-| Fighter | [Psi Warrior](#fighter-psi-warrior) | Tasha's Cauldron of Everything | No discrepancy found |
+| Fighter | [Psi Warrior](#fighter-psi-warrior) | Tasha's Cauldron of Everything | 🟡 1 |
 | Fighter | [Rune Knight](#fighter-rune-knight) | Tasha's Cauldron of Everything | No discrepancy found |
 | Fighter | [Banneret](#fighter-banneret) | Sword Coast Adventurer's Guide (Purple Dragon Knight) | 🔴 2 |
 | Monk | [Way of the Open Hand](#monk-way-of-the-open-hand) | SRD 5.1 / PHB | 🟡 1 |
@@ -129,48 +254,48 @@ Audit of every subclass shipped in the app (117) against the published 5e rules:
 | Monk | [Way of the Drunken Master](#monk-way-of-the-drunken-master) | Xanathar's Guide to Everything | No discrepancy found |
 | Monk | [Way of the Kensei](#monk-way-of-the-kensei) | Xanathar's Guide to Everything | 🔴 1 🟠 1 🟡 1 |
 | Monk | [Way of the Sun Soul](#monk-way-of-the-sun-soul) | Xanathar's Guide to Everything | No discrepancy found |
-| Monk | [Way of the Long Death](#monk-way-of-the-long-death) | Sword Coast Adventurer's Guide | No discrepancy found |
+| Monk | [Way of the Long Death](#monk-way-of-the-long-death) | Sword Coast Adventurer's Guide | 🟡 1 |
 | Monk | [Way of Mercy](#monk-way-of-mercy) | Tasha's Cauldron of Everything | No discrepancy found |
 | Monk | [Way of the Astral Self](#monk-way-of-the-astral-self) | Tasha's Cauldron of Everything | 🔴 2 🟡 1 |
 | Monk | [Way of the Ascendant Dragon](#monk-way-of-the-ascendant-dragon) | Fizban's Treasury of Dragons | 🔴 3 🟡 1 |
 | Paladin | [Oath of Devotion](#paladin-oath-of-devotion) | SRD 5.1 / PHB | 🟡 1 |
 | Paladin | [Oath of the Ancients](#paladin-oath-of-the-ancients) | PHB | No discrepancy found |
-| Paladin | [Oath of Vengeance](#paladin-oath-of-vengeance) | PHB | No discrepancy found |
+| Paladin | [Oath of Vengeance](#paladin-oath-of-vengeance) | PHB | 🟡 1 |
 | Paladin | [Oath of Conquest](#paladin-oath-of-conquest) | Xanathar's Guide to Everything | No discrepancy found |
 | Paladin | [Oath of Redemption](#paladin-oath-of-redemption) | Xanathar's Guide to Everything | No discrepancy found |
 | Paladin | [Oath of Glory](#paladin-oath-of-glory) | Mythic Odysseys of Theros / Tasha's | 🟡 1 |
-| Paladin | [Oath of the Watchers](#paladin-oath-of-the-watchers) | Tasha's Cauldron of Everything | No discrepancy found |
-| Paladin | [Oath of the Crown](#paladin-oath-of-the-crown) | Sword Coast Adventurer's Guide | 🟡 1 |
-| Paladin | [Oathbreaker](#paladin-oathbreaker) | Dungeon Master's Guide | 🔴 1 🟡 1 |
+| Paladin | [Oath of the Watchers](#paladin-oath-of-the-watchers) | Tasha's Cauldron of Everything | 🟡 1 |
+| Paladin | [Oath of the Crown](#paladin-oath-of-the-crown) | Sword Coast Adventurer's Guide | No discrepancy found |
+| Paladin | [Oathbreaker](#paladin-oathbreaker) | Dungeon Master's Guide | 🔴 2 |
 | Ranger | [Hunter](#ranger-hunter) | SRD 5.1 / PHB | 🟡 1 |
-| Ranger | [Beast Master](#ranger-beast-master) | PHB | 🟠 1 🟡 1 |
-| Ranger | [Gloom Stalker](#ranger-gloom-stalker) | Xanathar's Guide to Everything | No discrepancy found |
+| Ranger | [Beast Master](#ranger-beast-master) | PHB | 🟠 1 🟡 2 |
+| Ranger | [Gloom Stalker](#ranger-gloom-stalker) | Xanathar's Guide to Everything | 🔴 1 |
 | Ranger | [Horizon Walker](#ranger-horizon-walker) | Xanathar's Guide to Everything | No discrepancy found |
 | Ranger | [Monster Slayer](#ranger-monster-slayer) | Xanathar's Guide to Everything | 🔴 1 |
-| Ranger | [Fey Wanderer](#ranger-fey-wanderer) | Tasha's Cauldron of Everything | No discrepancy found |
+| Ranger | [Fey Wanderer](#ranger-fey-wanderer) | Tasha's Cauldron of Everything | 🔴 1 |
 | Ranger | [Swarmkeeper](#ranger-swarmkeeper) | Tasha's Cauldron of Everything | 🟡 1 |
-| Ranger | [Drakewarden](#ranger-drakewarden) | Fizban's Treasury of Dragons | 🔴 2 🟡 1 |
+| Ranger | [Drakewarden](#ranger-drakewarden) | Fizban's Treasury of Dragons | 🔴 3 🟡 1 |
 | Rogue | [Thief](#rogue-thief) | SRD 5.1 / PHB | 🟡 1 |
 | Rogue | [Assassin](#rogue-assassin) | PHB | No discrepancy found |
-| Rogue | [Arcane Trickster](#rogue-arcane-trickster) | PHB | No discrepancy found |
+| Rogue | [Arcane Trickster](#rogue-arcane-trickster) | PHB | 🔴 1 |
 | Rogue | [Mastermind](#rogue-mastermind) | Xanathar's Guide to Everything | No discrepancy found |
 | Rogue | [Swashbuckler](#rogue-swashbuckler) | Xanathar's Guide to Everything | No discrepancy found |
-| Rogue | [Inquisitive](#rogue-inquisitive) | Xanathar's Guide to Everything | No discrepancy found |
+| Rogue | [Inquisitive](#rogue-inquisitive) | Xanathar's Guide to Everything | 🟡 1 |
 | Rogue | [Scout](#rogue-scout) | Xanathar's Guide to Everything | No discrepancy found |
 | Rogue | [Phantom](#rogue-phantom) | Tasha's Cauldron of Everything | 🔴 1 🟡 1 |
-| Rogue | [Soulknife](#rogue-soulknife) | Tasha's Cauldron of Everything | 🟡 1 |
+| Rogue | [Soulknife](#rogue-soulknife) | Tasha's Cauldron of Everything | 🟡 2 |
 | Sorcerer | [Draconic Bloodline](#sorcerer-draconic-bloodline) | SRD 5.1 / PHB | 🟡 1 |
 | Sorcerer | [Wild Magic](#sorcerer-wild-magic) | PHB | No discrepancy found |
-| Sorcerer | [Divine Soul](#sorcerer-divine-soul) | Xanathar's Guide to Everything | 🟡 1 |
+| Sorcerer | [Divine Soul](#sorcerer-divine-soul) | Xanathar's Guide to Everything | No discrepancy found |
 | Sorcerer | [Shadow Magic](#sorcerer-shadow-magic) | Xanathar's Guide to Everything | 🔴 1 |
 | Sorcerer | [Storm Sorcery](#sorcerer-storm-sorcery) | Xanathar's Guide to Everything | 🔴 1 |
-| Sorcerer | [Aberrant Mind](#sorcerer-aberrant-mind) | Tasha's Cauldron of Everything | No discrepancy found |
+| Sorcerer | [Aberrant Mind](#sorcerer-aberrant-mind) | Tasha's Cauldron of Everything | 🔴 1 |
 | Sorcerer | [Clockwork Soul](#sorcerer-clockwork-soul) | Tasha's Cauldron of Everything | No discrepancy found |
 | Sorcerer | [Lunar Sorcery](#sorcerer-lunar-sorcery) | Dragonlance: Shadow of the Dragon Queen | 🔴 1 |
 | Warlock | [The Fiend](#warlock-the-fiend) | SRD 5.1 / PHB | 🟠 1 🟡 2 |
 | Warlock | [The Archfey](#warlock-the-archfey) | PHB | 🔴 1 🟡 1 |
 | Warlock | [The Great Old One](#warlock-the-great-old-one) | PHB | 🔴 1 |
-| Warlock | [The Celestial](#warlock-the-celestial) | Xanathar's Guide to Everything | 🟡 2 |
+| Warlock | [The Celestial](#warlock-the-celestial) | Xanathar's Guide to Everything | 🟡 3 |
 | Warlock | [The Hexblade](#warlock-the-hexblade) | Xanathar's Guide to Everything | 🟡 6 |
 | Warlock | [The Fathomless](#warlock-the-fathomless) | Tasha's Cauldron of Everything | 🔴 3 🟡 2 |
 | Warlock | [The Genie](#warlock-the-genie) | Tasha's Cauldron of Everything | 🔴 3 🟠 1 🟡 1 |
@@ -183,23 +308,23 @@ Audit of every subclass shipped in the app (117) against the published 5e rules:
 | Wizard | [School of Enchantment](#wizard-school-of-enchantment) | PHB | 🔴 2 |
 | Wizard | [School of Illusion](#wizard-school-of-illusion) | PHB | 🟡 1 |
 | Wizard | [School of Necromancy](#wizard-school-of-necromancy) | PHB | 🔴 1 |
-| Wizard | [School of Transmutation](#wizard-school-of-transmutation) | PHB | No discrepancy found |
-| Wizard | [War Magic](#wizard-war-magic) | Xanathar's Guide to Everything | No discrepancy found |
+| Wizard | [School of Transmutation](#wizard-school-of-transmutation) | PHB | 🟡 1 |
+| Wizard | [War Magic](#wizard-war-magic) | Xanathar's Guide to Everything | 🟡 1 |
 | Wizard | [Bladesinging](#wizard-bladesinging) | Sword Coast Adventurer's Guide / Tasha's | No discrepancy found |
 | Wizard | [Chronurgy Magic](#wizard-chronurgy-magic) | Explorer's Guide to Wildemount | 🔴 1 |
 | Wizard | [Graviturgy Magic](#wizard-graviturgy-magic) | Explorer's Guide to Wildemount | 🔴 2 |
-| Wizard | [Order of Scribes](#wizard-order-of-scribes) | Tasha's Cauldron of Everything | 🔴 2 🟡 1 |
+| Wizard | [Order of Scribes](#wizard-order-of-scribes) | Tasha's Cauldron of Everything | 🔴 1 🟡 3 |
 
 ### Most serious findings (wrong, verified)
 
 | Class | Subclass | Where | Problem |
 |---|---|---|---|
-| Artificer | Alchemist | L9 Restorative Reagents | The number of free casts is your Intelligence modifier (minimum 1), not your proficiency bonus. The casts also require alchemist's supplies as the spellcasting focus. Elixirs also grant temporary hit points of 2d6 + Intelligence m… |
+| Artificer | Alchemist | L9 Restorative Reagents | The number of free casts is your Intelligence modifier (minimum once), not your proficiency bonus, and the spell is cast without a slot or preparation only when alchemist's supplies are the spellcasting focus. Uses return on a lon… |
 | Artificer | Armorer | L15 Perfected Armor | Guardian: a reaction, usable a proficiency-bonus number of times per long rest, when a Huge or smaller creature you can see ends its turn within 30 ft: Strength save or it is pulled up to 25 ft to a space near you, and if it lands… |
 | Barbarian | Path of the Totem Warrior | L3 Totem Spirit: Eagle | While raging and not in heavy armor, other creatures have DISADVANTAGE on opportunity attack rolls against you, and you can Dash as a bonus action. The app text says 'no advantage', which is a different rule. |
 | Barbarian | Path of the Storm Herald | L14 Raging Storm: Tundra | On a failed Strength save the creature's speed is reduced to 0 until the start of your next turn, not halved. |
-| Barbarian | Path of the Beast | L14 Call the Hunt | The number of willing creatures within 30 ft is up to your Constitution modifier (minimum 1), not five. Each one who accepts gains 5 temporary hit points; the d6 damage bonus is once per turn until the rage ends. Also, the tempora… |
-| Barbarian | Path of the Giant | Feature levels | The path has exactly five features: Giant's Power 3, Giant's Havoc 3, Elemental Cleaver 6, Mighty Impel 10, Demiurgic Colossus 14. Every feature in the app is one tier early and there is an invented sixth. |
+| Barbarian | Path of the Beast | L14 Call the Hunt | The number of other willing creatures you can see within 30 ft is equal to your Constitution modifier (minimum one creature), not five. You gain 5 temporary hit points for each creature that accepts (the app has this right). Until… |
+| Barbarian | Path of the Giant | Feature levels | The path has exactly five features: Giant Power 3, Giant's Havoc 3, Elemental Cleaver 6, Mighty Impel 10, Demiurgic Colossus 14. In the app Elemental Cleaver, Mighty Impel and Demiurgic Colossus are each one tier early, Giant's Ha… |
 | Barbarian | Path of the Giant | L14 Elemental Fury | No such feature exists. The 14th-level feature is Demiurgic Colossus. |
 | Barbarian | Path of the Giant | L3 Giant's Power | Learn Giant (or another language if you already know it) and one cantrip of your choice from druidcraft or thaumaturgy, with Wisdom as its spellcasting ability. |
 | Barbarian | Path of the Giant | L3 Elemental Cleaver (placed at 3rd) | Belongs at 6th. When you rage, infuse a held weapon with acid, cold, fire, lightning or thunder: its damage type becomes that type AND it deals an extra 1d6 of it. It gains thrown (20/60) and returns; its benefits are suppressed i… |
@@ -207,18 +332,21 @@ Audit of every subclass shipped in the app (117) against the published 5e rules:
 | Barbarian | Path of the Giant | L10 Demiurgic Colossus (placed at 10th) | Belongs at 14th. Reach +10 ft, you can become Large or Huge, Mighty Impel can move Large creatures, Elemental Cleaver's extra damage becomes 2d6. |
 | Bard | College of Glamour | L3 Enthralling Performance | The number is equal to your Charisma modifier (minimum 1), not your proficiency bonus. |
 | Bard | College of Creation | L3 Mote of Potential | Ability check: the creature rolls the die again and takes the better result. Attack roll: the mote bursts, thunder damage equal to the die roll (Constitution save, creatures within 5 ft). Saving throw: temporary hit points equal t… |
+| Bard | College of Creation | L14 Creative Crescendo | The number of items equals your Charisma modifier (minimum two). Only one can be the maximum size; the rest must be Small or Tiny. You are no longer limited by gp value at all when creating items with Performance of Creation, not… |
+| Bard | College of Creation | L6 Animating Performance | The Dancing Item stat block has Force-Empowered Slam: melee attack using your spell attack modifier, reach 5 ft, 1d10 + proficiency bonus force damage. It is not thunder damage and does not use Strength. It lives 1 hour, has 10 +… |
 | Bard | College of Spirits | L6 Spirit Session | The ritual lasts an hour (during a short or long rest) with up to your proficiency bonus in willing creatures including you. The spell's level can be no higher than the NUMBER OF CREATURES who took part, must be a level you can ca… |
 | Bard | College of Spirits | L14 Mystical Connection | When you roll on the Spirit Tales table you roll the die twice and choose which effect to bestow; if both dice show the same number you may choose any entry. There is no reroll and no free roll once per short rest. |
 | Cleric | Death Domain | L17 Improved Reaper | No hit point cost exists. Improved Reaper simply lets a single-target necromancy spell of 1st through 5th level target two creatures within 5 feet of each other; you must provide the material components for each target if they are… |
 | Cleric | Grave Domain | L2 Channel Divinity: Path to the Grave | The creature is cursed until the end of your next turn. The next time you or an ally hits it with an attack, it is vulnerable to ALL of that attack's damage, then the curse ends. There is no advantage on the attack. |
-| Cleric | Grave Domain | L17 Keeper of Souls | Range is 30 ft, not 60. When an enemy you can see dies within 30 ft, you or one ally within 30 ft regains hit points equal to the enemy's number of Hit Dice, only once per round (until the start of your next turn). |
 | Cleric | Order Domain | L2 Channel Divinity: Order's Demand | A failed Wisdom save charms the creature only until the end of your next turn (and the charm ends if it takes damage); you can also make charmed creatures drop whatever they hold. There is no push, and it is not a minute. |
-| Druid | Circle of the Shepherd | L14 Faithful Summons | You gain the effects of conjure animals as if cast with a 9th-level slot: four beasts of your choice of CR 2 or lower, within 20 ft, for an hour with no concentration. Once per long rest. Not fixed dire wolves. |
+| Druid | Circle of Dreams | L14 Walker in Dreams | When you finish a short rest you can cast dream (you as the messenger), scrying or teleportation circle without a slot or material components. Teleportation circle opens a portal to the last location where you finished a long rest… |
+| Druid | Circle of the Shepherd | L14 Faithful Summons | If you are reduced to 0 hit points or are incapacitated against your will, you immediately gain the effects of conjure animals as if cast with a 9th-level slot: four beasts of your choice that are CR 2 or lower, appearing within 2… |
 | Druid | Circle of the Shepherd | L2 Spirit Totem: Unicorn | Unicorn Spirit gives you and your allies advantage on checks to detect creatures in the aura, and when you cast a healing spell with a slot, chosen creatures in the aura regain hit points equal to your druid level. Attack advantag… |
 | Druid | Circle of Wildfire | Circle Spells L3 | Flaming Sphere, Scorching Ray. Blur is not a Wildfire spell. |
 | Druid | Circle of Wildfire | Circle Spells L5 | Plant Growth, Revivify. Fireball is not a Wildfire spell. |
-| Fighter | Samurai | L18 Strength before Death | When damage reduces you to 0 hit points, you use your reaction to delay falling unconscious and immediately take an extra turn. During it, damage causes death save failures and you fall unconscious at the end of the turn if still … |
-| Fighter | Echo Knight | L3 Manifest Echo | The echo has AC 14 + your proficiency bonus, 1 hit point, and immunity to all conditions. It is destroyed if it ends your turn more than 30 ft away. |
+| Fighter | Cavalier | L3 Unwavering Mark | The mark lasts until the end of your next turn. While it is within 5 ft of you, the marked creature has disadvantage on attack rolls that do not target you. If it deals damage to anyone other than you, you can make a special melee… |
+| Fighter | Samurai | L18 Strength before Death | When damage reduces you to 0 hit points, you use your reaction to delay falling unconscious and immediately take an extra turn. During it, damage causes death save failures and you fall unconscious at the end of the turn if still… |
+| Fighter | Echo Knight | L3 Manifest Echo | The echo has AC 14 + your proficiency bonus (not your AC), 1 hit point and immunity to all conditions, and uses your saving throw bonuses. You manifest it as a bonus action within 15 ft. On your turn you mentally command it to mov… |
 | Fighter | Banneret | L7 Royal Envoy | Proficiency in Persuasion, or if you already have it, proficiency in one of Animal Handling, Insight, Intimidation or Performance; and your proficiency bonus is doubled on Persuasion checks either way. There is no extra language. |
 | Fighter | Banneret | L15 Bulwark | It applies to Intelligence, Wisdom or Charisma SAVING THROWS: when you use Indomitable on one, choose an ally within 60 ft that also failed the same save and can see or hear you; it rerolls the save and must use the new result. |
 | Monk | Way of the Kensei | L3 Path of the Kensei | Agile Parry: when you make an unarmed strike as part of the Attack action while wielding a kensei weapon, you gain +2 AC until the start of your next turn. It has nothing to do with ranged weapons or a bonus action. The bonus-acti… |
@@ -228,16 +356,22 @@ Audit of every subclass shipped in the app (117) against the published 5e rules:
 | Monk | Way of the Ascendant Dragon | L6 Wings Unfurled | Triggered by Step of the Wind: spectral wings give a flying speed equal to your walking speed until the end of the turn, a proficiency-bonus number of times per long rest. There is no 'airborne' condition. |
 | Monk | Way of the Ascendant Dragon | L17 Ascendant Aspect | Three parts: Augment Breath (1 ki makes Breath of the Dragon a 60-ft cone or 90-ft line dealing four martial arts dice), Blindsight (10 ft) and Explosive Fury (when you activate Aspect of the Wyrm, creatures in the aura make a Dex… |
 | Paladin | Oathbreaker | L20 Dread Lord | The aura is gloom that turns bright light to dim, and the 4d10 psychic damage applies only to ENEMIES FRIGHTENED OF YOU when they start their turn there. Your bonus-action attack is a melee spell attack dealing 3d10 + Charisma mod… |
+| Paladin | Oathbreaker | L3 Control Undead | As an action, one undead you can see within 30 ft must make a Wisdom saving throw (not Charisma). On a failure it obeys your commands for 24 hours or until you use this option again. An undead whose challenge rating is equal to or… |
+| Ranger | Gloom Stalker | L15 Shadowy Dodge | Whenever a creature makes an attack roll against you and does not have advantage on the roll, you can use your reaction to impose disadvantage on it. You must use the feature before you know the outcome of the roll, so it cannot b… |
 | Ranger | Monster Slayer | Monster Slayer Magic L13 | Banishment. The list is Protection from Evil and Good (3), Zone of Truth (5), Magic Circle (9), Banishment (13), Hold Monster (17). |
+| Ranger | Fey Wanderer | L11 Fey Reinforcements | You know summon fey; it does not count against your spells known and you can cast it without a material component. You can cast it once without a spell slot, regaining that on a long rest. Whenever you start casting it you can mod… |
 | Ranger | Drakewarden | L7 Bond of Fang and Scale | The drake grows wings (fly speed = walking speed), becomes Medium and can be ridden, its Bite deals an extra 1d6 of its essence type, and you gain resistance to that type. Your own attacks do not become magical or deal extra damag… |
 | Ranger | Drakewarden | L15 Perfected Bond | The drake becomes Large, its Bite's extra damage rises to 2d6 total, and Reflexive Resistance lets you give you or the drake resistance to damage as a reaction (proficiency-bonus uses per long rest). No extra hit points or profici… |
+| Ranger | Drakewarden | L3 Drake Companion | The Drake Companion stat block has a Bite (1d6 + proficiency bonus piercing), a Draconic Essence trait (you choose acid, cold, fire, lightning or poison when you summon it; it is immune to that type) and an Infused Strikes reactio… |
+| Rogue | Arcane Trickster | L17 Spell Thief | Immediately after a creature casts a spell that targets you or includes you in its area, you use your reaction to force it to make a saving throw with its spellcasting ability modifier against your spell save DC. On a failure you… |
 | Rogue | Phantom | L9 Tokens of the Departed | While you carry a soul trinket you have advantage on Constitution saving throws and death saving throws. There is no poison resistance. |
 | Sorcerer | Shadow Magic | L1 Eyes of the Dark | 120 ft darkvision is level 1, but you learn darkness at 3rd level (not 1st). The sorcery-point casting and seeing through it are correct. |
 | Sorcerer | Storm Sorcery | Storm Guide level | Storm Guide is a 6th-level feature (with Heart of the Storm). 14th has Storm's Fury only. |
+| Sorcerer | Aberrant Mind | L14 Revelation in Flesh | As a bonus action you spend 1 or more sorcery points to transform for 10 minutes (not 1 minute). For each point spent you pick one benefit: see invisible creatures within 60 ft; fly at your walking speed and hover; swim at twice y… |
 | Sorcerer | Lunar Sorcery | Whole subclass | Real features: Lunar Embodiment (1st: choose a moon phase after each long rest; each phase grants a spell at 1, 3, 5, 7, 9: Full Moon shield, lesser restoration, dispel magic, death ward, Rary's telepathic bond; New Moon ray of si… |
 | Warlock | The Archfey | L10 Beguiling Defenses | The reaction forces a Wisdom save; on a failure the creature is charmed by you for 1 minute or until it takes damage. There is no 3d10 psychic damage. |
 | Warlock | The Great Old One | L1 Awakened Mind | The creature does not need to share your language, but it must understand at least one language. |
-| Warlock | The Fathomless | L6 Oceanic Soul | Resistance to cold damage, not immunity. You can also communicate telepathically with any creature in the water within 120 ft that speaks a language. |
+| Warlock | The Fathomless | L6 Oceanic Soul | Resistance to cold damage, not immunity. In addition, when you are fully submerged, any creature that is also fully submerged can understand your speech and you can understand theirs (it is not telepathy and has no 120-ft range).… |
 | Warlock | The Fathomless | Expanded spells L9 | Bigby's Hand and Cone of Cold. Commune with Nature is not on the Fathomless list. |
 | Warlock | The Fathomless | L1 Tentacle of the Deep | A hit reduces the target's speed by 10 feet until the start of your next turn, not by half. The damage is 1d8 cold, 2d8 from 10th level. Uses are proficiency bonus per long rest (correct). |
 | Warlock | The Genie | Expanded spells (all tiers) | Each tier has one spell every genie gets (detect evil and good, phantasmal force, create food and water, phantasmal killer, creation) and one by kind. Dao: sanctuary, spike growth, meld into stone, stone shape, wall of stone. Djin… |
@@ -249,21 +383,21 @@ Audit of every subclass shipped in the app (117) against the published 5e rules:
 | Warlock | The Undying | L1 Among the Dead | If an undead targets you directly with an attack or a harmful spell it makes a Wisdom save; on a failure it must choose a new target or lose the attack or spell. It does not protect against area effects. The creature is immune for… |
 | Wizard | School of Enchantment | L2 Hypnotic Gaze | Once you use it on a creature you cannot use it on that same creature again until you finish a long rest. It does not recharge on a short rest and isn't a pool for you. |
 | Wizard | School of Enchantment | L6 Instinctive Charm | The limit is per attacker: on a successful save the attacker cannot be affected again until you finish a long rest. There is no short rest recharge. |
-| Wizard | School of Necromancy | L14 Command Undead | An undead that fails becomes friendly and obeys you until you use the feature again. If its Intelligence is 8 or higher it has advantage on the save; if it fails and has Intelligence 12 or higher it repeats the save at the end of … |
+| Wizard | School of Necromancy | L14 Command Undead | An undead that fails becomes friendly and obeys you until you use the feature again. If its Intelligence is 8 or higher it has advantage on the save; if it fails and has Intelligence 12 or higher it repeats the save at the end of… |
 | Wizard | Chronurgy Magic | L6 Momentary Stasis | Uses equal your Intelligence modifier (minimum 1) per long rest. The target is incapacitated with speed 0 until the end of your next turn or until it takes damage. |
 | Wizard | Graviturgy Magic | L10 Violent Attraction | Uses equal your Intelligence modifier (minimum 1). It adds 1d10 to a weapon attack's damage from a creature you see within 60 ft, or 2d10 to fall damage. |
 | Wizard | Graviturgy Magic | L14 Event Horizon | Once per long rest or by expending a spell slot of 3rd level or higher. Creatures that start their turn within 30 ft make a Strength save: failed they take 2d10 force and speed 0, success half damage and each foot costs 2 extra. |
-| Wizard | Order of Scribes | L6 Manifest Mind | You can cast spells from the mind's position a number of times equal to your proficiency bonus (per day); it is a Tiny spectral object within 60 ft, darkvision 60 ft, lost if it goes more than 300 ft away. |
 | Wizard | Order of Scribes | L10 Master Scrivener | After a long rest, copy a 1st- or 2nd-level spell with a casting time of 1 action from your book onto a scroll; the spell counts as one level higher when cast; the scroll vanishes after being cast or at your next long rest. No max… |
 
 ## Cross-cutting findings
 
 1. **SRD subclasses carry names only.** The twelve SRD subclasses (Berserker, Lore, Life, Land, Champion, Open Hand, Devotion, Hunter, Thief, Draconic Bloodline, Fiend, Evocation) have feature names and levels but no description or numbers in `class-features.json`. Their text lives elsewhere (`help/srd-features.json`, the rulebook), so the same audit of numbers was not possible from the subclass files.
 2. **Warlock patron spells are granted for free.** Cleric domain, paladin oath, druid circle and ranger/sorcerer/artificer subclass spells are always-prepared or always-known and do not count against the limit, which matches the rules. The warlock patron lists are different: they are an *expanded spell list*. The rules add them to the pool the warlock picks from; they are not granted. `subclassSpellsFor` in `src/lib/srd/features.ts` treats all of them as free, so an Archfey, Great Old One, Celestial, Hexblade, Fathomless, Genie, Undead or Undying warlock receives ten spells they should have to learn with their limited spells known. This is more generous than the rules. The Fiend has no list at all, so it is the only patron that does not receive the free spells, and is the one that is missing a list.
-3. **Several 'use' limits are wrong in the same way.** Where a feature's uses depend on an ability modifier, the data often says 'proficiency bonus' (Glamour's Enthralling Performance, Alchemist's Restorative Reagents) or leaves the limit out (Battle Smith's Arcane Jolt, Mercy's Flurry of Healing and Harm). These need a pass for every 'a proficiency-bonus number of times per long rest' string in the subclass file.
+3. **Several 'use' limits are wrong in the same way.** Where a feature's uses depend on an ability modifier, the data often says 'proficiency bonus' (Glamour's Enthralling Performance, Alchemist's Restorative Reagents, Chronurgy's Momentary Stasis, Graviturgy's Violent Attraction), gives a fixed count (Beast's Call the Hunt: 'five' instead of the Constitution modifier) or leaves the limit out (Battle Smith's Arcane Jolt, Peace's Emboldening Bond, Wildfire's Cauterizing Flames, Order of Scribes' Manifest Mind). The first draft also listed Mercy's Flurry of Healing and Harm here; that was wrong, it has no use limit in the rules. These need a pass for every 'a proficiency-bonus number of times per long rest' string in the subclass file.
 4. **Edition mix.** The data mostly follows the 2014 books. Zealot's Warrior of the Gods follows Xanathar's; the 2024 Player's Handbook version is different. A statement of which edition the app follows would settle several of the 'imprecise' items.
 5. **Feature descriptions are single sentences.** Many of the 'imprecise' findings are only omitted numbers (damage dice, temporary hit point amounts, scaling by level, save types). If the descriptions are shown to players as the rules text, these are the gaps they will notice first.
-6. **Subclass choice level is correct for every class.** Artificer, Barbarian, Bard, Fighter, Monk, Paladin, Ranger and Rogue pick at 3, Cleric, Sorcerer and Warlock at 1, Druid and Wizard at 2. No finding.
+6. **Subclass choice level is correct for every class.** Artificer, Barbarian, Bard, Fighter, Monk, Paladin, Ranger and Rogue pick at 3, Cleric, Sorcerer and Warlock at 1, Druid and Wizard at 2. No finding. Re-checked against `class-features.json` (`subclassLevel`) in the second review.
+7. **The same wrong facts are repeated in `authored-resources.json`.** Its `guidance` strings, which the DM prompt uses for resource-backed features, restate several of the errors found here: Call the Hunt ('up to five allies', temporary hit points per ally), Faithful Summons ('four dire wolves'), Walker in Dreams (no long-rest destination), Enthralling Performance (proficiency-bonus count), Tentacle of the Deep ('halves the target's speed'), Bottled Respite ('up to 10 minutes'), Fey Reinforcements ('can turn invisible'), Spell Thief ('cast it once'), Manifest Mind ('up to 300 feet'), Event Horizon ('4th-level slot') and Violent Attraction ('2d10 per 10 feet' of fall). Fixing `subclasses.json` alone will not fix what the DM is told. (Unwavering Mark's guidance there is correct and contradicts the one-line text in `subclasses.json`.)
 
 ## Artificer
 
@@ -292,10 +426,10 @@ Subclass chosen at level 3.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L9 Restorative Reagents | Cast lesser restoration without a slot a proficiency-bonus number of times per long rest. | The number of free casts is your Intelligence modifier (minimum 1), not your proficiency bonus. The casts also require alchemist's supplies as the spellcasting focus. Elixirs also grant temporary hit points of 2d6 + Intelligence modifier. | Verified (wiki) |
-| 2 | 🟡 Imprecise | L9 Restorative Reagents | Elixirs also grant temporary hit points (no amount). | Drinking an Experimental Elixir grants 2d6 + Intelligence modifier temporary hit points. | Verified (wiki) |
-| 3 | 🟡 Imprecise | L5 Alchemical Savant | Add Intelligence modifier to one damage or healing roll of any spell cast through alchemical tools. | The bonus applies to one roll of acid, fire, necrotic or poison damage, or one roll of hit points restored, of a spell cast using alchemist's supplies as the focus. It is not for any damage type (minimum +1). | Verified (wiki) |
-| 4 | 🟡 Imprecise | L3 Experimental Elixir | Random effect, more by spending spell slots, number rises with level. | One elixir after a long rest (two at 6th, three at 15th). Effects on a d6: healing 2d4 + INT; swiftness +10 ft speed 1 hour; resilience +1 AC 10 minutes; boldness d4 to attacks and saves 1 minute; flight 10 ft fly 10 minutes; transformation as alter self 10 minutes. Extra elixirs cost a spell slot of 1st level or higher, one chosen effect. The app text gives none of the numbers or the six effects' numbers. | Verified (wiki) |
+| 1 | 🔴 Wrong | L9 Restorative Reagents | Cast lesser restoration without a slot a proficiency-bonus number of times per long rest. | The number of free casts is your Intelligence modifier (minimum once), not your proficiency bonus, and the spell is cast without a slot or preparation only when alchemist's supplies are the spellcasting focus. Uses return on a long rest. | Verified (2 sources) |
+| 2 | 🟡 Imprecise | L9 Restorative Reagents | Elixirs also grant temporary hit points (no amount). | Drinking an Experimental Elixir grants 2d6 + Intelligence modifier temporary hit points. | Verified (2 sources) |
+| 3 | 🟡 Imprecise | L5 Alchemical Savant | Add Intelligence modifier to one damage or healing roll of any spell cast through alchemical tools. | The bonus applies to one roll of a spell cast with alchemist's supplies as the focus, and only if that roll restores hit points or deals acid, fire, necrotic or poison damage. The bonus equals your Intelligence modifier (minimum +1). It is not for every damage type. | Verified (2 sources) |
+| 4 | 🟡 Imprecise | L3 Experimental Elixir | Random effect, more by spending spell slots, number rises with level. | One elixir after a long rest (two at 6th, three at 15th). Effects on a d6: healing 2d4 + INT; swiftness +10 ft speed 1 hour; resilience +1 AC 10 minutes; boldness d4 to attacks and saves 1 minute; flight 10 ft fly 10 minutes; transformation as alter self 10 minutes. Extra elixirs cost a spell slot of 1st level or higher, one chosen effect. The app text gives none of the numbers or the six effects' numbers. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Alchemical Savant, Chemical Mastery.
 
@@ -323,9 +457,9 @@ Subclass chosen at level 3.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | L3 Armor Model | Guardian and Infiltrator described in one line. | Guardian: Thunder Gauntlets (1d8 thunder, target has disadvantage attacking others until your next turn) and Defensive Field (bonus action, temporary hit points equal to artificer level, proficiency-bonus uses per long rest). Infiltrator: Lightning Launcher (1d6 lightning, ranged 90/300, +1d6 once per turn to a creature), Powered Steps (+5 ft speed), Dampening Field (advantage on Stealth). Numbers are missing from the app text. | Verified (wiki) |
-| 2 | 🔴 Wrong | L15 Perfected Armor | Guardian armor pulls in enemies within 30 feet and knocks them prone; Infiltrator armor makes a struck target glow, granting attackers advantage and dealing extra force damage. | Guardian: a reaction, usable a proficiency-bonus number of times per long rest, when a Huge or smaller creature you can see ends its turn within 30 ft: Strength save or it is pulled up to 25 ft to a space near you, and if it lands within 5 ft you can make a melee weapon attack against it. There is no prone. Infiltrator: a creature damaged by the Lightning Launcher glows, has disadvantage on attacks against you, the next attack roll against it has advantage, and that hit deals an extra 1d6 lightning (not force) damage. | Verified (wiki) |
-| 3 | 🟡 Imprecise | L9 Armor Modifications | Armor counts as four separate items for infusions. | Also: you can infuse two more items at once, and those two must be part of your Arcane Armor. The app text leaves out the two extra infusions. | Verified (wiki) |
+| 1 | 🟡 Imprecise | L3 Armor Model | Guardian and Infiltrator described in one line. | Guardian: Thunder Gauntlets (1d8 thunder, target has disadvantage attacking others until your next turn) and Defensive Field (bonus action, temporary hit points equal to artificer level, proficiency-bonus uses per long rest). Infiltrator: Lightning Launcher (1d6 lightning, ranged 90/300, +1d6 once per turn to a creature), Powered Steps (+5 ft speed), Dampening Field (advantage on Stealth). Numbers are missing from the app text. | Verified (2 sources) |
+| 2 | 🔴 Wrong | L15 Perfected Armor | Guardian armor pulls in enemies within 30 feet and knocks them prone; Infiltrator armor makes a struck target glow, granting attackers advantage and dealing extra force damage. | Guardian: a reaction, usable a proficiency-bonus number of times per long rest, when a Huge or smaller creature you can see ends its turn within 30 ft: Strength save or it is pulled up to 25 ft to a space near you, and if it lands within 5 ft you can make a melee weapon attack against it. There is no prone. Infiltrator: a creature damaged by the Lightning Launcher glows, has disadvantage on attacks against you, the next attack roll against it has advantage, and that hit deals an extra 1d6 lightning (not force) damage. | Verified (2 sources) |
+| 3 | 🟡 Imprecise | L9 Armor Modifications | Armor counts as four separate items for infusions. | Also: you can infuse two more items at once, and those two must be part of your Arcane Armor. The app text leaves out the two extra infusions. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Arcane Armor, Armor Modifications.
 
@@ -352,7 +486,7 @@ Subclass chosen at level 3.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | L3 Eldritch Cannon | Flamethrower cone, force ballista, protector; once per long rest or by spending a slot. | Cannon has AC 18 and hit points equal to 5 x artificer level. Flamethrower: 15-ft cone, Dexterity save, 2d8 fire. Force Ballista: ranged spell attack 120 ft, 2d8 force, pushes 5 ft. Protector: 1d8 + INT modifier temporary hit points to creatures within 10 ft. Lasts 1 hour. None of the numbers are in the app text. | Verified (wiki) |
+| 1 | 🟡 Imprecise | L3 Eldritch Cannon | Flamethrower cone, force ballista, protector; once per long rest or by spending a slot. | Cannon has AC 18 and hit points equal to 5 x artificer level. Flamethrower: 15-ft cone, Dexterity save, 2d8 fire. Force Ballista: ranged spell attack 120 ft, 2d8 force, pushes 5 ft. Protector: 1d8 + INT modifier temporary hit points to creatures within 10 ft. Lasts 1 hour. None of the numbers are in the app text. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Fortified Position.
 
@@ -380,8 +514,8 @@ Subclass chosen at level 3.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟠 Missing | L9 Arcane Jolt (use limit) | Once per turn, a hit deals an extra 2d6 force or heals 2d6. | It is limited to a number of uses per long rest equal to your Intelligence modifier (minimum 1). The app text has no use limit. | Verified (wiki) |
-| 2 | 🟡 Imprecise | L3 Steel Defender | Force-empowered bite; reaction to impose disadvantage. | The defender uses Force-Empowered Rend (1d8 + proficiency bonus force damage) and Deflect Attack (reaction, disadvantage on an attack against a creature within 5 ft of it). Hit points are 2 + INT modifier + 5 x artificer level; it is repaired with mending or the artificer's magic. | Verified (wiki) |
+| 1 | 🟡 Imprecise | L9 Arcane Jolt (use limit) | Once per turn, a hit deals an extra 2d6 force or heals 2d6. | It is limited to a number of uses per long rest equal to your Intelligence modifier (minimum 1). The app text has no use limit. | Verified (2 sources) |
+| 2 | 🟡 Imprecise | L3 Steel Defender | Force-empowered bite; reaction to impose disadvantage. | The defender attacks with Force-Empowered Rend (melee, your spell attack modifier, 1d8 + proficiency bonus force damage), not a bite, and has Deflect Attack (reaction, disadvantage on an attack against a creature within 5 ft of it). Hit points are 2 + Intelligence modifier + 5 x artificer level; it is repaired with mending or by the artificer's smith's tools. | Verified (2 sources) |
 
 ## Barbarian
 
@@ -407,7 +541,7 @@ Subclass chosen at level 3.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | All levels (SRD) | Feature names only (Frenzy, Mindless Rage, Intimidating Presence, Retaliation); no description text in the data file. | Frenzy 3 (bonus-action melee attack each turn while raging; one level of exhaustion when the rage ends), Mindless Rage 6 (immune to charmed and frightened while raging), Intimidating Presence 10 (action; frighten a creature within 30 ft, Wisdom save DC 8 + PB + CHA), Retaliation 14 (reaction melee attack against a creature within 5 ft that damaged you). Names and levels are correct. | High |
+| 1 | 🟡 Imprecise | All levels (SRD) | Feature names only (Frenzy, Mindless Rage, Intimidating Presence, Retaliation); no description text in the data file. | Frenzy 3 (bonus-action melee attack each turn while raging; one level of exhaustion when the rage ends), Mindless Rage 6 (immune to charmed and frightened while raging), Intimidating Presence 10 (action; frighten a creature within 30 ft, Wisdom save DC 8 + PB + CHA), Retaliation 14 (reaction melee attack against a creature within 5 ft that damaged you). Names and levels are correct. | Verified (2 sources) |
 
 <a id="barbarian-path-of-the-totem-warrior"></a>
 ### Path of the Totem Warrior
@@ -430,8 +564,8 @@ Subclass chosen at level 3.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L3 Totem Spirit: Eagle | No opportunity-attack advantage against you. | While raging and not in heavy armor, other creatures have DISADVANTAGE on opportunity attack rolls against you, and you can Dash as a bonus action. The app text says 'no advantage', which is a different rule. | Verified (wiki) |
-| 2 | 🟠 Missing | L3 / L6 / L14 totem options | Only Bear, Eagle and Wolf are described. | Xanathar's adds Elk and Tiger at all three levels. Totem Spirit: Elk +15 ft walking speed while raging and unarmored; Tiger +10 ft to long jump and +3 ft to high jump. Aspect of the Beast: Elk doubles travel pace for you and up to ten companions within 60 ft; Tiger gives proficiency in two of Athletics, Acrobatics, Stealth, Survival. Totemic Attunement: Elk lets you pass through a Large or smaller creature's space (Strength save or prone and bludgeoning damage); Tiger gives a bonus-action extra melee attack after moving 20 ft straight at a target. | Verified (wiki) |
+| 1 | 🔴 Wrong | L3 Totem Spirit: Eagle | No opportunity-attack advantage against you. | While raging and not in heavy armor, other creatures have DISADVANTAGE on opportunity attack rolls against you, and you can Dash as a bonus action. The app text says 'no advantage', which is a different rule. | Verified (2 sources) |
+| 2 | 🟠 Missing | L3 / L6 / L14 totem options | Only Bear, Eagle and Wolf are described. | Xanathar's adds Elk and Tiger at all three levels. Totem Spirit: Elk +15 ft walking speed while raging and not wearing heavy armor; Tiger +10 ft to long jump and +3 ft to high jump while raging. Aspect of the Beast: Elk doubles travel pace for you and up to ten companions within 60 ft; Tiger gives proficiency in two of Athletics, Acrobatics, Stealth, Survival. Totemic Attunement: Elk lets you pass through a Large or smaller creature's space as a bonus action during your move (Strength save, DC 8 + Strength + proficiency, or prone and 1d12 + Strength bludgeoning); Tiger gives a bonus-action extra melee attack after moving 20 ft straight at a Large or smaller target. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Spirit Seeker, Spirit Walker.
 
@@ -455,7 +589,7 @@ Subclass chosen at level 3.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | L3 Ancestral Protectors | Target has disadvantage on attacks against anyone but you; its damage against others is halved. | The target has disadvantage on attacks that don't target you, and any creature it hits with such an attack other than you has resistance to that damage. Halving and resistance are equivalent only for damage the creature takes; the text should say resistance. | Verified (wiki) |
+| 1 | 🟡 Imprecise | L3 Ancestral Protectors | Target has disadvantage on attacks against anyone but you; its damage against others is halved. | Until the start of your next turn the target has disadvantage on any attack roll that isn't against you, and when it hits a creature other than you, that creature has resistance to the damage of that attack. The effect ends early if your rage ends. The app says the damage is halved; the rule is resistance (which is also halving, but it applies to the creature hit and interacts with other resistances). | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Vengeful Ancestors.
 
@@ -479,8 +613,9 @@ Subclass chosen at level 3.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L14 Raging Storm: Tundra | Halves a creature's speed on a failed Strength save. | On a failed Strength save the creature's speed is reduced to 0 until the start of your next turn, not halved. | Verified (wiki) |
-| 2 | 🟡 Imprecise | L3 Storm Aura | Activated as a bonus action while raging; Desert deals 2 fire to every other creature in it. | The aura is activated when you rage and can be re-chosen as a bonus action on later turns. Numbers scale with barbarian level: Desert 2 fire at 3rd (3 at 5th, 4 at 10th, 5 at 15th, 6 at 20th), Sea 1d6 lightning at 3rd (2d6 at 10th, 3d6 at 15th, 4d6 at 20th, Dexterity save for half), Tundra 2 temporary hit points at 3rd (same steps as Desert). The app text states scaling exists but gives no table. | Verified (wiki) |
+| 1 | 🔴 Wrong | L14 Raging Storm: Tundra | Halves a creature's speed on a failed Strength save. | On a failed Strength save the creature's speed is reduced to 0 until the start of your next turn, not halved. | Verified (2 sources) |
+| 2 | 🟡 Imprecise | L3 Storm Aura | Activated as a bonus action while raging; Desert deals 2 fire to every other creature in it. | The aura's effect activates when you enter your rage, and you can activate it again on each of your turns as a bonus action. You can change your environment whenever you gain a level. Numbers scale with barbarian level: Desert 2 fire at 3rd (3 at 5th, 4 at 10th, 5 at 15th, 6 at 20th), Sea 1d6 lightning at 3rd (2d6 at 10th, 3d6 at 15th, 4d6 at 20th, Dexterity save for half), Tundra 2 temporary hit points at 3rd (3, 4, 5, 6 at the same levels). Save DC 8 + proficiency + Constitution. The app states that scaling exists but gives no table. | Verified (2 sources) |
+| 3 | 🟡 Imprecise | L14 Raging Storm: Desert | Desert deals fire damage to a creature that hits you, once per turn. | Desert: immediately after a creature in your aura hits you, use your reaction to force it to make a Dexterity saving throw; on a failure it takes fire damage equal to half your barbarian level. There is no save mentioned in the app text and no once-per-turn limit (it is limited by your reaction). Sea is also a reaction when you hit a creature in the aura (Strength save or prone), and Tundra rides on activating the aura. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Storm Soul.
 
@@ -503,9 +638,7 @@ Subclass chosen at level 3.
 
 **Findings against the rules**
 
-| # | | Where | What the app has | What the rules say | Confidence |
-|---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | L3 Warrior of the Gods | A spell that restores you to life needs no material component. | Matches Xanathar's (and the wiki's 2014 text). The 2024 Player's Handbook Zealot has a different Warrior of the Gods (a pool of d12s to heal with). Only a concern if the app is meant to follow the 2024 rules. | Verified (wiki) |
+No discrepancy found. Levels, features and numbers match the published rules as far as I can tell.
 
 **Engine hint:** no engine reference found for: Warrior of the Gods, Rage Beyond Death.
 
@@ -529,8 +662,8 @@ Subclass chosen at level 3.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | L3 Form of the Beast: numbers | Bite 1d8 and heals below half hit points; Claws 1d6 with an extra attack; Tail 1d8 with 10-foot reach. | Bite: once per turn, a bite that hits while you are below half your hit points restores hit points equal to your proficiency bonus. Claws: one extra claw attack each time you take the Attack action. Tail: reaction to add 1d8 to your AC against one attack. The app text gives the dice but not the heal amount. | Verified (wiki) |
-| 2 | 🔴 Wrong | L14 Call the Hunt | Grant up to five allies an extra d6 of damage and gain 5 temporary hit points for each ally who accepts. | The number of willing creatures within 30 ft is up to your Constitution modifier (minimum 1), not five. Each one who accepts gains 5 temporary hit points; the d6 damage bonus is once per turn until the rage ends. Also, the temporary hit points go to the creatures who accept, not to you. | Verified (wiki) |
+| 1 | 🟡 Imprecise | L3 Form of the Beast: numbers | Bite 1d8 and heals below half hit points; Claws 1d6 with an extra attack; Tail 1d8 with 10-foot reach. | Bite: once per turn, a bite that hits while you are below half your hit points restores hit points equal to your proficiency bonus. Claws: one extra claw attack each time you take the Attack action. Tail: reaction to add 1d8 to your AC against one attack. The app text gives the dice but not the heal amount. | Verified (2 sources) |
+| 2 | 🔴 Wrong | L14 Call the Hunt | Grant up to five allies an extra d6 of damage and gain 5 temporary hit points for each ally who accepts. | The number of other willing creatures you can see within 30 ft is equal to your Constitution modifier (minimum one creature), not five. You gain 5 temporary hit points for each creature that accepts (the app has this right). Until the rage ends each chosen creature can, once on each of its turns, roll a d6 and add it to damage after a hit. Uses are proficiency bonus per long rest (the app has this right). | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Bestial Soul.
 
@@ -555,8 +688,8 @@ Subclass chosen at level 3.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | L6 Bolstering Magic | Restore one expended spell slot of 3rd level or lower. | The slot you regain is capped by a d3 roll (level up to the roll), not a free choice of up to 3rd, and each creature can get the slot benefit only once per long rest. | Verified (wiki) |
-| 2 | 🟡 Imprecise | L3 Wild Surge | Roll on your wild magic table each time you rage. | A d8 table: 1 necrotic burst (Con save) with temp HP; 2 teleport 30 ft; 3 flumph/pixie spirit force burst; 4 weapon becomes force-damage, light, thrown; 5 reprisal 1d6 force; 6 +1 AC for you and allies; 7 difficult terrain; 8 bolt of light, blinds. Several entries can be re-triggered as a bonus action. The table is not in the subclass data; the DC is 8 + proficiency + Constitution. | Verified (wiki) |
+| 1 | 🟡 Imprecise | L6 Bolstering Magic | Restore one expended spell slot of 3rd level or lower. | The slot you regain is capped by a d3 roll (level up to the roll), not a free choice of up to 3rd, and each creature can get the slot benefit only once per long rest. | Verified (2 sources) |
+| 2 | 🟡 Imprecise | L3 Wild Surge | Roll on your wild magic table each time you rage. | A d8 table: 1 necrotic burst (Con save) with temp HP; 2 teleport 30 ft; 3 flumph/pixie spirit force burst; 4 weapon becomes force-damage, light, thrown; 5 reprisal 1d6 force; 6 +1 AC for you and allies; 7 difficult terrain; 8 bolt of light, blinds. Several entries can be re-triggered as a bonus action. The table is not in the subclass data; the DC is 8 + proficiency + Constitution. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Controlled Surge.
 
@@ -581,13 +714,13 @@ Subclass chosen at level 3.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | Feature levels | Giant's Power 3, Elemental Cleaver 3, Mighty Impel 6, Demiurgic Colossus 10, Elemental Fury 14. | The path has exactly five features: Giant's Power 3, Giant's Havoc 3, Elemental Cleaver 6, Mighty Impel 10, Demiurgic Colossus 14. Every feature in the app is one tier early and there is an invented sixth. | Verified (wiki) |
-| 2 | 🟠 Missing | L3 Giant's Havoc | Not present. | While raging: Crushing Throw (add rage damage to a Strength-based thrown weapon hit) and Giant Stature (reach +5 ft; if smaller than Large you become Large). | Verified (wiki) |
-| 3 | 🔴 Wrong | L14 Elemental Fury | Once per turn add rage damage again, or force a Constitution save for 3d8 of your element. | No such feature exists. The 14th-level feature is Demiurgic Colossus. | Verified (wiki) |
-| 4 | 🔴 Wrong | L3 Giant's Power | Learn Giant and the druidcraft cantrip. | Learn Giant (or another language if you already know it) and one cantrip of your choice from druidcraft or thaumaturgy, with Wisdom as its spellcasting ability. | Verified (wiki) |
-| 5 | 🔴 Wrong | L3 Elemental Cleaver (placed at 3rd) | One weapon deals your chosen elemental damage instead of its own type and gains the thrown property with a 20/60 range, returning to your hand each throw. | Belongs at 6th. When you rage, infuse a held weapon with acid, cold, fire, lightning or thunder: its damage type becomes that type AND it deals an extra 1d6 of it. It gains thrown (20/60) and returns; its benefits are suppressed in other hands; a bonus action changes the type. The app text omits the extra 1d6. | Verified (wiki) |
-| 6 | 🔴 Wrong | L6 Mighty Impel (placed at 6th) | Move a Large or smaller creature within 10 feet up to 30 feet; an unwilling one gets a Strength save. | Belongs at 10th. A Medium or smaller creature within your reach (not 10 ft); moved to an unoccupied space you see within 30 ft; DC 8 + proficiency + Strength to avoid; it falls and lands prone if unsupported. | Verified (wiki) |
-| 7 | 🔴 Wrong | L10 Demiurgic Colossus (placed at 10th) | Grow to Large, reach +5, cleaver throw range doubles and damage grows by 1d10. | Belongs at 14th. Reach +10 ft, you can become Large or Huge, Mighty Impel can move Large creatures, Elemental Cleaver's extra damage becomes 2d6. | Verified (wiki) |
+| 1 | 🔴 Wrong | Feature levels | Giant's Power 3, Elemental Cleaver 3, Mighty Impel 6, Demiurgic Colossus 10, Elemental Fury 14. | The path has exactly five features: Giant Power 3, Giant's Havoc 3, Elemental Cleaver 6, Mighty Impel 10, Demiurgic Colossus 14. In the app Elemental Cleaver, Mighty Impel and Demiurgic Colossus are each one tier early, Giant's Havoc is missing and Elemental Fury is invented. | Verified (2 sources) |
+| 2 | 🟠 Missing | L3 Giant's Havoc | Not present. | While raging: Crushing Throw (add rage damage to a Strength-based thrown weapon hit) and Giant Stature (reach +5 ft; if smaller than Large you become Large). | Verified (2 sources) |
+| 3 | 🔴 Wrong | L14 Elemental Fury | Once per turn add rage damage again, or force a Constitution save for 3d8 of your element. | No such feature exists. The 14th-level feature is Demiurgic Colossus. | Verified (2 sources) |
+| 4 | 🔴 Wrong | L3 Giant's Power | Learn Giant and the druidcraft cantrip. | Learn Giant (or another language if you already know it) and one cantrip of your choice from druidcraft or thaumaturgy, with Wisdom as its spellcasting ability. | Verified (2 sources) |
+| 5 | 🔴 Wrong | L3 Elemental Cleaver (placed at 3rd) | One weapon deals your chosen elemental damage instead of its own type and gains the thrown property with a 20/60 range, returning to your hand each throw. | Belongs at 6th. When you rage, infuse a held weapon with acid, cold, fire, lightning or thunder: its damage type becomes that type AND it deals an extra 1d6 of it. It gains thrown (20/60) and returns; its benefits are suppressed in other hands; a bonus action changes the type. The app text omits the extra 1d6. | Verified (2 sources) |
+| 6 | 🔴 Wrong | L6 Mighty Impel (placed at 6th) | Move a Large or smaller creature within 10 feet up to 30 feet; an unwilling one gets a Strength save. | Belongs at 10th. A Medium or smaller creature within your reach (not 10 ft); moved to an unoccupied space you see within 30 ft; DC 8 + proficiency + Strength to avoid; it falls and lands prone if unsupported. | Verified (2 sources) |
+| 7 | 🔴 Wrong | L10 Demiurgic Colossus (placed at 10th) | Grow to Large, reach +5, cleaver throw range doubles and damage grows by 1d10. | Belongs at 14th. Reach +10 ft, you can become Large or Huge, Mighty Impel can move Large creatures, Elemental Cleaver's extra damage becomes 2d6. | Verified (2 sources) |
 
 ## Bard
 
@@ -613,7 +746,7 @@ Subclass chosen at level 3.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | All levels (SRD) | Names only: Cutting Words, Bonus Proficiencies (Lore), Additional Magical Secrets, Peerless Skill. | Names and levels match (3, 3, 6, 14). Cutting Words: reaction, spend a Bardic Inspiration die to subtract from a creature's attack, check or damage roll within 60 ft. Bonus Proficiencies: three skills. Additional Magical Secrets: two spells from any class. Peerless Skill: add a Bardic Inspiration die to your own check. | High |
+| 1 | 🟡 Imprecise | All levels (SRD) | Names only: Cutting Words, Bonus Proficiencies (Lore), Additional Magical Secrets, Peerless Skill. | Names and levels match (3, 3, 6, 14). Cutting Words: reaction, spend a Bardic Inspiration die to subtract from a creature's attack, check or damage roll within 60 ft. Bonus Proficiencies: three skills. Additional Magical Secrets: two spells from any class. Peerless Skill: add a Bardic Inspiration die to your own check. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Additional Magical Secrets.
 
@@ -657,8 +790,8 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L3 Enthralling Performance | Charm up to a proficiency-bonus number of humanoids. | The number is equal to your Charisma modifier (minimum 1), not your proficiency bonus. | Verified (wiki) |
-| 2 | 🟡 Imprecise | L3 Mantle of Inspiration | Temporary hit points and a reaction-free move. | A number of creatures equal to your Charisma modifier (minimum 1), within 60 ft, each gain 5 temporary hit points (8 at 5th, 11 at 10th, 14 at 15th) and can use a reaction to move up to their speed without provoking. The app text omits the count and the scaling. | Verified (wiki) |
+| 1 | 🔴 Wrong | L3 Enthralling Performance | Charm up to a proficiency-bonus number of humanoids. | The number is equal to your Charisma modifier (minimum 1), not your proficiency bonus. | Verified (2 sources) |
+| 2 | 🟡 Imprecise | L3 Mantle of Inspiration | Temporary hit points and a reaction-free move. | A number of creatures equal to your Charisma modifier (minimum 1), within 60 ft, each gain 5 temporary hit points (8 at 5th, 11 at 10th, 14 at 15th) and can use a reaction to move up to their speed without provoking. The app text omits the count and the scaling. | Verified (2 sources) |
 
 <a id="bard-college-of-swords"></a>
 ### College of Swords
@@ -723,7 +856,7 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟠 Missing | L6 Universal Speech | Not present. | At 6th level Eloquence also gains Universal Speech: an action, once per long rest (or by spending a Bardic Inspiration die), lets a number of creatures equal to your Charisma modifier understand you for 1 hour. It is a level 6 feature alongside Unfailing Inspiration. | Verified (wiki) |
+| 1 | 🟠 Missing | L6 Universal Speech | Not present. | At 6th level Eloquence also gains Universal Speech: an action, up to a number of creatures within 60 ft equal to your Charisma modifier (minimum one) understand you for 1 hour. Once used, it cannot be used again until a long rest unless you expend a spell slot. It is a level 6 feature alongside Unfailing Inspiration. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Silver Tongue, Unfailing Inspiration.
 
@@ -747,7 +880,9 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L3 Mote of Potential | Extra damage on an attack, temporary hit points on a check, or an ally bonus on a save. | Ability check: the creature rolls the die again and takes the better result. Attack roll: the mote bursts, thunder damage equal to the die roll (Constitution save, creatures within 5 ft). Saving throw: temporary hit points equal to the die roll + your Charisma modifier. The app swaps the check and save effects and invents an ally save bonus. | Verified (wiki) |
+| 1 | 🔴 Wrong | L3 Mote of Potential | Extra damage on an attack, temporary hit points on a check, or an ally bonus on a save. | Ability check: the creature rolls the die again and takes the better result. Attack roll: the mote bursts, thunder damage equal to the die roll (Constitution save, creatures within 5 ft). Saving throw: temporary hit points equal to the die roll + your Charisma modifier. The app swaps the check and save effects and invents an ally save bonus. | Verified (2 sources) |
+| 2 | 🔴 Wrong | L14 Creative Crescendo | Performance of Creation makes several items at once and drops the cost limit on all but the largest. | The number of items equals your Charisma modifier (minimum two). Only one can be the maximum size; the rest must be Small or Tiny. You are no longer limited by gp value at all when creating items with Performance of Creation, not only for the smaller items. | Verified (2 sources) |
+| 3 | 🔴 Wrong | L6 Animating Performance | The dancing companion can make a thunderous Strength attack. | The Dancing Item stat block has Force-Empowered Slam: melee attack using your spell attack modifier, reach 5 ft, 1d10 + proficiency bonus force damage. It is not thunder damage and does not use Strength. It lives 1 hour, has 10 + 5 x bard level hit points, and its Irrepressible Dance changes speed of nearby creatures by 10 ft. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Creative Crescendo.
 
@@ -772,8 +907,8 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L6 Spirit Session | Learn one divination or necromancy spell of a level up to the ritual's length. | The ritual lasts an hour (during a short or long rest) with up to your proficiency bonus in willing creatures including you. The spell's level can be no higher than the NUMBER OF CREATURES who took part, must be a level you can cast, and must be divination or necromancy from any class's list. You keep it until you start a long rest. The app ties the level to the ritual's length. | Verified (wiki) |
-| 2 | 🔴 Wrong | L14 Mystical Connection | Reroll an unwanted Tales from Beyond result, and roll for it without spending a die once per short rest. | When you roll on the Spirit Tales table you roll the die twice and choose which effect to bestow; if both dice show the same number you may choose any entry. There is no reroll and no free roll once per short rest. | Verified (wiki) |
+| 1 | 🔴 Wrong | L6 Spirit Session | Learn one divination or necromancy spell of a level up to the ritual's length. | The ritual lasts an hour (during a short or long rest) with up to your proficiency bonus in willing creatures including you. The spell's level can be no higher than the NUMBER OF CREATURES who took part, must be a level you can cast, and must be divination or necromancy from any class's list. You keep it until you start a long rest. The app ties the level to the ritual's length. | Verified (2 sources) |
+| 2 | 🔴 Wrong | L14 Mystical Connection | Reroll an unwanted Tales from Beyond result, and roll for it without spending a die once per short rest. | When you roll on the Spirit Tales table you roll the die twice and choose which effect to bestow; if both dice show the same number you may choose any entry. There is no reroll and no free roll once per short rest. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Guiding Whispers, Spiritual Focus, Tales from Beyond, Mystical Connection.
 
@@ -805,7 +940,7 @@ Subclass chosen at level 1.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | All levels (SRD) | Names only: Bonus Proficiency (heavy armor), Disciple of Life, Preserve Life, Blessed Healer, Divine Strike, Supreme Healing. Domain spells are correct. | Names, levels (1, 1, 2, 6, 8, 17) and the domain spell list all match the SRD. Descriptions are not in the subclass file. | High |
+| 1 | 🟡 Imprecise | All levels (SRD) | Names only: Bonus Proficiency (heavy armor), Disciple of Life, Preserve Life, Blessed Healer, Divine Strike, Supreme Healing. Domain spells are correct. | Names, levels (1, 1, 2, 6, 8, 17) and the domain spell list all match the SRD. Descriptions are not in the subclass file. | Verified (2 sources) |
 
 <a id="cleric-knowledge-domain"></a>
 ### Knowledge Domain
@@ -856,7 +991,7 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | L6 name | Improved Warding Flare. | The feature is named Improved Flare. Its effect (Warding Flare for a creature other than you) is described correctly. | Verified (wiki) |
+| 1 | 🟡 Imprecise | L6 name | Improved Warding Flare. | The feature is named Improved Flare. Its effect (Warding Flare for a creature other than you) is described correctly. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Bonus Cantrip (Light), Potent Spellcasting.
 
@@ -985,7 +1120,7 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L17 Improved Reaper | Cast a necromancy spell of 1st to 5th level that targets one creature at two creatures within 5 feet, at the cost of 1d8 of your own hit points per spell level. | No hit point cost exists. Improved Reaper simply lets a single-target necromancy spell of 1st through 5th level target two creatures within 5 feet of each other; you must provide the material components for each target if they are consumed. | Verified (wiki) |
+| 1 | 🔴 Wrong | L17 Improved Reaper | Cast a necromancy spell of 1st to 5th level that targets one creature at two creatures within 5 feet, at the cost of 1d8 of your own hit points per spell level. | No hit point cost exists. Improved Reaper simply lets a single-target necromancy spell of 1st through 5th level target two creatures within 5 feet of each other; you must provide the material components for each target if they are consumed. | Verified (2 sources) |
 
 <a id="cleric-forge-domain"></a>
 ### Forge Domain
@@ -1035,8 +1170,8 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L2 Channel Divinity: Path to the Grave | The next attack against the cursed creature has advantage and doubles its damage vulnerability for that hit. | The creature is cursed until the end of your next turn. The next time you or an ally hits it with an attack, it is vulnerable to ALL of that attack's damage, then the curse ends. There is no advantage on the attack. | Verified (wiki) |
-| 2 | 🔴 Wrong | L17 Keeper of Souls | Once per turn, when an enemy within 60 feet dies, an ally you can see regains hit points equal to its Hit Dice. | Range is 30 ft, not 60. When an enemy you can see dies within 30 ft, you or one ally within 30 ft regains hit points equal to the enemy's number of Hit Dice, only once per round (until the start of your next turn). | Verified (wiki) |
+| 1 | 🔴 Wrong | L2 Channel Divinity: Path to the Grave | The next attack against the cursed creature has advantage and doubles its damage vulnerability for that hit. | The creature is cursed until the end of your next turn. The next time you or an ally hits it with an attack, it is vulnerable to ALL of that attack's damage, then the curse ends. There is no advantage on the attack. | Verified (2 sources) |
+| 2 | 🟡 Imprecise | L17 Keeper of Souls | Once per turn, when an enemy within 60 feet dies, an ally you can see regains hit points equal to its Hit Dice. | When an enemy you can see dies within a range of 30 ft (dnd5e wiki) or 60 ft (5e.tools, D&D Beyond forum quote of the book), you or one ally/creature of your choice within that range regains hit points equal to the enemy's number of Hit Dice. You cannot use it while incapacitated, and once used you cannot use it again until the start of your next turn. The app omits that you can be the recipient and the incapacitated restriction; the range is in dispute between sources. | Medium (sources disagree) |
 
 **Engine hint:** no engine reference found for: Potent Spellcasting.
 
@@ -1064,7 +1199,7 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L2 Channel Divinity: Order's Demand | Creatures of your choice within 30 feet are charmed for a minute on a failed Wisdom save, and you may drop or push one of them 30 feet. | A failed Wisdom save charms the creature only until the end of your next turn (and the charm ends if it takes damage); you can also make charmed creatures drop whatever they hold. There is no push, and it is not a minute. | Verified (wiki) |
+| 1 | 🔴 Wrong | L2 Channel Divinity: Order's Demand | Creatures of your choice within 30 feet are charmed for a minute on a failed Wisdom save, and you may drop or push one of them 30 feet. | A failed Wisdom save charms the creature only until the end of your next turn (and the charm ends if it takes damage); you can also make charmed creatures drop whatever they hold. There is no push, and it is not a minute. | Verified (2 sources) |
 
 <a id="cleric-peace-domain"></a>
 ### Peace Domain
@@ -1088,7 +1223,9 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 **Findings against the rules**
 
-No discrepancy found. Levels, features and numbers match the published rules as far as I can tell and the spell list matches.
+| # | | Where | What the app has | What the rules say | Confidence |
+|---|---|---|---|---|---|
+| 1 | 🟡 Imprecise | L1 Emboldening Bond | Bond a proficiency-bonus number of creatures for 10 minutes; while near each other they may add a d4 to an attack, check or save, once per turn. | As an action you choose that many willing creatures within 30 ft (you may be one). While any bonded creature is within 30 ft of another it can add the d4. You can use the feature a number of times equal to your proficiency bonus per long rest. The app omits the uses per long rest and both 30 ft ranges. Expansive Bond makes both the bond and Protective Bond work at 60 ft and gives the creature that takes the damage resistance to it. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Emboldening Bond, Potent Spellcasting, Expansive Bond.
 
@@ -1142,8 +1279,8 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟠 Missing | L5 Arcane Banishment | Folded into Channel Divinity: Arcane Abjuration as 'banishing weaker ones at higher levels'. | A separate feature at 5th: a creature that fails the save is banished if not on its home plane and its CR is at or below a limit that rises with level (1/2 at 5th, 1 at 8th, 2 at 11th, 3 at 14th, 4 at 17th). The app gives no thresholds. | Verified (wiki) |
-| 2 | 🟡 Imprecise | L17 Arcane Mastery | Add four wizard spells of 6th, 7th, 8th and 9th level to your cleric spell list. | Choose one wizard spell each of 6th, 7th, 8th and 9th level; they become domain spells (always prepared) and count as cleric spells. | Verified (wiki) |
+| 1 | 🟡 Imprecise | L2 Channel Divinity: Arcane Abjuration (Arcane Banishment rider) | Turn one celestial, elemental, fey or fiend within 30 feet on a failed Wisdom save, banishing weaker ones outright at higher levels. | After you reach 5th level, a creature that fails the save is also banished for 1 minute (as banishment, no concentration) if it is not on its plane of origin and its challenge rating is at or below a limit: 1/2 at 5th, 1 at 8th, 2 at 11th, 3 at 14th, 4 at 17th. This is part of Arcane Abjuration, not a separate feature. The app gives no thresholds. | Verified (2 sources) |
+| 2 | 🟡 Imprecise | L17 Arcane Mastery | Add four wizard spells of 6th, 7th, 8th and 9th level to your cleric spell list. | Choose one wizard spell each of 6th, 7th, 8th and 9th level; they become domain spells (always prepared) and count as cleric spells. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Spell Breaker, Potent Spellcasting, Arcane Mastery.
 
@@ -1173,8 +1310,8 @@ Subclass chosen at level 2.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟠 Missing | L3 Circle Spells (terrain lists) | Feature name only; no spell list in the data. | At 3rd level the druid chooses a land (Arctic, Coast, Desert, Forest, Grassland, Mountain, Swamp, Underdark), each with its own always-prepared spells at 3, 5, 7 and 9 (for example Forest: barkskin, spider climb; call lightning, plant growth; divination, freedom of movement; commune with nature, tree stride). No terrain choice or terrain lists were found in the subclass data (builder not checked). | Verified (wiki) |
-| 2 | 🟡 Imprecise | All levels (SRD) | Names only: Bonus Cantrip, Natural Recovery, Circle Spells, Land's Stride, Nature's Ward, Nature's Sanctuary. | Names and levels match the SRD (2, 2, 3, 6, 10, 14). | High |
+| 1 | 🟠 Missing | L3 Circle Spells (terrain lists) | Feature name only; no spell list in the data. | At 3rd level the druid chooses a land (Arctic, Coast, Desert, Forest, Grassland, Mountain, Swamp, Underdark), each with its own always-prepared spells at 3, 5, 7 and 9 (for example Forest: barkskin, spider climb; call lightning, plant growth; divination, freedom of movement; commune with nature, tree stride). No terrain choice or terrain lists were found in the subclass data (builder not checked). | Verified (2 sources) |
+| 2 | 🟡 Imprecise | All levels (SRD) | Names only: Bonus Cantrip, Natural Recovery, Circle Spells, Land's Stride, Nature's Ward, Nature's Sanctuary. | Names and levels match the SRD (2, 2, 3, 6, 10, 14). | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Bonus Cantrip, Circle Spells.
 
@@ -1219,7 +1356,11 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 **Findings against the rules**
 
-No discrepancy found. Levels, features and numbers match the published rules as far as I can tell.
+| # | | Where | What the app has | What the rules say | Confidence |
+|---|---|---|---|---|---|
+| 1 | 🔴 Wrong | L14 Walker in Dreams | After a short rest, cast dream, scrying or teleportation circle without a slot, the circle keyed to a place you have seen. | When you finish a short rest you can cast dream (you as the messenger), scrying or teleportation circle without a slot or material components. Teleportation circle opens a portal to the last location where you finished a long rest on your current plane, not to a place you have seen (it fails, but is not wasted, if you have not taken a long rest on that plane). Once used, you cannot use it again until you finish a long rest. The app has the wrong destination and no limit. | Verified (2 sources) |
+| 2 | 🟡 Imprecise | L6 Hearth of Moonlight and Shadow | A 30-foot camp during a rest that grants concealment, silence, and a bonus to Perception and Stealth for everyone inside. | During a short or long rest you touch a point and an invisible 30-foot-radius sphere appears (total cover blocks it). You and your allies inside get +5 to Dexterity (Stealth) and Wisdom (Perception) checks, and light from open flames inside is not visible outside. There is no silence effect and no concealment effect. | Verified (2 sources) |
+| 3 | 🟡 Imprecise | L10 Hidden Paths | A bonus action teleports you 60 feet, or a creature you touch 30 feet. | Teleporting yourself up to 60 ft to an unoccupied space you can see is a bonus action; teleporting one willing creature you touch up to 30 ft is an action. Uses are a Wisdom modifier number (minimum once) per long rest (correct in the app). | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Hearth of Moonlight and Shadow.
 
@@ -1244,8 +1385,8 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L14 Faithful Summons | Four dire wolves appear and defend you for an hour. | You gain the effects of conjure animals as if cast with a 9th-level slot: four beasts of your choice of CR 2 or lower, within 20 ft, for an hour with no concentration. Once per long rest. Not fixed dire wolves. | Verified (wiki) |
-| 2 | 🔴 Wrong | L2 Spirit Totem: Unicorn | Unicorn grants attack advantage against creatures in it and boosts your healing. | Unicorn Spirit gives you and your allies advantage on checks to detect creatures in the aura, and when you cast a healing spell with a slot, chosen creatures in the aura regain hit points equal to your druid level. Attack advantage is Hawk Spirit (a reaction, for an attack against a target in the aura). | Verified (wiki) |
+| 1 | 🔴 Wrong | L14 Faithful Summons | Four dire wolves appear and defend you for an hour. | If you are reduced to 0 hit points or are incapacitated against your will, you immediately gain the effects of conjure animals as if cast with a 9th-level slot: four beasts of your choice that are CR 2 or lower, appearing within 20 ft; without commands they protect you and attack your foes. It lasts 1 hour with no concentration (or until you dismiss it). Once per long rest. Not fixed dire wolves, and incapacitation also triggers it. | Verified (2 sources) |
+| 2 | 🔴 Wrong | L2 Spirit Totem: Unicorn | Unicorn grants attack advantage against creatures in it and boosts your healing. | Unicorn Spirit gives you and your allies advantage on checks to detect creatures in the aura, and when you cast a healing spell with a slot, chosen creatures in the aura regain hit points equal to your druid level. Attack advantage is Hawk Spirit (a reaction, for an attack against a target in the aura). | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Speech of the Woods, Mighty Summoner, Guardian Spirit.
 
@@ -1272,8 +1413,8 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | L10 Spreading Spores | Hurl spores into a 10-foot cube within 30 feet, damaging creatures that start there instead of using Halo of Spores. | It is a bonus action usable only while Symbiotic Entity is active, with a 10-foot cube within 30 ft for 1 minute; creatures that enter or start there make a Constitution save or take your Halo of Spores damage. The prerequisite is missing. | Verified (wiki) |
-| 2 | 🟡 Imprecise | L2 Halo of Spores | 1d4 necrotic, scaling with druid level. | 1d4, then 1d6 at 6th, 1d8 at 10th, 1d10 at 14th. | Verified (wiki) |
+| 1 | 🟡 Imprecise | L10 Spreading Spores | Hurl spores into a 10-foot cube within 30 feet, damaging creatures that start there instead of using Halo of Spores. | It is a bonus action usable only while Symbiotic Entity is active, with a 10-foot cube within 30 ft for 1 minute; creatures that enter or start there make a Constitution save or take your Halo of Spores damage. The prerequisite is missing. | Verified (2 sources) |
+| 2 | 🟡 Imprecise | L2 Halo of Spores | 1d4 necrotic, scaling with druid level. | 1d4, then 1d6 at 6th, 1d8 at 10th, 1d10 at 14th. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Spreading Spores.
 
@@ -1322,8 +1463,9 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | Circle Spells L3 | Blur, Scorching Ray. | Flaming Sphere, Scorching Ray. Blur is not a Wildfire spell. | Verified (wiki) |
-| 2 | 🔴 Wrong | Circle Spells L5 | Revivify, Fireball. | Plant Growth, Revivify. Fireball is not a Wildfire spell. | Verified (wiki) |
+| 1 | 🔴 Wrong | Circle Spells L3 | Blur, Scorching Ray. | Flaming Sphere, Scorching Ray. Blur is not a Wildfire spell. | Verified (2 sources) |
+| 2 | 🔴 Wrong | Circle Spells L5 | Revivify, Fireball. | Plant Growth, Revivify. Fireball is not a Wildfire spell. | Verified (2 sources) |
+| 3 | 🟡 Imprecise | L10 Cauterizing Flames | When a creature dies near you or the spirit, a flame springs up that either heals or burns the next creature to move through it for 2d10 + your Wisdom modifier. | When a Small or larger creature dies within 30 ft of you or your wildfire spirit, a spectral flame lasts 1 minute in its space. When a creature you can see enters that space you can use your reaction to extinguish it and heal or deal fire damage to that creature for 2d10 + Wisdom modifier. You can do this a number of times equal to your proficiency bonus per long rest. The app omits the uses and the reaction. | Verified (2 sources) |
 
 ## Fighter
 
@@ -1350,7 +1492,7 @@ Subclass chosen at level 3.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | All levels (SRD) | Names only: Improved Critical, Remarkable Athlete, Additional Fighting Style, Superior Critical, Survivor. | Names and levels match (3, 7, 10, 15, 18). Descriptions are not in the subclass file. | High |
+| 1 | 🟡 Imprecise | All levels (SRD) | Names only: Improved Critical, Remarkable Athlete, Additional Fighting Style, Superior Critical, Survivor. | Names and levels match (3, 7, 10, 15, 18). Descriptions are not in the subclass file. | Verified (2 sources) |
 
 <a id="fighter-battle-master"></a>
 ### Battle Master
@@ -1373,7 +1515,7 @@ Subclass chosen at level 3.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | L3 Combat Superiority / L10 / L18 | Improved Combat Superiority is folded into Combat Superiority. | Improved Combat Superiority is its own feature at 10th (d10) and 18th (d12). Dice (4/5/6) and maneuver counts (3/5/7/9) are correct in the text. | Verified (wiki) |
+| 1 | 🟡 Imprecise | L3 Combat Superiority / L10 / L18 | Improved Combat Superiority is folded into Combat Superiority. | Improved Combat Superiority is its own feature at 10th (d10) and 18th (d12). Dice (4/5/6) and maneuver counts (3/5/7/9) are correct in the text. | Verified (2 sources) |
 
 <a id="fighter-eldritch-knight"></a>
 ### Eldritch Knight
@@ -1420,8 +1562,8 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟠 Missing | L18 Arcane Shot damage | Not listed. | At 18th level the Arcane Shot damage increases (the 2d6 options become 4d6). The text mentions options at 18 but not the damage increase. | Verified (wiki) |
-| 2 | 🟡 Imprecise | L3 Arcane Shot (timing) | Used twice per short or long rest on an arrow hit. | You apply an option when you fire a shortbow or longbow arrow as part of the Attack action, once per turn (before you know if it hits), two uses per short or long rest. Damage dice by option: banishing none (2d6 force at 18th), beguiling/enfeebling/shadow/bursting/grasping 2d6 (4d6 at 18th), piercing/seeking 1d6 (2d6 at 18th). | Verified (wiki) |
+| 1 | 🟡 Imprecise | L18 Arcane Shot (damage increase) | Not listed. Arcane Shot says only that more options are learned at 7th, 10th, 15th and 18th. | At 18th level each Arcane Shot option also improves: the 2d6 options (beguiling, bursting, enfeebling, grasping, shadow) become 4d6, piercing and seeking go from 1d6 to 2d6, and banishing arrow, which has no damage before, gains 2d6 force. | Verified (2 sources) |
+| 2 | 🟡 Imprecise | L3 Arcane Shot (timing) | Two options known, used twice per short or long rest on an arrow hit. | Once per turn when you fire an arrow from a shortbow or longbow as part of the Attack action you can apply one option. You decide to use it when the arrow hits a creature, unless the option does not involve an attack roll (piercing and seeking arrows make no attack roll; a Dexterity save replaces it). You have two uses, regained on a short or long rest. Damage dice by option: beguiling, bursting, enfeebling, grasping, shadow 2d6 (4d6 at 18th); piercing, seeking 1d6 (2d6 at 18th); banishing none (2d6 force at 18th). The app omits the once-per-turn rule, the bow requirement and the no-attack-roll options. | Verified (2 sources) |
 
 <a id="fighter-cavalier"></a>
 ### Cavalier
@@ -1446,8 +1588,9 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | L10 Hold the Line | Opportunity attack against a creature that moves within your reach, stopping it dead. | Creatures provoke an opportunity attack from you when they move 5 ft or more while within your reach, even if they Disengage; on a hit the creature's speed becomes 0 for the turn. | Verified (wiki) |
-| 2 | 🟡 Imprecise | L3 Unwavering Mark | On your next turn you can make a bonus attack against it that deals extra damage on a hit and gives it disadvantage on its next attack. | The bonus-action special attack is available only if the marked creature deals damage to someone other than you; it adds extra damage equal to half your fighter level. The mark lasts until the end of your next turn. | Verified (wiki) |
+| 1 | 🟡 Imprecise | L10 Hold the Line | Opportunity attack against a creature that moves within your reach, stopping it dead. | Creatures provoke an opportunity attack from you when they move 5 ft or more while within your reach, and if you hit a creature with an opportunity attack its speed becomes 0 until the end of the current turn. The app says the creature is 'stopped dead' without the movement trigger or the speed-0-until-end-of-turn wording. | Verified (2 sources) |
+| 2 | 🔴 Wrong | L3 Unwavering Mark | A creature you hit in melee is marked until your next turn: it has disadvantage attacking anyone else, and on your next turn you can make a bonus attack against it that deals extra damage on a hit and gives it disadvantage on its next attack. | The mark lasts until the end of your next turn. While it is within 5 ft of you, the marked creature has disadvantage on attack rolls that do not target you. If it deals damage to anyone other than you, you can make a special melee weapon attack against it as a bonus action on your next turn with advantage on the attack roll; on a hit it takes extra damage equal to half your fighter level. There is no disadvantage on its next attack. Uses: Strength modifier (minimum once) per long rest (the app has this right). | Verified (2 sources) |
+| 3 | 🟡 Imprecise | L15 Ferocious Charger | Once per turn, a hit after moving 10 feet in a straight line knocks a Large or smaller creature prone on a failed Strength save. | If you move at least 10 ft in a straight line right before attacking a creature and hit it, the target must succeed on a Strength saving throw (8 + proficiency bonus + Strength modifier) or be knocked prone. Once on each of your turns. There is no size restriction in the text. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Ferocious Charger.
 
@@ -1473,7 +1616,7 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L18 Strength before Death | Once per long rest, a reaction on taking damage lets you act immediately before the damage is applied. | When damage reduces you to 0 hit points, you use your reaction to delay falling unconscious and immediately take an extra turn. During it, damage causes death save failures and you fall unconscious at the end of the turn if still at 0. It is not 'before the damage is applied'. | Verified (wiki) |
+| 1 | 🔴 Wrong | L18 Strength before Death | Once per long rest, a reaction on taking damage lets you act immediately before the damage is applied. | When damage reduces you to 0 hit points, you use your reaction to delay falling unconscious and immediately take an extra turn. During it, damage causes death save failures and you fall unconscious at the end of the turn if still at 0. It is not 'before the damage is applied'. | Verified (2 sources) |
 
 <a id="fighter-echo-knight"></a>
 ### Echo Knight
@@ -1497,7 +1640,7 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L3 Manifest Echo | The echo has 1 hit point and your AC. | The echo has AC 14 + your proficiency bonus, 1 hit point, and immunity to all conditions. It is destroyed if it ends your turn more than 30 ft away. | Verified (wiki) |
+| 1 | 🔴 Wrong | L3 Manifest Echo | The echo has 1 hit point and your AC. | The echo has AC 14 + your proficiency bonus (not your AC), 1 hit point and immunity to all conditions, and uses your saving throw bonuses. You manifest it as a bonus action within 15 ft. On your turn you mentally command it to move up to 30 ft with no action required (the app says bonus action). Swapping places with it is a bonus action and costs 15 ft of your movement. It is destroyed if it is more than 30 ft from you at the end of your turn. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Echo Avatar.
 
@@ -1523,7 +1666,9 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 **Findings against the rules**
 
-No discrepancy found. Levels, features and numbers match the published rules as far as I can tell.
+| # | | Where | What the app has | What the rules say | Confidence |
+|---|---|---|---|---|---|
+| 1 | 🟡 Imprecise | L3 Psionic Power | A pool of Psionic Energy dice, twice your proficiency bonus per long rest, starting at d6 and growing with fighter level; one die returns on a short rest. | You have a number of Psionic Energy dice equal to twice your proficiency bonus (d6, d8 at 5th, d10 at 11th, d12 at 17th) and regain all of them on a long rest. In addition, as a bonus action you can regain one expended die, once until you finish a short or long rest. A die does not return automatically on a short rest. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Guarded Mind.
 
@@ -1572,8 +1717,8 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L7 Royal Envoy | Proficiency and expertise in Persuasion, plus one extra language. | Proficiency in Persuasion, or if you already have it, proficiency in one of Animal Handling, Insight, Intimidation or Performance; and your proficiency bonus is doubled on Persuasion checks either way. There is no extra language. | Verified (wiki) |
-| 2 | 🔴 Wrong | L15 Bulwark | Indomitable also lets one ally within 60 feet reroll a failed ability check. | It applies to Intelligence, Wisdom or Charisma SAVING THROWS: when you use Indomitable on one, choose an ally within 60 ft that also failed the same save and can see or hear you; it rerolls the save and must use the new result. | Verified (wiki) |
+| 1 | 🔴 Wrong | L7 Royal Envoy | Proficiency and expertise in Persuasion, plus one extra language. | Proficiency in Persuasion, or if you already have it, proficiency in one of Animal Handling, Insight, Intimidation or Performance; and your proficiency bonus is doubled on Persuasion checks either way. There is no extra language. | Verified (2 sources) |
+| 2 | 🔴 Wrong | L15 Bulwark | Indomitable also lets one ally within 60 feet reroll a failed ability check. | It applies to Intelligence, Wisdom or Charisma SAVING THROWS: when you use Indomitable on one, choose an ally within 60 ft that also failed the same save and can see or hear you; it rerolls the save and must use the new result. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Rallying Cry.
 
@@ -1601,7 +1746,7 @@ Subclass chosen at level 3.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | All levels (SRD) | Names only: Open Hand Technique, Wholeness of Body, Tranquility, Quivering Palm. | Names and levels match (3, 6, 11, 17). | High |
+| 1 | 🟡 Imprecise | All levels (SRD) | Names only: Open Hand Technique, Wholeness of Body, Tranquility, Quivering Palm. | Names and levels match (3, 6, 11, 17). | Verified (2 sources) |
 
 <a id="monk-way-of-shadow"></a>
 ### Way of Shadow
@@ -1689,9 +1834,9 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L3 Path of the Kensei | Two kensei weapons count as monk weapons, one ranged kensei weapon adds +2 AC as a bonus action, and an unarmed strike as a bonus action follows a kensei attack. | Agile Parry: when you make an unarmed strike as part of the Attack action while wielding a kensei weapon, you gain +2 AC until the start of your next turn. It has nothing to do with ranged weapons or a bonus action. The bonus-action unarmed strike with a kensei weapon attack is also not part of the rules; only the monk's own Martial Arts bonus strike applies. | Verified (wiki) |
-| 2 | 🟠 Missing | L3 Kensei Weapons / Agile Parry | Agile Parry is not named. | The three level-3 pieces are Kensei Weapons (two: one melee, one ranged), Agile Parry and Kensei's Shot. | Verified (wiki) |
-| 3 | 🟡 Imprecise | L3 Kensei Weapons | Two kensei weapons count as monk weapons. | One melee and one ranged simple or martial weapon without heavy or special (plus longbow); you can choose another kensei weapon at 6th, 11th and 17th level. The additional picks are not mentioned. | Verified (wiki) |
+| 1 | 🔴 Wrong | L3 Path of the Kensei | Two kensei weapons count as monk weapons, one ranged kensei weapon adds +2 AC as a bonus action, and an unarmed strike as a bonus action follows a kensei attack. | Agile Parry: when you make an unarmed strike as part of the Attack action while wielding a kensei weapon, you gain +2 AC until the start of your next turn. It has nothing to do with ranged weapons or a bonus action. The bonus-action unarmed strike with a kensei weapon attack is also not part of the rules; only the monk's own Martial Arts bonus strike applies. | Verified (2 sources) |
+| 2 | 🟠 Missing | L3 Kensei Weapons / Agile Parry | Agile Parry is not named. | The three level-3 pieces are Kensei Weapons (two: one melee, one ranged), Agile Parry and Kensei's Shot. | Verified (2 sources) |
+| 3 | 🟡 Imprecise | L3 Kensei Weapons | Two kensei weapons count as monk weapons. | One melee and one ranged simple or martial weapon without heavy or special (plus longbow); you can choose another kensei weapon at 6th, 11th and 17th level. The additional picks are not mentioned. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: One with the Blade, Unerring Accuracy.
 
@@ -1735,7 +1880,9 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 **Findings against the rules**
 
-No discrepancy found. Levels, features and numbers match the published rules as far as I can tell.
+| # | | Where | What the app has | What the rules say | Confidence |
+|---|---|---|---|---|---|
+| 1 | 🟡 Imprecise | L3 Touch of Death | When a creature within 5 feet drops to 0 hit points, gain temporary hit points equal to your Wisdom modifier plus your monk level. | When you reduce a creature within 5 feet of you to 0 hit points, you gain temporary hit points equal to your Wisdom modifier + your monk level (minimum 1). It is not triggered by any creature dropping near you, only by your own damage. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Hour of Reaping, Mastery of Death.
 
@@ -1783,9 +1930,9 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L3 Arms of the Astral Self | Spend 1 ki; arms use Wisdom, add 5 feet of reach, shove creatures within 10 feet. | On summoning, creatures you choose within 10 ft make a Dexterity save or take force damage equal to two rolls of your martial arts die. The arms then add 5 ft of reach and let you use Wisdom for attack and damage. There is no shove. | Verified (wiki) |
-| 2 | 🔴 Wrong | L11 Body of the Astral Self | Deflect Energy reaction and add 1d10 to a damage roll once per turn. | Empowered Arms adds one extra roll of your martial arts die (not a fixed 1d10) once per turn when you hit with the arms. Deflect Energy reduces acid, cold, fire, force, lightning or thunder damage by 1d10 + Wisdom modifier. | Verified (wiki) |
-| 3 | 🟡 Imprecise | L6 Visage of the Astral Self | Darkvision, advantage on Insight and Intimidation, Astral Sight. | Astral Sight is the darkvision (120 ft, magical and nonmagical darkness); also Word of the Spirit (speak privately to one creature within 60 ft or project your voice 600 ft), which the app omits. | Verified (wiki) |
+| 1 | 🔴 Wrong | L3 Arms of the Astral Self | Spend 1 ki; arms use Wisdom, add 5 feet of reach, shove creatures within 10 feet. | On summoning, creatures you choose within 10 ft make a Dexterity save or take force damage equal to two rolls of your martial arts die. The arms then add 5 ft of reach and let you use Wisdom for attack and damage. There is no shove. | Verified (2 sources) |
+| 2 | 🔴 Wrong | L11 Body of the Astral Self | Deflect Energy reaction and add 1d10 to a damage roll once per turn. | Empowered Arms adds one extra roll of your martial arts die (not a fixed 1d10) once per turn when you hit with the arms. Deflect Energy reduces acid, cold, fire, force, lightning or thunder damage by 1d10 + Wisdom modifier. | Verified (2 sources) |
+| 3 | 🟡 Imprecise | L6 Visage of the Astral Self | Darkvision, advantage on Insight and Intimidation, Astral Sight. | Astral Sight is the darkvision (120 ft, magical and nonmagical darkness); also Word of the Spirit (speak privately to one creature within 60 ft or project your voice 600 ft), which the app omits. | Verified (2 sources) |
 
 <a id="monk-way-of-the-ascendant-dragon"></a>
 ### Way of the Ascendant Dragon
@@ -1808,10 +1955,10 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L3 Draconic Disciple | You know Draconic, can shift your unarmed damage to acid, cold, fire, lightning or poison, and can add a d4 to a Charisma check once per short rest. | Three parts: Draconic Presence (reaction to reroll a failed Intimidation or Persuasion check, once per long rest after it turns a failure into a success), Draconic Strike (change an unarmed strike's damage type) and Tongue of Dragons (Draconic or another language). The d4 to a Charisma check does not exist. | Verified (wiki) |
-| 2 | 🔴 Wrong | L6 Wings Unfurled | While airborne from a jump or effect, gain a flying speed equal to your walking speed. | Triggered by Step of the Wind: spectral wings give a flying speed equal to your walking speed until the end of the turn, a proficiency-bonus number of times per long rest. There is no 'airborne' condition. | Verified (wiki) |
-| 3 | 🔴 Wrong | L17 Ascendant Aspect | Aspect of the Wyrm reaches 30 feet, grants blindsight, and once per turn lets you deal 3d10 damage to up to three creatures as a reaction. | Three parts: Augment Breath (1 ki makes Breath of the Dragon a 60-ft cone or 90-ft line dealing four martial arts dice), Blindsight (10 ft) and Explosive Fury (when you activate Aspect of the Wyrm, creatures in the aura make a Dexterity save or take 3d10). The aura does not grow to 30 ft, and Explosive Fury is not a reaction. | Verified (wiki) |
-| 4 | 🟡 Imprecise | L3 Breath of the Dragon | Two rolls of your martial arts die. | The wiki summary says the breath deals martial arts die damage that increases at 11th level; I could not confirm the exact dice (two rolls vs one). Check the book. | Low |
+| 1 | 🔴 Wrong | L3 Draconic Disciple | You know Draconic, can shift your unarmed damage to acid, cold, fire, lightning or poison, and can add a d4 to a Charisma check once per short rest. | Three parts: Draconic Presence (reaction to reroll a failed Intimidation or Persuasion check, once per long rest after it turns a failure into a success), Draconic Strike (change an unarmed strike's damage type) and Tongue of Dragons (Draconic or another language). The d4 to a Charisma check does not exist. | Verified (2 sources) |
+| 2 | 🔴 Wrong | L6 Wings Unfurled | While airborne from a jump or effect, gain a flying speed equal to your walking speed. | Triggered by Step of the Wind: spectral wings give a flying speed equal to your walking speed until the end of the turn, a proficiency-bonus number of times per long rest. There is no 'airborne' condition. | Verified (2 sources) |
+| 3 | 🔴 Wrong | L17 Ascendant Aspect | Aspect of the Wyrm reaches 30 feet, grants blindsight, and once per turn lets you deal 3d10 damage to up to three creatures as a reaction. | Three parts: Augment Breath (1 ki makes Breath of the Dragon a 60-ft cone or 90-ft line dealing four martial arts dice), Blindsight (10 ft) and Explosive Fury (when you activate Aspect of the Wyrm, creatures in the aura make a Dexterity save or take 3d10). The aura does not grow to 30 ft, and Explosive Fury is not a reaction. | Verified (2 sources) |
+| 4 | 🟡 Imprecise | L3 Breath of the Dragon (scaling) | Two rolls of your martial arts die. | Two rolls of your martial arts die on a failed save (half on a success), and three rolls from 11th level. The app has the two rolls right but leaves out the increase at 11th level. The cone is 20 ft and the line 30 ft by 5 ft (correct in the app); uses are proficiency bonus per long rest, or 2 ki when none remain (correct). | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Draconic Disciple.
 
@@ -1842,7 +1989,7 @@ Subclass chosen at level 3.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | All levels (SRD) | Names only; oath spells shipped and correct. | Sacred Weapon and Turn the Unholy (3), Aura of Devotion (7), Purity of Spirit (15), Holy Nimbus (20). Oath spells match the SRD. | High |
+| 1 | 🟡 Imprecise | All levels (SRD) | Names only; oath spells shipped and correct. | Sacred Weapon and Turn the Unholy (3), Aura of Devotion (7), Purity of Spirit (15), Holy Nimbus (20). Oath spells match the SRD. | Verified (2 sources) |
 
 <a id="paladin-oath-of-the-ancients"></a>
 ### Oath of the Ancients
@@ -1888,7 +2035,9 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 **Findings against the rules**
 
-No discrepancy found. Levels, features and numbers match the published rules as far as I can tell and the spell list matches.
+| # | | Where | What the app has | What the rules say | Confidence |
+|---|---|---|---|---|---|
+| 1 | 🟡 Imprecise | L20 Avenging Angel | For an hour, gain a 60-foot flying speed and a 30-foot aura that frightens enemies who fail a Wisdom save, giving you advantage against them. | Wings give a 60-ft flying speed and a 30-ft aura of menace. The first time an enemy enters the aura or starts its turn there during a battle it must succeed on a Wisdom save or be frightened for 1 minute or until it takes damage. Attack rolls against the frightened creature have advantage (for every attacker, not only you). Once per long rest. | Verified (2 sources) |
 
 <a id="paladin-oath-of-conquest"></a>
 ### Oath of Conquest
@@ -1961,7 +2110,7 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | L20 Living Legend | A missed attack can be rerolled once per turn, and failed saves can be turned into successes once per turn. | A missed weapon attack can be turned into a hit once per turn; a failed saving throw can be rerolled with a reaction (use the new roll). Recharges on a long rest or by expending a 5th-level spell slot. | Verified (wiki) |
+| 1 | 🟡 Imprecise | L20 Living Legend | A missed attack can be rerolled once per turn, and failed saves can be turned into successes once per turn. | A missed weapon attack can be turned into a hit once per turn; a failed saving throw can be rerolled with a reaction (use the new roll). Recharges on a long rest or by expending a 5th-level spell slot. | Verified (2 sources) |
 
 <a id="paladin-oath-of-the-watchers"></a>
 ### Oath of the Watchers
@@ -1984,7 +2133,9 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 **Findings against the rules**
 
-No discrepancy found. Levels, features and numbers match the published rules as far as I can tell and the spell list matches.
+| # | | Where | What the app has | What the rules say | Confidence |
+|---|---|---|---|---|---|
+| 1 | 🟡 Imprecise | L15 Vigilant Rebuke | A reaction deals 2d8 + Charisma force damage to a creature whose spell or effect you just saved against. | Whenever you or a creature you can see within 30 ft succeeds on an Intelligence, Wisdom or Charisma saving throw, you can use your reaction to deal 2d8 + Charisma modifier force damage to the creature that forced the save. The app limits it to your own saves and omits the ability-score restriction. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Aura of the Sentinel.
 
@@ -2009,9 +2160,7 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 **Findings against the rules**
 
-| # | | Where | What the app has | What the rules say | Confidence |
-|---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | L15 name | Unyielding Spirit. | The feature is named Unyielding Saint (advantage on saves against being paralyzed or stunned). | Verified (wiki) |
+No discrepancy found. Levels, features and numbers match the published rules as far as I can tell.
 
 <a id="paladin-oathbreaker"></a>
 ### Oathbreaker
@@ -2036,8 +2185,8 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L20 Dread Lord | A 30-foot aura of magical darkness that deals 4d10 psychic damage to enemies who start their turn in it, gives attackers disadvantage against you, and lets you make a spectral 4d10 psychic attack as a bonus action. | The aura is gloom that turns bright light to dim, and the 4d10 psychic damage applies only to ENEMIES FRIGHTENED OF YOU when they start their turn there. Your bonus-action attack is a melee spell attack dealing 3d10 + Charisma modifier NECROTIC damage. Sight-reliant attackers have disadvantage against you. | Verified (wiki) |
-| 2 | 🟡 Imprecise | L3 Control Undead | One undead of CR at or below your level within 30 feet obeys you for 24 hours. | Undead with CR equal to or greater than your paladin level are immune, so the CR must be strictly below your level. | Verified (wiki) |
+| 1 | 🔴 Wrong | L20 Dread Lord | A 30-foot aura of magical darkness that deals 4d10 psychic damage to enemies who start their turn in it, gives attackers disadvantage against you, and lets you make a spectral 4d10 psychic attack as a bonus action. | The aura is gloom that turns bright light to dim, and the 4d10 psychic damage applies only to ENEMIES FRIGHTENED OF YOU when they start their turn there. Your bonus-action attack is a melee spell attack dealing 3d10 + Charisma modifier NECROTIC damage. Sight-reliant attackers have disadvantage against you. | Verified (2 sources) |
+| 2 | 🔴 Wrong | L3 Control Undead | One undead of CR at or below your level within 30 feet obeys you for 24 hours on a failed Charisma save. | As an action, one undead you can see within 30 ft must make a Wisdom saving throw (not Charisma). On a failure it obeys your commands for 24 hours or until you use this option again. An undead whose challenge rating is equal to or greater than your paladin level is immune, so the CR must be strictly below your level (the app says at or below). | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Aura of Hate, Supernatural Resistance.
 
@@ -2065,7 +2214,7 @@ Subclass chosen at level 3.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | All levels (SRD) | Names only: Hunter's Prey, Defensive Tactics, Multiattack, Superior Hunter's Defense. | Names and levels match (3, 7, 11, 15). The options inside Hunter's Prey, Defensive Tactics and Multiattack are tracked as picks elsewhere. | High |
+| 1 | 🟡 Imprecise | All levels (SRD) | Names only: Hunter's Prey, Defensive Tactics, Multiattack, Superior Hunter's Defense. | Names and levels match (3, 7, 11, 15). The options inside Hunter's Prey, Defensive Tactics and Multiattack are tracked as picks elsewhere. | Verified (2 sources) |
 
 <a id="ranger-beast-master"></a>
 ### Beast Master
@@ -2087,8 +2236,9 @@ Subclass chosen at level 3.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟠 Missing | Tasha's optional companion | Only the original Ranger's Companion. | Tasha's replaces it with Primal Companion (Beast of the Land, Sea or Sky). That optional version is not offered. | Verified (wiki) |
-| 2 | 🟡 Imprecise | L7 Exceptional Training | A bonus action lets the companion Dash, Disengage, Dodge or Help. | On turns when the beast does not attack, you can use a bonus action to command it to Dash, Disengage or Help (not Dodge). Its attacks count as magical. | Verified (wiki) |
+| 1 | 🟠 Missing | Tasha's optional companion | Only the original Ranger's Companion. | Tasha's replaces it with Primal Companion (Beast of the Land, Sea or Sky). That optional version is not offered. | Verified (2 sources) |
+| 2 | 🟡 Imprecise | L7 Exceptional Training | A bonus action lets the companion Dash, Disengage, Dodge or Help. | On turns when the beast does not attack, you can use a bonus action to command it to Dash, Disengage or Help (not Dodge). Its attacks count as magical. | Verified (2 sources) |
+| 3 | 🟡 Imprecise | L3 Ranger's Companion | A beast of CR 1/4 or lower obeys your commands, adds your proficiency bonus to its rolls and AC, uses your hit points formula and takes the Dodge action unless you command otherwise. | Choose a beast no larger than Medium with CR 1/4 or lower. Add your proficiency bonus to its AC, attack rolls, damage rolls and the saves and skills it is proficient in. Its hit point maximum equals its normal maximum or four times your ranger level, whichever is higher. It takes your initiative; you command its movement with no action and use your action to command Attack, Dash, Disengage or Help; without a command it takes Dodge. 'Uses your hit points formula' does not describe any rule. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Exceptional Training, Bestial Fury, Share Spells.
 
@@ -2113,7 +2263,9 @@ Subclass chosen at level 3.
 
 **Findings against the rules**
 
-No discrepancy found. Levels, features and numbers match the published rules as far as I can tell and the spell list matches.
+| # | | Where | What the app has | What the rules say | Confidence |
+|---|---|---|---|---|---|
+| 1 | 🔴 Wrong | L15 Shadowy Dodge | A reaction imposes disadvantage on an attack against you that would otherwise hit. | Whenever a creature makes an attack roll against you and does not have advantage on the roll, you can use your reaction to impose disadvantage on it. You must use the feature before you know the outcome of the roll, so it cannot be limited to attacks that would hit. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Umbral Sight, Stalker's Flurry.
 
@@ -2165,7 +2317,7 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | Monster Slayer Magic L13 | Dimension Door. | Banishment. The list is Protection from Evil and Good (3), Zone of Truth (5), Magic Circle (9), Banishment (13), Hold Monster (17). | Verified (wiki) |
+| 1 | 🔴 Wrong | Monster Slayer Magic L13 | Dimension Door. | Banishment. The list is Protection from Evil and Good (3), Zone of Truth (5), Magic Circle (9), Banishment (13), Hold Monster (17). | Verified (2 sources) |
 
 <a id="ranger-fey-wanderer"></a>
 ### Fey Wanderer
@@ -2189,7 +2341,9 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 **Findings against the rules**
 
-No discrepancy found. Levels, features and numbers match the published rules as far as I can tell and the spell list matches.
+| # | | Where | What the app has | What the rules say | Confidence |
+|---|---|---|---|---|---|
+| 1 | 🔴 Wrong | L11 Fey Reinforcements | Summon fey is always prepared and can be cast once per long rest without a slot, with the summon able to turn invisible. | You know summon fey; it does not count against your spells known and you can cast it without a material component. You can cast it once without a spell slot, regaining that on a long rest. Whenever you start casting it you can modify it so it does not require concentration; its duration then becomes 1 minute. Nothing makes the summoned fey invisible. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Dreadful Strikes, Fey Wanderer Magic.
 
@@ -2216,7 +2370,7 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | L11 Mighty Swarm | Knocks moved targets prone, gives you half cover when it moves you, and adds 1d6 to its damage. | The swarm's damage die simply becomes 1d8 (already stated for Gathered Swarm); 'adds 1d6' double counts it. | Verified (wiki) |
+| 1 | 🟡 Imprecise | L11 Mighty Swarm | Knocks moved targets prone, gives you half cover when it moves you, and adds 1d6 to its damage. | The swarm's damage die simply becomes 1d8 (already stated for Gathered Swarm); 'adds 1d6' double counts it. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Swarmkeeper Magic.
 
@@ -2241,9 +2395,10 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L7 Bond of Fang and Scale | While the drake is out, you gain resistance to its damage type, the drake gains a fly speed, and your attacks count as magical with extra elemental damage. | The drake grows wings (fly speed = walking speed), becomes Medium and can be ridden, its Bite deals an extra 1d6 of its essence type, and you gain resistance to that type. Your own attacks do not become magical or deal extra damage. | Verified (wiki) |
-| 2 | 🔴 Wrong | L15 Perfected Bond | The drake becomes Large and rideable, gains extra hit points, and adds your proficiency bonus in damage to its attacks. | The drake becomes Large, its Bite's extra damage rises to 2d6 total, and Reflexive Resistance lets you give you or the drake resistance to damage as a reaction (proficiency-bonus uses per long rest). No extra hit points or proficiency damage. | Verified (wiki) |
-| 3 | 🟡 Imprecise | L11 Drake's Breath | Once per long rest, the drake exhales a 30-foot cone dealing 8d6, halved on a Dexterity save. | You or your drake can exhale it, you choose the element, damage is 10d6 from 15th level, and it can be used again by expending a 3rd-level or higher spell slot. | Verified (wiki) |
+| 1 | 🔴 Wrong | L7 Bond of Fang and Scale | While the drake is out, you gain resistance to its damage type, the drake gains a fly speed, and your attacks count as magical with extra elemental damage. | The drake grows wings (fly speed = walking speed), becomes Medium and can be ridden, its Bite deals an extra 1d6 of its essence type, and you gain resistance to that type. Your own attacks do not become magical or deal extra damage. | Verified (2 sources) |
+| 2 | 🔴 Wrong | L15 Perfected Bond | The drake becomes Large and rideable, gains extra hit points, and adds your proficiency bonus in damage to its attacks. | The drake becomes Large, its Bite's extra damage rises to 2d6 total, and Reflexive Resistance lets you give you or the drake resistance to damage as a reaction (proficiency-bonus uses per long rest). No extra hit points or proficiency damage. | Verified (2 sources) |
+| 3 | 🟡 Imprecise | L11 Drake's Breath | Once per long rest, the drake exhales a 30-foot cone dealing 8d6, halved on a Dexterity save. | You or your drake can exhale it, you choose the element, damage is 10d6 from 15th level, and it can be used again by expending a 3rd-level or higher spell slot. | Verified (2 sources) |
+| 4 | 🔴 Wrong | L3 Drake Companion | Summon a Small drake once per long rest or with a spell slot; it acts on your turn, adds your proficiency bonus to its rolls, and has an elemental breath. | The Drake Companion stat block has a Bite (1d6 + proficiency bonus piercing), a Draconic Essence trait (you choose acid, cold, fire, lightning or poison when you summon it; it is immune to that type) and an Infused Strikes reaction (extra 1d6 of that type when another creature within 30 ft hits). Hit points are 5 + 5 x ranger level. A breath weapon comes only from Drake's Breath at 11th level, which you or the drake can use. Resummoning after the first time each long rest costs a spell slot of 1st level or higher. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Draconic Gift, Bond of Fang and Scale, Perfected Bond.
 
@@ -2272,7 +2427,7 @@ Subclass chosen at level 3.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | All levels (SRD) | Names only: Fast Hands, Second-Story Work, Supreme Sneak, Use Magic Device, Thief's Reflexes. | Names and levels match (3, 3, 9, 13, 17). | High |
+| 1 | 🟡 Imprecise | All levels (SRD) | Names only: Fast Hands, Second-Story Work, Supreme Sneak, Use Magic Device, Thief's Reflexes. | Names and levels match (3, 3, 9, 13, 17). | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Use Magic Device.
 
@@ -2318,7 +2473,9 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 **Findings against the rules**
 
-No discrepancy found. Levels, features and numbers match the published rules as far as I can tell.
+| # | | Where | What the app has | What the rules say | Confidence |
+|---|---|---|---|---|---|
+| 1 | 🔴 Wrong | L17 Spell Thief | A reaction steals a spell cast at you on a failed save by the caster, denying them the spell for 8 hours and letting you cast it once; recharges on a long rest. | Immediately after a creature casts a spell that targets you or includes you in its area, you use your reaction to force it to make a saving throw with its spellcasting ability modifier against your spell save DC. On a failure you negate the spell's effect against you and, if the spell is 1st level or higher and of a level you can cast, steal it: for the next 8 hours you know it and can cast it using your spell slots, and the creature cannot cast it. You can use Spell Thief once per long rest. The app says you can cast the spell only once. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Mage Hand Legerdemain.
 
@@ -2388,7 +2545,9 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 **Findings against the rules**
 
-No discrepancy found. Levels, features and numbers match the published rules as far as I can tell.
+| # | | Where | What the app has | What the rules say | Confidence |
+|---|---|---|---|---|---|
+| 1 | 🟡 Imprecise | L3 Ear for Deceit | Treat any Insight roll of 7 or lower as an 8. | Whenever you make a Wisdom (Insight) check to determine whether a creature is lying, treat a roll of 7 or lower on the d20 as an 8. It does not apply to other Insight checks. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Ear for Deceit.
 
@@ -2434,8 +2593,8 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L9 Tokens of the Departed | Advantage on death and Constitution saves, resistance to poison. | While you carry a soul trinket you have advantage on Constitution saving throws and death saving throws. There is no poison resistance. | Verified (wiki) |
-| 2 | 🟡 Imprecise | L17 Death's Friend | Wails from the Grave triggers alongside every sneak attack at full strength, and a soul trinket forms at the end of each long rest. | Wails from the Grave now also deals its necrotic damage to the first creature (not just the second); and a soul trinket forms at the end of a long rest only if you have none. It does not trigger on every sneak attack. | Verified (wiki) |
+| 1 | 🔴 Wrong | L9 Tokens of the Departed | Advantage on death and Constitution saves, resistance to poison. | While you carry a soul trinket you have advantage on Constitution saving throws and death saving throws. There is no poison resistance. | Verified (2 sources) |
+| 2 | 🟡 Imprecise | L17 Death's Friend | Wails from the Grave triggers alongside every sneak attack at full strength, and a soul trinket forms at the end of each long rest. | Wails from the Grave now also deals its necrotic damage to the first creature (not just the second); and a soul trinket forms at the end of a long rest only if you have none. It does not trigger on every sneak attack. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Whispers of the Dead, Death's Friend.
 
@@ -2462,7 +2621,8 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | L3 Psychic Blades | Dice grow with rogue level. | The blades stay 1d6 and 1d4; it is the Psionic Energy dice that grow (d6, d8 at 5, d10 at 11, d12 at 17). | Verified (wiki) |
+| 1 | 🟡 Imprecise | L3 Psychic Blades | Dice grow with rogue level. | The blades stay 1d6 and 1d4; it is the Psionic Energy dice that grow (d6, d8 at 5, d10 at 11, d12 at 17). | Verified (2 sources) |
+| 2 | 🟡 Imprecise | L3 Psionic Power (Soulknife) | A pool of Psionic Energy dice, twice your proficiency bonus per long rest, starting at d6 and growing with rogue level; one returns on a short rest. | Twice your proficiency bonus in Psionic Energy dice (d6; d8 at 5th, d10 at 11th, d12 at 17th), all regained on a long rest. As a bonus action you can also regain one expended die, once until you finish a short or long rest. A die does not return automatically on a short rest. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Soul Blades.
 
@@ -2491,7 +2651,7 @@ Subclass chosen at level 1.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | All levels (SRD) | Names only: Dragon Ancestor, Draconic Resilience, Elemental Affinity, Dragon Wings, Draconic Presence. | Names and levels match (1, 1, 6, 14, 18). | High |
+| 1 | 🟡 Imprecise | All levels (SRD) | Names only: Dragon Ancestor, Draconic Resilience, Elemental Affinity, Dragon Wings, Draconic Presence. | Names and levels match (1, 1, 6, 14, 18). | Verified (2 sources) |
 
 <a id="sorcerer-wild-magic"></a>
 ### Wild Magic
@@ -2535,9 +2695,7 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 **Findings against the rules**
 
-| # | | Where | What the app has | What the rules say | Confidence |
-|---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | L14 name | Otherworldly Wings. | The feature is named Angelic Form (30 ft flying speed with spectral wings whose look depends on your affinity). | Verified (wiki) |
+No discrepancy found. Levels, features and numbers match the published rules as far as I can tell.
 
 **Engine hint:** no engine reference found for: Divine Magic, Empowered Healing.
 
@@ -2562,7 +2720,7 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L1 Eyes of the Dark | Darkvision to 120 feet, and darkness can be cast for 2 sorcery points and seen through. | 120 ft darkvision is level 1, but you learn darkness at 3rd level (not 1st). The sorcery-point casting and seeing through it are correct. | Verified (wiki) |
+| 1 | 🔴 Wrong | L1 Eyes of the Dark | Darkvision to 120 feet, and darkness can be cast for 2 sorcery points and seen through. | 120 ft darkvision is level 1, but you learn darkness at 3rd level (not 1st). The sorcery-point casting and seeing through it are correct. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Eyes of the Dark.
 
@@ -2588,7 +2746,7 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | Storm Guide level | Storm Guide at 14th level. | Storm Guide is a 6th-level feature (with Heart of the Storm). 14th has Storm's Fury only. | Verified (wiki) |
+| 1 | 🔴 Wrong | Storm Guide level | Storm Guide at 14th level. | Storm Guide is a 6th-level feature (with Heart of the Storm). 14th has Storm's Fury only. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Wind Speaker.
 
@@ -2614,7 +2772,9 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 **Findings against the rules**
 
-No discrepancy found. Levels, features and numbers match the published rules as far as I can tell and the spell list matches.
+| # | | Where | What the app has | What the rules say | Confidence |
+|---|---|---|---|---|---|
+| 1 | 🔴 Wrong | L14 Revelation in Flesh | Spend 1 or more sorcery points for a minute of aberrant change: see invisible things, swim and breathe water, fly, or squeeze through tiny gaps. | As a bonus action you spend 1 or more sorcery points to transform for 10 minutes (not 1 minute). For each point spent you pick one benefit: see invisible creatures within 60 ft; fly at your walking speed and hover; swim at twice your walking speed and breathe underwater; or squeeze through spaces as narrow as 1 inch and escape nonmagical restraints or grapples for 5 ft of movement. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Psionic Spells, Psionic Sorcery, Psychic Defenses, Revelation in Flesh.
 
@@ -2664,7 +2824,7 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | Whole subclass | Lunar Embodiment shifts spells to radiant or cold; Moon Fire changes your phase; Waxing and Waning at 14th; Lunar Phenomenon at 18th. | Real features: Lunar Embodiment (1st: choose a moon phase after each long rest; each phase grants a spell at 1, 3, 5, 7, 9: Full Moon shield, lesser restoration, dispel magic, death ward, Rary's telepathic bond; New Moon ray of sickness, blindness/deafness, vampiric touch, confusion, hold monster; Crescent Moon color spray, alter self, phantom steed, hallucinatory terrain, mislead), Moon Fire (1st: sacred flame, targeting two creatures within 5 ft), Lunar Boons (6th: metamagic cost reduced by 1 for spells of your phase's schools), Waxing and Waning (6th, not 14th: switch phase for 1 sorcery point), Lunar Empowerment (14th, missing: phase-specific boons) and Lunar Phenomenon (18th: 3d8 heal and blind / 3d10 necrotic / 60-ft teleport). The shipped text and the 14th-level feature are wrong; the spell lists are absent. | Verified (wiki) |
+| 1 | 🔴 Wrong | Whole subclass | Lunar Embodiment shifts spells to radiant or cold; Moon Fire changes your phase; Waxing and Waning at 14th; Lunar Phenomenon at 18th. | Real features: Lunar Embodiment (1st: choose a moon phase after each long rest; each phase grants a spell at 1, 3, 5, 7, 9: Full Moon shield, lesser restoration, dispel magic, death ward, Rary's telepathic bond; New Moon ray of sickness, blindness/deafness, vampiric touch, confusion, hold monster; Crescent Moon color spray, alter self, phantom steed, hallucinatory terrain, mislead), Moon Fire (1st: sacred flame, targeting two creatures within 5 ft), Lunar Boons (6th: metamagic cost reduced by 1 for spells of your phase's schools), Waxing and Waning (6th, not 14th: switch phase for 1 sorcery point), Lunar Empowerment (14th, missing: phase-specific boons) and Lunar Phenomenon (18th: 3d8 heal and blind / 3d10 necrotic / 60-ft teleport). The shipped text and the 14th-level feature are wrong; the spell lists are absent. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Lunar Embodiment, Lunar Boons, Waxing and Waning.
 
@@ -2694,9 +2854,9 @@ Subclass chosen at level 1.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟠 Missing | Expanded spell list | No spells in the data at all. | Fiend expanded spells: burning hands, command (L1); blindness/deafness, scorching ray (L3); fireball, stinking cloud (L5); fire shield, wall of fire (L7); flame strike, hallow (L9). RAW they are added to the pool of spells the warlock may learn, not granted for free. | Verified (wiki) |
-| 2 | 🟡 Imprecise | All levels (SRD) | Names only: Dark One's Blessing, Dark One's Own Luck, Fiendish Resilience, Hurl Through Hell. | Names and levels match (1, 6, 10, 14). The engine implements Dark One's Blessing (Charisma modifier + warlock level temp HP on a kill), Dark One's Own Luck, Fiendish Resilience and Hurl Through Hell. | High |
-| 3 | 🟡 Imprecise | L10 Fiendish Resilience | Resistance to the chosen damage type. | The chosen resistance does not apply to damage from magical weapons or silvered weapons. The resistance code (trait-rules.ts, chosenResistances) reads the chosen type from the feature name and I found no weapon exception. | Verified (wiki) |
+| 1 | 🟠 Missing | Expanded spell list | No spells in the data at all. | Fiend expanded spells: burning hands, command (L1); blindness/deafness, scorching ray (L3); fireball, stinking cloud (L5); fire shield, wall of fire (L7); flame strike, hallow (L9). RAW they are added to the pool of spells the warlock may learn, not granted for free. | Verified (2 sources) |
+| 2 | 🟡 Imprecise | All levels (SRD) | Names only: Dark One's Blessing, Dark One's Own Luck, Fiendish Resilience, Hurl Through Hell. | Names and levels match (1, 6, 10, 14). The engine implements Dark One's Blessing (Charisma modifier + warlock level temp HP on a kill), Dark One's Own Luck, Fiendish Resilience and Hurl Through Hell. | Verified (2 sources) |
+| 3 | 🟡 Imprecise | L10 Fiendish Resilience | Resistance to the chosen damage type. | The chosen resistance does not apply to damage from magical weapons or silvered weapons. The resistance code (trait-rules.ts, chosenResistances) reads the chosen type from the feature name and I found no weapon exception. | Verified (2 sources) |
 
 <a id="warlock-the-archfey"></a>
 ### The Archfey
@@ -2720,10 +2880,8 @@ Subclass chosen at level 1.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L10 Beguiling Defenses | A reaction turns a charm attempt back on the caster for 1 minute and 3d10 psychic damage per turn. | The reaction forces a Wisdom save; on a failure the creature is charmed by you for 1 minute or until it takes damage. There is no 3d10 psychic damage. | Verified (wiki) |
-| 2 | 🟡 Imprecise | L14 Dark Delirium | Wrap a creature in illusion for a minute; removable to the Feywild. | Action; a creature within 60 ft makes a Wisdom save or is charmed or frightened (your choice) for 1 minute or until your concentration is broken. It thinks it is in an illusory realm. Once per short or long rest. | Verified (wiki) |
-
-*See also cross-cutting finding 2: the expanded spells are granted for free by the app, but are only added to the choice pool by the rules.*
+| 1 | 🔴 Wrong | L10 Beguiling Defenses | A reaction turns a charm attempt back on the caster for 1 minute and 3d10 psychic damage per turn. | The reaction forces a Wisdom save; on a failure the creature is charmed by you for 1 minute or until it takes damage. There is no 3d10 psychic damage. | Verified (2 sources) |
+| 2 | 🟡 Imprecise | L14 Dark Delirium | Wrap a creature in illusion for a minute; removable to the Feywild. | Action; a creature within 60 ft makes a Wisdom save or is charmed or frightened (your choice) for 1 minute or until your concentration is broken. It thinks it is in an illusory realm. Once per short or long rest. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Dark Delirium.
 
@@ -2749,9 +2907,7 @@ Subclass chosen at level 1.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L1 Awakened Mind | Speak telepathically to any creature within 30 feet that shares a language with you. | The creature does not need to share your language, but it must understand at least one language. | Verified (wiki) |
-
-*See also cross-cutting finding 2: the expanded spells are granted for free by the app, but are only added to the choice pool by the rules.*
+| 1 | 🔴 Wrong | L1 Awakened Mind | Speak telepathically to any creature within 30 feet that shares a language with you. | The creature does not need to share your language, but it must understand at least one language. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Awakened Mind, Thought Shield, Create Thrall.
 
@@ -2778,10 +2934,9 @@ Subclass chosen at level 1.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | L10 Celestial Resilience | Temporary hit points after every rest, for you and up to five allies, equal to your warlock level plus your Charisma modifier. | You gain temporary hit points equal to your warlock level + Charisma modifier; up to five allies gain half your warlock level + Charisma modifier. The allies' amount is half. | Verified (wiki) |
-| 2 | 🟡 Imprecise | L1 Healing Light | A pool of d6s equal to 1 + your warlock level. | Matches; additionally you can spend up to your Charisma modifier (minimum 1) dice per use. | Verified (wiki) |
-
-*See also cross-cutting finding 2: the expanded spells are granted for free by the app, but are only added to the choice pool by the rules.*
+| 1 | 🟡 Imprecise | L10 Celestial Resilience | Temporary hit points after every rest, for you and up to five allies, equal to your warlock level plus your Charisma modifier. | You gain temporary hit points equal to your warlock level + Charisma modifier; up to five allies gain half your warlock level + Charisma modifier. The allies' amount is half. | Verified (2 sources) |
+| 2 | 🟡 Imprecise | L1 Healing Light | A pool of d6s equal to 1 + your warlock level. | Matches; additionally you can spend up to your Charisma modifier (minimum 1) dice per use. | Verified (2 sources) |
+| 3 | 🟡 Imprecise | L6 Radiant Soul | Resistance to radiant damage, and once per turn add your Charisma modifier to a radiant or fire spell's damage. | Resistance to radiant damage. When you cast a spell that deals radiant or fire damage, you can add your Charisma modifier to one radiant or fire damage roll of that spell against one of its targets. The limit is one roll per spell, not once per turn. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Bonus Cantrips (Celestial), Radiant Soul.
 
@@ -2808,14 +2963,12 @@ Subclass chosen at level 1.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | L1 Hex Warrior | One weapon each day uses Charisma for attack and damage. | At the end of a long rest, touch one weapon you are proficient with that lacks the two-handed property: you use Charisma for attack and damage with it until you use the feature again. If you have Pact of the Blade you can use Charisma with any pact weapon. 'Each day' is acceptable shorthand; the two-handed restriction and the Pact of the Blade interaction are missing. | Verified (wiki) |
-| 2 | 🟡 Imprecise | L1 Hexblade's Curse | Bonus damage, crit on 19 or 20, hit points back when it dies. | Bonus damage equals proficiency bonus; crits on 19 or 20; when the cursed creature dies you regain hit points equal to warlock level + Charisma modifier (minimum 1). Range 30 ft, 1 minute. The server only has guidance text for this feature; the bonus damage and crit range are not applied automatically (see engine appendix). | Verified (wiki) |
-| 3 | 🟡 Imprecise | L10 Armor of Hexes | Misses on a coin-flip d6 roll even when it would hit. | When the cursed target hits you with an attack roll, you can use your REACTION to roll a d6: on a 4 or higher the attack misses regardless of its roll. The reaction and the 4+ threshold are missing. | Verified (wiki) |
-| 4 | 🟡 Imprecise | L14 Master of Hexes | Move the curse to a new creature without spending a rest. | When the cursed creature dies, apply the curse to another creature you can see within 30 ft of the dead one while you're not incapacitated. You do not regain hit points from the first creature's death when you do so. | Verified (wiki) |
-| 5 | 🟡 Imprecise | L6 Accursed Specter | A humanoid you kill rises as a specter under your command until your next long rest. | The specter has temporary hit points equal to half your warlock level and a bonus to its attack rolls equal to your Charisma modifier (minimum +0). It obeys your verbal commands, leaves at the end of your next long rest, and the feature recharges on a long rest. The app omits the temporary hit points and the attack bonus. | Verified (wiki) |
-| 6 | 🟡 Imprecise | Expanded spells | Granted automatically. | Hexblade has an expanded spell list; the spells are added to the pool the warlock picks from, not granted free. The list itself is correct: shield, wrathful smite; blur, branding smite; blink, elemental weapon; phantasmal killer, staggering smite; banishing smite, cone of cold. | Verified (wiki) |
-
-*See also cross-cutting finding 2: the expanded spells are granted for free by the app, but are only added to the choice pool by the rules.*
+| 1 | 🟡 Imprecise | L1 Hex Warrior | One weapon each day uses Charisma for attack and damage. | At the end of a long rest, touch one weapon you are proficient with that lacks the two-handed property: you use Charisma for attack and damage with it until you use the feature again. If you have Pact of the Blade you can use Charisma with any pact weapon. 'Each day' is acceptable shorthand; the two-handed restriction and the Pact of the Blade interaction are missing. | Verified (2 sources) |
+| 2 | 🟡 Imprecise | L1 Hexblade's Curse | Bonus damage, crit on 19 or 20, hit points back when it dies. | Bonus damage equals proficiency bonus; crits on 19 or 20; when the cursed creature dies you regain hit points equal to warlock level + Charisma modifier (minimum 1). Range 30 ft, 1 minute. The server only has guidance text for this feature; the bonus damage and crit range are not applied automatically (see engine appendix). | Verified (2 sources) |
+| 3 | 🟡 Imprecise | L10 Armor of Hexes | Misses on a coin-flip d6 roll even when it would hit. | When the cursed target hits you with an attack roll, you can use your REACTION to roll a d6: on a 4 or higher the attack misses regardless of its roll. The reaction and the 4+ threshold are missing. | Verified (2 sources) |
+| 4 | 🟡 Imprecise | L14 Master of Hexes | Move the curse to a new creature without spending a rest. | When the cursed creature dies, apply the curse to another creature you can see within 30 ft of the dead one while you're not incapacitated. You do not regain hit points from the first creature's death when you do so. | Verified (2 sources) |
+| 5 | 🟡 Imprecise | L6 Accursed Specter | A humanoid you kill rises as a specter under your command until your next long rest. | The specter has temporary hit points equal to half your warlock level and a bonus to its attack rolls equal to your Charisma modifier (minimum +0). It obeys your verbal commands, leaves at the end of your next long rest, and the feature recharges on a long rest. The app omits the temporary hit points and the attack bonus. | Verified (2 sources) |
+| 6 | 🟡 Imprecise | Expanded spells | Granted automatically. | Hexblade has an expanded spell list; the spells are added to the pool the warlock picks from, not granted free. The list itself is correct: shield, wrathful smite; blur, branding smite; blink, elemental weapon; phantasmal killer, staggering smite; banishing smite, cone of cold. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Armor of Hexes, Master of Hexes.
 
@@ -2843,13 +2996,11 @@ Subclass chosen at level 1.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L6 Oceanic Soul | Immunity to cold damage. | Resistance to cold damage, not immunity. You can also communicate telepathically with any creature in the water within 120 ft that speaks a language. | Verified (wiki) |
-| 2 | 🟡 Imprecise | L10 Grasping Tentacles | You always have evard's black tentacles prepared, gain temporary hit points when you cast it, and keep concentration through damage more easily. | You learn evard's black tentacles (counts as a warlock spell, not against spells known) and can cast it once per long rest without a slot. Casting it gives temporary hit points equal to your warlock level, and damage cannot break your concentration on it (not just 'more easily'). | Verified (wiki) |
-| 3 | 🔴 Wrong | Expanded spells L9 | Cone of Cold, Commune with Nature. | Bigby's Hand and Cone of Cold. Commune with Nature is not on the Fathomless list. | Verified (wiki) |
-| 4 | 🔴 Wrong | L1 Tentacle of the Deep | 1d8 cold damage and halves a target's speed. | A hit reduces the target's speed by 10 feet until the start of your next turn, not by half. The damage is 1d8 cold, 2d8 from 10th level. Uses are proficiency bonus per long rest (correct). | Verified (wiki) |
-| 5 | 🟡 Imprecise | Expanded spells L7 | Control Water, Summon Elemental. | Matches, but Summon Elemental is limited to water elementals. Also, Oceanic Soul lets submerged creatures understand each other's speech rather than speak to any creature. | Verified (wiki) |
-
-*See also cross-cutting finding 2: the expanded spells are granted for free by the app, but are only added to the choice pool by the rules.*
+| 1 | 🔴 Wrong | L6 Oceanic Soul | Immunity to cold damage. | Resistance to cold damage, not immunity. In addition, when you are fully submerged, any creature that is also fully submerged can understand your speech and you can understand theirs (it is not telepathy and has no 120-ft range). The app says you can speak with any creature underwater, which overstates it. | Verified (2 sources) |
+| 2 | 🟡 Imprecise | L10 Grasping Tentacles | You always have evard's black tentacles prepared, gain temporary hit points when you cast it, and keep concentration through damage more easily. | You learn evard's black tentacles (counts as a warlock spell, not against spells known) and can cast it once per long rest without a slot. Casting it gives temporary hit points equal to your warlock level, and damage cannot break your concentration on it (not just 'more easily'). | Verified (2 sources) |
+| 3 | 🔴 Wrong | Expanded spells L9 | Cone of Cold, Commune with Nature. | Bigby's Hand and Cone of Cold. Commune with Nature is not on the Fathomless list. | Verified (2 sources) |
+| 4 | 🔴 Wrong | L1 Tentacle of the Deep | 1d8 cold damage and halves a target's speed. | A hit reduces the target's speed by 10 feet until the start of your next turn, not by half. The damage is 1d8 cold, 2d8 from 10th level. Uses are proficiency bonus per long rest (correct). | Verified (2 sources) |
+| 5 | 🟡 Imprecise | Expanded spells L7 | Control Water, Summon Elemental. | Matches, but Summon Elemental is limited to water elementals. Also, Oceanic Soul lets submerged creatures understand each other's speech rather than speak to any creature. | Verified (2 sources) |
 
 <a id="warlock-the-genie"></a>
 ### The Genie
@@ -2873,13 +3024,11 @@ Subclass chosen at level 1.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | Expanded spells (all tiers) | A single fixed list: Detect Evil and Good, Protection from Evil and Good; Phantasmal Force, Gust of Wind; Create Food and Water, Phantom Steed; Arcane Eye, Fire Shield; Creation, Seeming. | Each tier has one spell every genie gets (detect evil and good, phantasmal force, create food and water, phantasmal killer, creation) and one by kind. Dao: sanctuary, spike growth, meld into stone, stone shape, wall of stone. Djinni: thunderwave, gust of wind, wind wall, greater invisibility, seeming. Efreeti: burning hands, scorching ray, fireball, fire shield, flame strike. Marid: fog cloud, blur, sleet storm, control water, cone of cold. The shipped list takes some of these but also protection from evil and good, phantom steed and arcane eye, which are not on any Genie list, and has no kind choice. | Verified (wiki) |
-| 2 | 🟠 Missing | L1 Genie's Vessel (kind choice) | No kind choice (Dao, Djinni, Efreeti, Marid). | The patron's kind drives the damage type (bludgeoning, thunder, fire, cold), the expanded spells, the resistance at 6th and the flying/other riders. The app has a generic 'your patron's damage type'. | Verified (wiki) |
-| 3 | 🔴 Wrong | L1 Genie's Vessel: Bottled Respite | Retreat inside it for 10 minutes. | You stay for up to twice your proficiency bonus in HOURS, can leave early with a bonus action, and it returns after a long rest. The vessel is an object with AC equal to your spell save DC and hit points equal to warlock level + proficiency bonus. | Verified (wiki) |
-| 4 | 🔴 Wrong | L10 Sanctuary Vessel | Bottled Respite takes up to five companions with you, and everyone who finishes a short rest inside gains temporary hit points. | Up to five willing creatures within 30 ft can enter; anyone who stays 10 minutes gets the benefits of a short rest, and Hit Dice spent inside add your proficiency bonus to the hit points regained. There are no temporary hit points. | Verified (wiki) |
-| 5 | 🟡 Imprecise | L14 Limited Wish | Replicate any spell of 6th level or lower without components. | As an action, the effect of one spell of 6th level or lower with a casting time of 1 action, from any class list, ignoring its requirements and costly components; it returns after 1d4 long rests. | Verified (wiki) |
-
-*See also cross-cutting finding 2: the expanded spells are granted for free by the app, but are only added to the choice pool by the rules.*
+| 1 | 🔴 Wrong | Expanded spells (all tiers) | A single fixed list: Detect Evil and Good, Protection from Evil and Good; Phantasmal Force, Gust of Wind; Create Food and Water, Phantom Steed; Arcane Eye, Fire Shield; Creation, Seeming. | Each tier has one spell every genie gets (detect evil and good, phantasmal force, create food and water, phantasmal killer, creation) and one by kind. Dao: sanctuary, spike growth, meld into stone, stone shape, wall of stone. Djinni: thunderwave, gust of wind, wind wall, greater invisibility, seeming. Efreeti: burning hands, scorching ray, fireball, fire shield, flame strike. Marid: fog cloud, blur, sleet storm, control water, cone of cold. The shipped list takes some of these but also protection from evil and good, phantom steed and arcane eye, which are not on any Genie list, and has no kind choice. | Verified (2 sources) |
+| 2 | 🟠 Missing | L1 Genie's Vessel (kind choice) | No kind choice (Dao, Djinni, Efreeti, Marid). | The patron's kind drives the damage type (bludgeoning, thunder, fire, cold), the expanded spells, the resistance at 6th and the flying/other riders. The app has a generic 'your patron's damage type'. | Verified (2 sources) |
+| 3 | 🔴 Wrong | L1 Genie's Vessel: Bottled Respite | Retreat inside it for 10 minutes. | You stay for up to twice your proficiency bonus in HOURS, can leave early with a bonus action, and it returns after a long rest. The vessel is an object with AC equal to your spell save DC and hit points equal to warlock level + proficiency bonus. | Verified (2 sources) |
+| 4 | 🔴 Wrong | L10 Sanctuary Vessel | Bottled Respite takes up to five companions with you, and everyone who finishes a short rest inside gains temporary hit points. | Up to five willing creatures within 30 ft can enter; anyone who stays 10 minutes gets the benefits of a short rest, and Hit Dice spent inside add your proficiency bonus to the hit points regained. There are no temporary hit points. | Verified (2 sources) |
+| 5 | 🟡 Imprecise | L14 Limited Wish | Replicate any spell of 6th level or lower without components. | As an action, the effect of one spell of 6th level or lower with a casting time of 1 action, from any class list, ignoring its requirements and costly components; it returns after 1d4 long rests. | Verified (2 sources) |
 
 <a id="warlock-the-undead"></a>
 ### The Undead
@@ -2903,12 +3052,10 @@ Subclass chosen at level 1.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | Expanded spells L1 | False Life, Ray of Sickness. | Bane, False Life. Ray of Sickness is on the Undying list, not the Undead. | Verified (wiki) |
-| 2 | 🔴 Wrong | L10 Necrotic Husk | Immunity to necrotic damage; blast nearby creatures for necrotic damage equal to your warlock level. | Resistance to necrotic damage, and immunity to it while transformed by Form of Dread. As a reaction when reduced to 0 hit points you drop to 1 instead, and creatures of your choice within 30 ft take 2d10 + your warlock level necrotic damage; you then gain one level of exhaustion. It returns only after 1d4 long rests (not once per long rest). | Verified (wiki) |
-| 3 | 🟡 Imprecise | L1 Form of Dread | Temp HP 1d10 + warlock level, immunity to fear, frighten one creature you hit each turn. | Matches; the frighten rider is a Wisdom save. | Verified (wiki) |
-| 4 | 🔴 Wrong | L14 Spirit Projection | Resistance to most damage; necrotic and psychic spell damage heals you; once per long rest or with a 5th-level slot. | Resistance to bludgeoning, piercing and slashing damage; flying speed and hover; moving through creatures costs force damage if you end inside one; while in Form of Dread you heal half of any necrotic damage you deal once per turn. Conjuration and necromancy spells need no verbal or somatic components. The app's psychic healing, 'most damage' and slot option do not appear in the wiki text. | Verified (wiki) |
-
-*See also cross-cutting finding 2: the expanded spells are granted for free by the app, but are only added to the choice pool by the rules.*
+| 1 | 🔴 Wrong | Expanded spells L1 | False Life, Ray of Sickness. | Bane, False Life. Ray of Sickness is on the Undying list, not the Undead. | Verified (2 sources) |
+| 2 | 🔴 Wrong | L10 Necrotic Husk | Immunity to necrotic damage; blast nearby creatures for necrotic damage equal to your warlock level. | Resistance to necrotic damage, and immunity to it while transformed by Form of Dread. As a reaction when reduced to 0 hit points you drop to 1 instead, and creatures of your choice within 30 ft take 2d10 + your warlock level necrotic damage; you then gain one level of exhaustion. It returns only after 1d4 long rests (not once per long rest). | Verified (2 sources) |
+| 3 | 🟡 Imprecise | L1 Form of Dread | Temp HP 1d10 + warlock level, immunity to fear, frighten one creature you hit each turn. | Matches; the frighten rider is a Wisdom save. | Verified (2 sources) |
+| 4 | 🔴 Wrong | L14 Spirit Projection | Resistance to most damage; necrotic and psychic spell damage heals you; once per long rest or with a 5th-level slot. | Resistance to bludgeoning, piercing and slashing damage; flying speed and hover; moving through creatures costs force damage if you end inside one; while in Form of Dread you heal half of any necrotic damage you deal once per turn. Conjuration and necromancy spells need no verbal or somatic components. The app's psychic healing, 'most damage' and slot option do not appear in the wiki text. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Grave Touched.
 
@@ -2934,10 +3081,8 @@ Subclass chosen at level 1.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L1 Among the Dead | Undead have disadvantage attacking you unless you attack them. | If an undead targets you directly with an attack or a harmful spell it makes a Wisdom save; on a failure it must choose a new target or lose the attack or spell. It does not protect against area effects. The creature is immune for 24 hours after succeeding or if you target it. | Verified (wiki) |
-| 2 | 🟡 Imprecise | L10 Undying Nature | You no longer age. | You age one year for every ten that pass and cannot be aged magically. Also hold your breath indefinitely and need no food, water or sleep (still need rest to reduce exhaustion). | Verified (wiki) |
-
-*See also cross-cutting finding 2: the expanded spells are granted for free by the app, but are only added to the choice pool by the rules.*
+| 1 | 🔴 Wrong | L1 Among the Dead | Undead have disadvantage attacking you unless you attack them. | If an undead targets you directly with an attack or a harmful spell it makes a Wisdom save; on a failure it must choose a new target or lose the attack or spell. It does not protect against area effects. The creature is immune for 24 hours after succeeding or if you target it. | Verified (2 sources) |
+| 2 | 🟡 Imprecise | L10 Undying Nature | You no longer age. | You age one year for every ten that pass and cannot be aged magically. Also hold your breath indefinitely and need no food, water or sleep (still need rest to reduce exhaustion). | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Undying Nature.
 
@@ -2966,7 +3111,7 @@ Subclass chosen at level 2.
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | All levels (SRD) | Names only: Evocation Savant, Sculpt Spells, Potent Cantrip, Empowered Evocation, Overchannel. | Names and levels match (2, 2, 6, 10, 14). | High |
+| 1 | 🟡 Imprecise | All levels (SRD) | Names only: Evocation Savant, Sculpt Spells, Potent Cantrip, Empowered Evocation, Overchannel. | Names and levels match (2, 2, 6, 10, 14). | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Evocation Savant.
 
@@ -3037,8 +3182,8 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | L6 Expert Divination | Returns one expended slot of lower level. | You regain an expended spell slot of a level lower than the divination spell you cast, and the slot can be no higher than 5th level. | Verified (wiki) |
-| 2 | 🟡 Imprecise | L10 The Third Eye | After a rest, gain darkvision, ethereal sight, greater comprehension or see invisibility until your next rest. | It is an action, usable once per short or long rest: darkvision 60 ft, ethereal sight 60 ft, read any language, or see invisible creatures within 10 ft. It lasts until you are incapacitated or rest. | Verified (wiki) |
+| 1 | 🟡 Imprecise | L6 Expert Divination | Returns one expended slot of lower level. | You regain an expended spell slot of a level lower than the divination spell you cast, and the slot can be no higher than 5th level. | Verified (2 sources) |
+| 2 | 🟡 Imprecise | L10 The Third Eye | After a rest, gain darkvision, ethereal sight, greater comprehension or see invisibility until your next rest. | It is an action, usable once per short or long rest: darkvision 60 ft, ethereal sight 60 ft, read any language, or see invisible creatures within 10 ft. It lasts until you are incapacitated or rest. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Divination Savant, Expert Divination, The Third Eye.
 
@@ -3063,8 +3208,8 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L2 Hypnotic Gaze | Recharges on a short or long rest. | Once you use it on a creature you cannot use it on that same creature again until you finish a long rest. It does not recharge on a short rest and isn't a pool for you. | Verified (wiki) |
-| 2 | 🔴 Wrong | L6 Instinctive Charm | Recharges on a short or long rest. | The limit is per attacker: on a successful save the attacker cannot be affected again until you finish a long rest. There is no short rest recharge. | Verified (wiki) |
+| 1 | 🔴 Wrong | L2 Hypnotic Gaze | Recharges on a short or long rest. | Once you use it on a creature you cannot use it on that same creature again until you finish a long rest. It does not recharge on a short rest and isn't a pool for you. | Verified (2 sources) |
+| 2 | 🔴 Wrong | L6 Instinctive Charm | Recharges on a short or long rest. | The limit is per attacker: on a successful save the attacker cannot be affected again until you finish a long rest. There is no short rest recharge. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Enchantment Savant, Split Enchantment, Alter Memories.
 
@@ -3089,7 +3234,7 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🟡 Imprecise | L6 name | Malleable Illusion. | The feature is named Malleable Illusions (alter an illusion of duration 1 minute or longer you can see, with your action). | Verified (wiki) |
+| 1 | 🟡 Imprecise | L6 name | Malleable Illusion. | The feature is named Malleable Illusions (alter an illusion of duration 1 minute or longer you can see, with your action). | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Illusion Savant, Improved Minor Illusion, Malleable Illusion.
 
@@ -3114,7 +3259,7 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L14 Command Undead | Intelligent undead get a fresh save each time they take damage. | An undead that fails becomes friendly and obeys you until you use the feature again. If its Intelligence is 8 or higher it has advantage on the save; if it fails and has Intelligence 12 or higher it repeats the save at the end of every hour. Damage is not a trigger. | Verified (wiki) |
+| 1 | 🔴 Wrong | L14 Command Undead | Intelligent undead get a fresh save each time they take damage. | An undead that fails becomes friendly and obeys you until you use the feature again. If its Intelligence is 8 or higher it has advantage on the save; if it fails and has Intelligence 12 or higher it repeats the save at the end of every hour. Damage is not a trigger. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Necromancy Savant, Grim Harvest, Undead Thralls, Inured to Undeath, Command Undead.
 
@@ -3137,7 +3282,9 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 **Findings against the rules**
 
-No discrepancy found. Levels, features and numbers match the published rules as far as I can tell.
+| # | | Where | What the app has | What the rules say | Confidence |
+|---|---|---|---|---|---|
+| 1 | 🟡 Imprecise | L10 Shapechanger | You always have polymorph prepared and can cast it on yourself as a beast of CR 1 or lower without a slot, once per short or long rest. | You add polymorph to your spellbook if it is not there already (a wizard still prepares it from the book like any spell). You can cast it without a spell slot, targeting only yourself and becoming a beast of CR 1 or lower; after doing so you cannot do it again until a short or long rest, though you can still cast it normally with a slot. It is not 'always prepared'. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Transmutation Savant, Minor Alchemy, Master Transmuter.
 
@@ -3160,7 +3307,9 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 **Findings against the rules**
 
-No discrepancy found. Levels, features and numbers match the published rules as far as I can tell.
+| # | | Where | What the app has | What the rules say | Confidence |
+|---|---|---|---|---|---|
+| 1 | 🟡 Imprecise | L6 Power Surge | Store surges from dispelled or countered spells, up to your Intelligence modifier, and spend one to add half your wizard level to a damaging spell's damage. | You can store up to your Intelligence modifier (minimum one) surges. After a long rest you reset to one surge, you gain one when you successfully end a spell with dispel magic or counterspell, and you gain one if you end a short rest with none. Once per turn when you damage a creature or object with a wizard spell you can spend one for extra force damage equal to half your wizard level. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Tactical Wit, Power Surge, Deflecting Shroud.
 
@@ -3208,7 +3357,7 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L6 Momentary Stasis | A proficiency-bonus number of times per long rest. | Uses equal your Intelligence modifier (minimum 1) per long rest. The target is incapacitated with speed 0 until the end of your next turn or until it takes damage. | Verified (wiki) |
+| 1 | 🔴 Wrong | L6 Momentary Stasis | A proficiency-bonus number of times per long rest. | Uses equal your Intelligence modifier (minimum 1) per long rest. The target is incapacitated with speed 0 until the end of your next turn or until it takes damage. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Temporal Awareness.
 
@@ -3232,8 +3381,8 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L10 Violent Attraction | A proficiency-bonus number of times per long rest. | Uses equal your Intelligence modifier (minimum 1). It adds 1d10 to a weapon attack's damage from a creature you see within 60 ft, or 2d10 to fall damage. | Verified (wiki) |
-| 2 | 🔴 Wrong | L14 Event Horizon | Once per long rest or with a 4th-level slot. | Once per long rest or by expending a spell slot of 3rd level or higher. Creatures that start their turn within 30 ft make a Strength save: failed they take 2d10 force and speed 0, success half damage and each foot costs 2 extra. | Verified (wiki) |
+| 1 | 🔴 Wrong | L10 Violent Attraction | A proficiency-bonus number of times per long rest. | Uses equal your Intelligence modifier (minimum 1). It adds 1d10 to a weapon attack's damage from a creature you see within 60 ft, or 2d10 to fall damage. | Verified (2 sources) |
+| 2 | 🔴 Wrong | L14 Event Horizon | Once per long rest or with a 4th-level slot. | Once per long rest or by expending a spell slot of 3rd level or higher. Creatures that start their turn within 30 ft make a Strength save: failed they take 2d10 force and speed 0, success half damage and each foot costs 2 extra. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Gravity Well.
 
@@ -3258,9 +3407,10 @@ No discrepancy found. Levels, features and numbers match the published rules as 
 
 | # | | Where | What the app has | What the rules say | Confidence |
 |---|---|---|---|---|---|
-| 1 | 🔴 Wrong | L6 Manifest Mind | Free once per long rest, otherwise a slot. | You can cast spells from the mind's position a number of times equal to your proficiency bonus (per day); it is a Tiny spectral object within 60 ft, darkvision 60 ft, lost if it goes more than 300 ft away. | Verified (wiki) |
-| 2 | 🔴 Wrong | L10 Master Scrivener | Create a spell scroll of a 1st or 2nd-level spell, cast at maximum effect. | After a long rest, copy a 1st- or 2nd-level spell with a casting time of 1 action from your book onto a scroll; the spell counts as one level higher when cast; the scroll vanishes after being cast or at your next long rest. No maximum-effect rule. | Verified (wiki) |
-| 3 | 🟡 Imprecise | L2 Awakened Spellbook | Change a spell's damage type, cast one ritual per long rest without preparing it. | Ritual: cast a ritual spell from the book at its normal casting time instead of adding 10 minutes, once per long rest. Damage type: when casting a wizard spell with a slot, change its damage type to one found in another spell in your book of the same level as the slot, for that casting. Replacing lost pages is also part of it. | Verified (wiki) |
+| 1 | 🟡 Imprecise | L6 Manifest Mind | A bonus action projects your book's spirit up to 300 feet, letting you cast spells from its position and shed light; free once per long rest, otherwise a slot. | As a bonus action you manifest the mind as a Tiny spectral object in an unoccupied space within 60 ft (it sheds dim light in 10 ft, has darkvision 60 ft and can hover 30 ft per bonus action). Whenever you cast a wizard spell on your turn you can cast it from the mind's space, a number of times per day equal to your proficiency bonus (regained on a long rest). The mind ends if it is more than 300 ft from you. Conjuring it is free once per long rest, or by spending a spell slot of any level (the app has this right). The app's 'up to 300 feet' and the missing proficiency-bonus limit are the errors. | Verified (2 sources) |
+| 2 | 🔴 Wrong | L10 Master Scrivener | Create a spell scroll of a 1st or 2nd-level spell, cast at maximum effect. | After a long rest, copy a 1st- or 2nd-level spell with a casting time of 1 action from your book onto a scroll; the spell counts as one level higher when cast; the scroll vanishes after being cast or at your next long rest. No maximum-effect rule. | Verified (2 sources) |
+| 3 | 🟡 Imprecise | L2 Awakened Spellbook | Change a spell's damage type, cast one ritual per long rest without preparing it. | Ritual: cast a ritual spell from the book at its normal casting time instead of adding 10 minutes, once per long rest. Damage type: when casting a wizard spell with a slot, change its damage type to one found in another spell in your book of the same level as the slot, for that casting. Replacing lost pages is also part of it. | Verified (2 sources) |
+| 4 | 🟡 Imprecise | L14 One with the Word | Once per long rest, avoid death by destroying your book's magic, then rebuild it over days of study. | While the book is on your person you have advantage on Intelligence (Arcana) checks. If you take damage while the spellbook's mind is manifested, you can use your reaction to dismiss it and prevent all that damage (not only lethal damage); roll 3d6 and spells of your choice with combined level at least that total vanish from the book (if there are not enough spells you drop to 0 hit points), and you cannot cast them until you finish 1d6 long rests. Once per long rest. The app omits the Arcana advantage, the requirement that the mind is manifested, and the 3d6 / 1d6-long-rest cost. | Verified (2 sources) |
 
 **Engine hint:** no engine reference found for: Awakened Spellbook.
 
@@ -3291,7 +3441,7 @@ Checked against the Player's Handbook warlock table. Slots, slot level, cantrips
 | 19 | Ability Score Improvement | 4 | 15 | 4 | 5 | 8 |
 | 20 | Eldritch Master | 4 | 15 | 4 | 5 | 8 |
 
-Patron features arrive at 1, 6, 10 and 14 for every warlock patron. Note the level 6, 10 and 14 patron features have no row in `class-features.json`'s base warlock table; they come from the subclass file.
+Second review: every cell of this table was re-checked against the Player's Handbook warlock table and `class-features.json`; no change. Patron features arrive at 1, 6, 10 and 14 for every warlock patron. Note the level 6, 10 and 14 patron features have no row in `class-features.json`'s base warlock table; they come from the subclass file.
 
 ## Appendix B: Engine wiring hints
 
@@ -3451,16 +3601,18 @@ Features whose exact name does not appear in the engine code (`src/lib/dm`, `cla
 | Wizard | Graviturgy Magic | 6 | Gravity Well |
 | Wizard | Order of Scribes | 2 | Awakened Spellbook |
 
-151 of 590 features have no engine reference by name.
+151 of 590 features have no engine reference by name. Second review: re-running the same name search over those directories reproduced exactly this list (151 of 590), so the list stands as written. It remains a heuristic: a missing name does not prove the feature is unimplemented.
 
 ## Appendix C: Official subclasses not in the app
 
-Only subclasses I am sure exist (the Banneret in the app is the Purple Dragon Knight under another name, so it is not listed) in published 5e material are listed. This is not an exhaustive survey.
+Second review: this appendix had three errors, now fixed. Way of the Cobalt Soul is Critical Role's *Tal'Dorei Campaign Setting Reborn* (partnered content, not a Wizards of the Coast book), not *Explorer's Guide to Wildemount*. Giant Soul is a 2018 Unearthed Arcana playtest, not part of *Bigby Presents: Glory of the Giants* (that book's only subclass is the Path of the Giant barbarian, which the app has). The Ambition, Solidarity, Strength and Zeal domains are in *Plane Shift: Amonkhet*, not *Mythic Odysseys of Theros*. The Battlerager was missing. This is still not an exhaustive survey.
 
 | Class | Subclass | Source |
 |---|---|---|
-| Bard | College of Dance | Player's Handbook (2024) |
-| Monk | Way of the Cobalt Soul | Explorer's Guide to Wildemount |
-| Sorcerer | Giant Soul | Bigby Presents: Glory of the Giants |
-| Cleric | Ambition, Solidarity, Strength, Zeal domains | Mythic Odysseys of Theros |
+| Barbarian | Path of the Battlerager | Sword Coast Adventurer's Guide (dwarves only) |
+| Bard | College of Dance | Player's Handbook (2024), a 2024-rules subclass |
+| Cleric | Ambition, Solidarity, Strength, Zeal domains (and a Knowledge variant) | Plane Shift: Amonkhet (free Wizards of the Coast PDF) |
 | Druid | Circle of the Land terrain variants (Arctic, Coast, Desert, Forest, Grassland, Mountain, Swamp, Underdark) | Player's Handbook; no terrain data found |
+| Sorcerer | Pyromancer | Plane Shift: Kaladesh (free Wizards of the Coast PDF) |
+
+Not listed because they use the 2024 rules: the 2025 and 2026 subclasses (for example Artificer Cartographer in *Eberron: Forge of the Artificer*, Reanimator and Shadow Sorcery in *Ravenloft: The Horrors Within*, Spellfire Sorcery in *Forgotten Realms: Heroes of Faerun*) and the 2024 Player's Handbook reprints. Not listed because they are not Wizards of the Coast publications: Way of the Cobalt Soul (Critical Role).
